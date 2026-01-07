@@ -2,7 +2,7 @@ package com.bootdo.modular.report.param;
 
 import com.bootdo.core.enums.InstituteType;
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 
@@ -13,13 +13,13 @@ import lombok.Data;
 @Data
 public class SReconParam extends BaseParam {
 
-    @ApiModelProperty(value = "客户、供应商")
+    @Schema(description = "客户、供应商")
     private String instituteId;
 
-    @ApiModelProperty(value = "报表类型：（CUSTOMER、VENDOR）")
+    @Schema(description = "报表类型：（CUSTOMER、VENDOR）")
     private InstituteType type;
 
-    @ApiModelProperty(value = "是否查询有欠款客户：（0：是、其他：否）")
+    @Schema(description = "是否查询有欠款客户：（0：是、其他：否）")
     private String showDebt;
 
 }

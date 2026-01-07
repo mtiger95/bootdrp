@@ -13,7 +13,7 @@ import com.bootdo.modular.engage.result.EntryBalanceResult;
 import com.bootdo.modular.engage.service.ProductBalanceService;
 import com.bootdo.modular.system.controller.BaseController;
 import com.bootdo.modular.wh.result.WHProductInfo;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-25 11:17:02
  */
-@Api(tags = "商品库存")
+@Tag(name = "商品库存")
 @Controller
 @RequestMapping("/engage/product")
 public class ProductBalanceController extends BaseController {

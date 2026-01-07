@@ -4,7 +4,7 @@ import com.bootdo.core.annotation.DataScope;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.cashier.param.JournalGeneralParam;
 import com.bootdo.modular.cashier.service.JournalService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  * @author yogiCai
  * @since 2018-07-14 22:31:58
  */
-@Api(tags = "经营业绩")
+@Tag(name = "经营业绩")
 @Controller
 @RequestMapping("/cashier/journal")
 public class JournalController {

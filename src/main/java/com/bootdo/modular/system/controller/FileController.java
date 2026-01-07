@@ -10,7 +10,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.FileDO;
 import com.bootdo.modular.system.param.SysFileParam;
 import com.bootdo.modular.system.service.FileService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @since 2017-09-19 16:02:20
  */
-@Api(tags = "文件管理")
+@Tag(name = "文件管理")
 @Controller
 @RequestMapping("/common/sysFile")
 public class FileController extends BaseController {
@@ -68,7 +68,7 @@ public class FileController extends BaseController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("common:info")
-    public R info(@PathVariable("id") Long id) {
+    public R info(@PathVariable Long id) {
         FileDO sysFile = sysFileService.getById(id);
         return R.ok().put("sysFile", sysFile);
     }

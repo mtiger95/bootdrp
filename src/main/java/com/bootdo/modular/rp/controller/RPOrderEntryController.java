@@ -10,7 +10,7 @@ import com.bootdo.modular.rp.param.RPOrderVO;
 import com.bootdo.modular.rp.service.RPOrderEntryService;
 import com.bootdo.modular.rp.validator.RPOrderValidator;
 import com.google.common.collect.ImmutableMap;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +26,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-21 21:23:27
  */
-@Api(tags = "收款、付款订单")
+@Tag(name = "收款、付款订单")
 @Controller
 @RequestMapping("/rp/entry")
 public class RPOrderEntryController {
@@ -51,7 +51,7 @@ public class RPOrderEntryController {
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("rp:entry:edit")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         RPOrderEntryDO orderEntry = rpOrderEntryService.getById(id);
         model.addAttribute("entry", orderEntry);
         return "rp/entry/edit";

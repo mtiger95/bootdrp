@@ -10,8 +10,8 @@ import com.bootdo.modular.data.param.VendorQryParam;
 import com.bootdo.modular.data.service.VendorService;
 import com.bootdo.modular.data.validator.DataValidator;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "供应商管理")
+@Tag(name = "供应商管理")
 @Controller
 @RequestMapping("/data/vendor")
 public class VendorController extends BaseController {
@@ -44,7 +44,7 @@ public class VendorController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @ApiOperation(value = "列表查询")
+    @Operation(summary = "列表查询")
     public PageR list(VendorQryParam param) {
         return vendorService.page(param);
     }
@@ -52,7 +52,7 @@ public class VendorController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/listJQ")
-    @ApiOperation(value = "分页查询")
+    @Operation(summary = "分页查询")
     public PageJQ listJQ(VendorQryParam param) {
         return vendorService.pageJQ(param);
     }
@@ -63,7 +63,7 @@ public class VendorController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         VendorDO vendor = vendorService.getById(id);
         model.addAttribute("vendor", vendor);
         return "data/vendor/edit";
@@ -71,7 +71,7 @@ public class VendorController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @Operation(summary = "保存")
     public R save(@Validated VendorDO vendor) {
         dataValidator.validateVendor(vendor);
         vendorService.add(vendor);
@@ -80,7 +80,7 @@ public class VendorController extends BaseController {
 
     @ResponseBody
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @Operation(summary = "修改")
     public R update(@Validated(edit.class) VendorDO vendor) {
         dataValidator.validateVendor(vendor);
         vendorService.updateById(vendor);
@@ -89,7 +89,7 @@ public class VendorController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     @RequiresPermissions("data:vendor:remove")
     public R remove(Integer id) {
         vendorService.removeById(id);
@@ -98,7 +98,7 @@ public class VendorController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     @RequiresPermissions("data:vendor:batchRemove")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         vendorService.removeByIds(ids);

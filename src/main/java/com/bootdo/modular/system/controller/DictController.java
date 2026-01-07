@@ -8,7 +8,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.DictDO;
 import com.bootdo.modular.system.param.SysDictParam;
 import com.bootdo.modular.system.service.DictService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @email 1992lcg@163.com
  * @since 2017-09-29 18:28:07
  */
-@Api(tags = "数据字典")
+@Tag(name = "数据字典")
 @Controller
 @RequestMapping("/common/sysDict")
 public class DictController extends BaseController {
@@ -54,7 +54,7 @@ public class DictController extends BaseController {
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("common:sysDict:edit")
-    String edit(@PathVariable("id") Long id, Model model) {
+    String edit(@PathVariable Long id, Model model) {
         DictDO sysDict = sysDictService.getById(id);
         model.addAttribute("sysDict", sysDict);
         return "system/dict/edit";
@@ -108,7 +108,7 @@ public class DictController extends BaseController {
 
     @ResponseBody
     @GetMapping("/list/{type}")
-    public List<DictDO> listByType(@PathVariable("type") String type) {
+    public List<DictDO> listByType(@PathVariable String type) {
         // 查询列表数据
         SysDictParam sysDictParam = SysDictParam.builder().type(type).build();
         return sysDictService.pageList(PageFactory.defalultAllPage(), sysDictParam).getRecords();
@@ -119,7 +119,7 @@ public class DictController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/lists/{types}")
-    public Map<String, List<DictDO>> listByTypes(@PathVariable("types") String types) {
+    public Map<String, List<DictDO>> listByTypes(@PathVariable String types) {
         // 查询列表数据
         return sysDictService.listMap(SysDictParam.builder().type(types).build());
     }
@@ -139,14 +139,14 @@ public class DictController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/listEnumMap/{types}")
-    public Map<String, List<Map<String, String>>> listEnumMap(@PathVariable("types") String types) {
+    public Map<String, List<Map<String, String>>> listEnumMap(@PathVariable String types) {
         return EnumCollection.listEnumMap();
     }
 
 
     @ResponseBody
     @GetMapping("/listEnum/{types}")
-    public String listEnum(@PathVariable("types") String types) {
+    public String listEnum(@PathVariable String types) {
         return JSONUtil.toJsonStr(EnumCollection.listEnum());
     }
 

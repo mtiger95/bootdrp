@@ -3,11 +3,10 @@ package com.bootdo.modular.system.controller;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.UserOnline;
 import com.bootdo.modular.system.service.SessionService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  * @author L
  */
-@Api(tags = "在线用户")
+@Tag(name = "在线用户")
 @RequestMapping("/sys/online")
 @Controller
 public class SessionController {
@@ -37,14 +36,13 @@ public class SessionController {
 
     @ResponseBody
     @RequestMapping("/forceLogout/{sessionId}")
-    public R forceLogout(@PathVariable("sessionId") String sessionId, RedirectAttributes redirectAttributes) {
+    public R forceLogout(@PathVariable String sessionId) {
         try {
             sessionService.forceLogout(sessionId);
             return R.ok();
         } catch (Exception e) {
-            return R.error();
+            return R.error(e.getMessage());
         }
-
     }
 
     @ResponseBody

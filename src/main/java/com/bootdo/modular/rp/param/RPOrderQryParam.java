@@ -1,7 +1,7 @@
 package com.bootdo.modular.rp.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,22 +19,22 @@ import lombok.NoArgsConstructor;
 @Data
 public class RPOrderQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "订单类型")
+    @Schema(description = "订单类型")
     private String checkId;
 
-    @ApiModelProperty(value = "订单类型")
+    @Schema(description = "订单类型")
     private String billType;
 
-    @ApiModelProperty(value = "订单来源")
+    @Schema(description = "订单来源")
     private String billSource;
 
-    @ApiModelProperty(value = "审核状态")
+    @Schema(description = "审核状态")
     private String auditStatus;
 
-    @ApiModelProperty(value = "关联订单号")
+    @Schema(description = "关联订单号")
     private String srcBillNo;
 
-    @ApiModelProperty(value = "出纳订单号")
+    @Schema(description = "出纳订单号")
     private String billNo;
 
 }

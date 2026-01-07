@@ -9,8 +9,8 @@ import com.bootdo.modular.report.param.SaleProductParam;
 import com.bootdo.modular.report.result.SReconResult;
 import com.bootdo.modular.report.service.ReportService;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-25 11:17:02
  */
-@Api(tags = "报表")
+@Tag(name = "报表")
 @Controller
 @RequestMapping("/report")
 public class ReportController extends BaseController {
@@ -42,7 +42,7 @@ public class ReportController extends BaseController {
     @DataScope
     @ResponseBody
     @PostMapping(value = "/sRecon")
-    @ApiOperation(value = "客户、供应商应收应付款")
+    @Operation(summary = "客户、供应商应收应付款")
     @RequiresPermissions("report:recon:recon")
     public R sReconVC(@RequestBody SReconParam param) {
         return reportService.sRecon(param);
@@ -51,7 +51,7 @@ public class ReportController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping(value = "/sRecon/export")
-    @ApiOperation(value = "客户、供应商应收应付款-导出")
+    @Operation(summary = "客户、供应商应收应付款-导出")
     @RequiresPermissions("report:recon:recon")
     public void sReconVCExport(SReconParam param) {
         R r = reportService.sRecon(param);
@@ -71,7 +71,7 @@ public class ReportController extends BaseController {
     @DataScope
     @ResponseBody
     @PostMapping(value = "/saleProduct")
-    @ApiOperation(value = "销售统计报表")
+    @Operation(summary = "销售统计报表")
     @RequiresPermissions("report:report:report")
     public R saleProduct(@RequestBody SaleProductParam param) {
         return reportService.saleProduct(param);

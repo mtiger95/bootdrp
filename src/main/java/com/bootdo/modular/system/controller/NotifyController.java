@@ -8,7 +8,7 @@ import com.bootdo.modular.system.domain.NotifyRecordDO;
 import com.bootdo.modular.system.param.SysNotifyParam;
 import com.bootdo.modular.system.service.NotifyRecordService;
 import com.bootdo.modular.system.service.NotifyService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @since 2017-10-05 17:11:16
  */
-@Api(tags = "通知公告")
+@Tag(name = "通知公告")
 @Controller
 @RequestMapping("/oa/notify")
 public class NotifyController extends BaseController {
@@ -56,7 +56,7 @@ public class NotifyController extends BaseController {
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("oa:notify:edit")
-    String edit(@PathVariable("id") Long id, Model model) {
+    String edit(@PathVariable Long id, Model model) {
         NotifyDO notify = notifyService.getById(id);
         model.addAttribute("notify", notify);
         return "system/notify/edit";
@@ -126,7 +126,7 @@ public class NotifyController extends BaseController {
 
     @GetMapping("/read/{id}")
     @RequiresPermissions("oa:notify:edit")
-    String read(@PathVariable("id") Long id, Model model) {
+    String read(@PathVariable Long id, Model model) {
         NotifyDO notify = notifyService.getById(id);
         //更改阅读状态
         NotifyRecordDO notifyRecordDO = new NotifyRecordDO();

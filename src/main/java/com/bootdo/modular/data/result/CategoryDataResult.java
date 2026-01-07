@@ -1,6 +1,6 @@
 package com.bootdo.modular.data.result;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -12,23 +12,23 @@ import lombok.Data;
 @Data
 public class CategoryDataResult {
 
-    @ApiModelProperty(value = "类目ID")
+    @Schema(description = "类目ID")
     private String categoryId;
-    @ApiModelProperty(value = "父类目ID")
+    @Schema(description = "父类目ID")
     private String parentId;
-    @ApiModelProperty(value = "父类目名称")
+    @Schema(description = "父类目名称")
     private String name;
-    @ApiModelProperty(value = "类目分类")
+    @Schema(description = "类目分类")
     private String type;
-    @ApiModelProperty(value = "类目排序")
+    @Schema(description = "类目排序")
     private String orderNum;
-    @ApiModelProperty(value = "数据编号")
+    @Schema(description = "数据编号")
     private String dataId;
-    @ApiModelProperty(value = "数据名称")
+    @Schema(description = "数据名称")
     private String dataName;
-    @ApiModelProperty(value = "数据状态")
+    @Schema(description = "数据状态")
     private String status;
-    @ApiModelProperty(value = "店铺编号")
+    @Schema(description = "店铺编号")
     private String shopNo;
 
 }

@@ -10,8 +10,8 @@ import com.bootdo.modular.data.param.ConsumerQryParam;
 import com.bootdo.modular.data.service.ConsumerService;
 import com.bootdo.modular.data.validator.DataValidator;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +27,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "客户管理")
+@Tag(name = "客户管理")
 @Controller
 @RequestMapping("/data/consumer")
 public class ConsumerController extends BaseController {
@@ -44,7 +44,7 @@ public class ConsumerController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @ApiOperation(value = "列表查询")
+    @Operation(summary = "列表查询")
     public PageR list(ConsumerQryParam param) {
         return consumerService.page(param);
     }
@@ -52,7 +52,7 @@ public class ConsumerController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/listJQ")
-    @ApiOperation(value = "分页查询")
+    @Operation(summary = "分页查询")
     public PageJQ listJQ(ConsumerQryParam param) {
         return consumerService.pageJQ(param);
     }
@@ -63,7 +63,7 @@ public class ConsumerController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         ConsumerDO consumer = consumerService.getById(id);
         model.addAttribute("consumer", consumer);
         return "data/consumer/edit";
@@ -71,7 +71,7 @@ public class ConsumerController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @Operation(summary = "保存")
     public R save(@Validated ConsumerDO consumer) {
         dataValidator.validateConsumer(consumer);
         consumerService.add(consumer);
@@ -80,7 +80,7 @@ public class ConsumerController extends BaseController {
 
     @ResponseBody
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @Operation(summary = "修改")
     public R update(@Validated(edit.class) ConsumerDO consumer) {
         dataValidator.validateConsumer(consumer);
         consumerService.updateById(consumer);
@@ -89,7 +89,7 @@ public class ConsumerController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     @RequiresPermissions("data:consumer:remove")
     public R remove(Integer id) {
         consumerService.removeById(id);
@@ -98,7 +98,7 @@ public class ConsumerController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     @RequiresPermissions("data:consumer:batchRemove")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         consumerService.removeBatchByIds(ids);

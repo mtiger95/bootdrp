@@ -1,7 +1,7 @@
 package com.bootdo.modular.po.param;
 
 import com.bootdo.core.enums.AuditStatus;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -19,11 +19,11 @@ public class OrderAuditParam {
 
     @NotNull
     @NotEmpty
-    @ApiModelProperty(value = "单据号")
+    @Schema(description = "单据号")
     private List<String> billNos;
 
     @NotNull
-    @ApiModelProperty(value = "审核状态")
+    @Schema(description = "审核状态")
     private AuditStatus auditStatus;
 
 }

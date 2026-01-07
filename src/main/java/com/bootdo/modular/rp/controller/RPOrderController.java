@@ -13,7 +13,7 @@ import com.bootdo.modular.rp.param.RPOrderQryParam;
 import com.bootdo.modular.rp.service.RPOrderService;
 import com.bootdo.modular.rp.validator.RPOrderValidator;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-21 21:23:27
  */
-@Api(tags = "收款、付款单")
+@Tag(name = "收款、付款单")
 @Controller
 @RequestMapping("/rp/order")
 public class RPOrderController extends BaseController {

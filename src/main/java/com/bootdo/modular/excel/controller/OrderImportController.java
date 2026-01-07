@@ -3,7 +3,7 @@ package com.bootdo.modular.excel.controller;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.excel.param.OrderImportParam;
 import com.bootdo.modular.excel.service.OrderImportService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @author yogiCai
  * @since 2018-02-18 16:50:26
  */
-@Api(tags = "销售单导入")
+@Tag(name = "销售单导入")
 @Controller
 @RequestMapping("/order")
 public class OrderImportController {

@@ -13,7 +13,7 @@ import com.bootdo.modular.wh.domain.WHOrderDO;
 import com.bootdo.modular.wh.param.WHOrderQryParam;
 import com.bootdo.modular.wh.service.WHOrderService;
 import com.bootdo.modular.wh.validator.WHOrderValidator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-25 11:17:02
  */
-@Api(tags = "出库、入库单")
+@Tag(name = "出库、入库单")
 @Controller
 @RequestMapping("/wh/order")
 public class WHOrderController extends BaseController {

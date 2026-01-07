@@ -3,7 +3,7 @@ package com.bootdo.modular.cashier.controller;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.modular.cashier.param.ReconcileParam;
 import com.bootdo.modular.cashier.service.ReconcileService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @author L
  * @since 2025-03-18 22:55
  */
-@Api(tags = "收款对账")
+@Tag(name = "收款对账")
 @Controller
 @RequestMapping("/cashier/reconcile")
 public class ReconcileController {

@@ -6,8 +6,8 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.DeptDO;
 import com.bootdo.modular.system.param.SysDeptParam;
 import com.bootdo.modular.system.service.DeptService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @since 2017-09-27 14:40:36
  */
-@Api(tags = "部门管理")
+@Tag(name = "部门管理")
 @Controller
 @RequestMapping("/system/sysDept")
 public class DeptController extends BaseController {
@@ -37,7 +37,7 @@ public class DeptController extends BaseController {
         return "system/dept/dept";
     }
 
-    @ApiOperation(value = "获取部门列表")
+    @Operation(summary = "获取部门列表")
     @ResponseBody
     @GetMapping("/list")
     @RequiresPermissions("system:sysDept:sysDept")
@@ -47,7 +47,7 @@ public class DeptController extends BaseController {
 
     @GetMapping("/add/{pId}")
     @RequiresPermissions("system:sysDept:add")
-    String add(@PathVariable("pId") Long pId, Model model) {
+    String add(@PathVariable Long pId, Model model) {
         model.addAttribute("pId", pId);
         if (pId == 0) {
             model.addAttribute("pName", "总部门");
@@ -59,7 +59,7 @@ public class DeptController extends BaseController {
 
     @GetMapping("/edit/{deptId}")
     @RequiresPermissions("system:sysDept:edit")
-    String edit(@PathVariable("deptId") Long deptId, Model model) {
+    String edit(@PathVariable Long deptId, Model model) {
         DeptDO sysDept = sysDeptService.getById(deptId);
         model.addAttribute("sysDept", sysDept);
         if (Constant.DEPT_ROOT_ID.equals(sysDept.getParentId())) {

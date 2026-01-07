@@ -1,6 +1,6 @@
 package com.bootdo.modular.po.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class OrderDetailParam {
 
     @NotBlank
-    @ApiModelProperty(value = "订单编号")
+    @Schema(description = "订单编号")
     private String billNo;
 
 }

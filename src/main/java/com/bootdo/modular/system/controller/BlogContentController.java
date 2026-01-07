@@ -6,7 +6,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.ContentDO;
 import com.bootdo.modular.system.param.SysBlogParam;
 import com.bootdo.modular.system.service.BlogContentService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @since 2017-09-09 10:03:34
  */
-@Api(tags = "发布文章")
+@Tag(name = "发布文章")
 @Controller
 @RequestMapping("/blog/bContent")
 public class BlogContentController extends BaseController {
@@ -51,7 +51,7 @@ public class BlogContentController extends BaseController {
 
     @GetMapping("/edit/{cid}")
     @RequiresPermissions("blog:bContent:edit")
-    String edit(@PathVariable("cid") Long cid, Model model) {
+    String edit(@PathVariable Long cid, Model model) {
         ContentDO bContentDO = bBlogContentService.getById(cid);
         model.addAttribute("bContent", bContentDO);
         return "system/blog/bContent/edit";

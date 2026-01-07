@@ -5,7 +5,7 @@ import com.bootdo.core.annotation.Log;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.RoleDO;
 import com.bootdo.modular.system.service.RoleService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author L
  */
-@Api(tags = "角色管理")
+@Tag(name = "角色管理")
 @RequestMapping("/sys/role")
 @Controller
 public class RoleController extends BaseController {
@@ -48,7 +48,7 @@ public class RoleController extends BaseController {
     @Log("编辑角色")
     @RequiresPermissions("sys:role:edit")
     @GetMapping("/edit/{id}")
-    String edit(@PathVariable("id") Long id, Model model) {
+    String edit(@PathVariable Long id, Model model) {
         RoleDO roleDO = roleService.getById(id);
         model.addAttribute("role", roleDO);
         return "system/role/edit";

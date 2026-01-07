@@ -11,7 +11,7 @@ import com.bootdo.modular.se.domain.SEOrderDO;
 import com.bootdo.modular.se.param.SeOrderQryParam;
 import com.bootdo.modular.se.service.SEOrderService;
 import com.bootdo.modular.se.validator.SEOrderValidator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-18 16:50:26
  */
-@Api(tags = "销售单")
+@Tag(name = "销售单")
 @Controller
 @RequestMapping("/se/order")
 public class SEOrderController {

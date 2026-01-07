@@ -1,7 +1,7 @@
 package com.bootdo.modular.data.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class StockQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "状态")
+    @Schema(description = "状态")
     private String status;
 
     

@@ -1,7 +1,7 @@
 package com.bootdo.modular.system.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +19,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class SysDictParam extends BaseParam {
 
-    @ApiModelProperty(value = "类别")
+    @Schema(description = "类别")
     private String type;
 
-    @ApiModelProperty(value = "字典值")
+    @Schema(description = "字典值")
     private String value;
 
 }

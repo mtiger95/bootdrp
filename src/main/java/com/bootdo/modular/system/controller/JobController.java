@@ -5,7 +5,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.TaskDO;
 import com.bootdo.modular.system.param.SysTaskParam;
 import com.bootdo.modular.system.service.JobService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import java.util.List;
  * @email 1992lcg@163.com
  * @since 2017-09-26 20:53:48
  */
-@Api(tags = "计划任务")
+@Tag(name = "计划任务")
 @Controller
 @RequestMapping("/common/job")
 public class JobController extends BaseController {
@@ -43,7 +43,7 @@ public class JobController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    String edit(@PathVariable("id") Long id, Model model) {
+    String edit(@PathVariable Long id, Model model) {
         TaskDO job = jobService.getById(id);
         model.addAttribute("job", job);
         return "system/job/edit";
@@ -53,7 +53,7 @@ public class JobController extends BaseController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id) {
+    public R info(@PathVariable Long id) {
         TaskDO taskScheduleJob = jobService.getById(id);
         return R.ok().put("taskScheduleJob", taskScheduleJob);
     }
@@ -106,7 +106,7 @@ public class JobController extends BaseController {
             jobService.changeStatus(id, cmd);
             return R.ok("任务" + label + "成功");
         } catch (Exception e) {
-            e.printStackTrace();
+            R.error(e.getMessage());
         }
         return R.ok("任务" + label + "失败");
     }

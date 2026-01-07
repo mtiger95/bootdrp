@@ -9,8 +9,8 @@ import com.bootdo.modular.data.domain.CategoryDO;
 import com.bootdo.modular.data.param.CategoryQryParam;
 import com.bootdo.modular.data.service.CategoryService;
 import com.google.common.collect.ImmutableMap;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "类目管理")
+@Tag(name = "类目管理")
 @Controller
 @RequestMapping("/data/category")
 public class CategoryController {
@@ -39,21 +39,21 @@ public class CategoryController {
 
     @ResponseBody
     @GetMapping(value = "/list")
-    @ApiOperation(value = "列表查询")
+    @Operation(summary = "列表查询")
     public List<CategoryDO> list(CategoryQryParam param) {
         //查询列表数据
         return categoryService.pageList(PageFactory.defalultAllPage(), param).getRecords();
     }
 
     @GetMapping("/add/{pId}")
-    public String add(@PathVariable("pId") Long pId, Model model) {
+    public String add(@PathVariable Long pId, Model model) {
         model.addAttribute("pId", pId);
         model.addAttribute("pName", Constant.DEPT_ROOT_ID.equals(pId) ? "根类目" : categoryService.getById(pId).getName());
         return "data/category/add";
     }
 
     @GetMapping("/edit/{categoryId}")
-    public String edit(@PathVariable("categoryId") Long categoryId, Model model) {
+    public String edit(@PathVariable Long categoryId, Model model) {
         CategoryDO category = categoryService.getById(categoryId);
         model.addAttribute("category", category);
         if (Constant.DEPT_ROOT_ID.equals(category.getParentId())) {
@@ -67,7 +67,7 @@ public class CategoryController {
 
     @ResponseBody
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @Operation(summary = "保存")
     public R save(CategoryDO category) {
         categoryService.save(category);
         return R.ok();
@@ -75,7 +75,7 @@ public class CategoryController {
 
     @ResponseBody
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @Operation(summary = "修改")
     public R update(CategoryDO category) {
         categoryService.updateById(category);
         return R.ok();
@@ -83,7 +83,7 @@ public class CategoryController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     public R remove(Long categoryId) {
         categoryService.removeById(categoryId);
         return R.ok();
@@ -91,7 +91,7 @@ public class CategoryController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     public R batchRemove(@RequestParam("ids[]") List<Integer> categoryIds) {
         categoryService.removeByIds(categoryIds);
         return R.ok();
@@ -99,23 +99,23 @@ public class CategoryController {
 
     @GetMapping("/tree")
     @ResponseBody
-    @ApiOperation(value = "类目树菜单")
+    @Operation(summary = "类目树菜单")
     public Tree<CategoryDO> tree(CategoryQryParam param) {
         return categoryService.getTree(param);
     }
 
     @GetMapping("/listTree/{types}")
     @ResponseBody
-    @ApiOperation(value = "缓存_类目树下拉框数据")
-    public Map<String, List<Tree<CategoryDO>>> listTree(@PathVariable("types") String types) {
+    @Operation(summary = "缓存_类目树下拉框数据")
+    public Map<String, List<Tree<CategoryDO>>> listTree(@PathVariable String types) {
         // 查询列表数据
         return categoryService.listTree(CategoryQryParam.builder().type(types).build());
     }
 
     @GetMapping("/listTreeData/{types}")
     @ResponseBody
-    @ApiOperation(value = "缓存_类目树关联数据下拉框数据(商品、供应商、客户、结算帐户、用户)")
-    public Map<String, List<Tree<Object>>> listTreeData(@PathVariable("types") String types) {
+    @Operation(summary = "缓存_类目树关联数据下拉框数据(商品、供应商、客户、结算帐户、用户)")
+    public Map<String, List<Tree<Object>>> listTreeData(@PathVariable String types) {
         // 查询列表数据
         return categoryService.listTreeData(ImmutableMap.of("types", StrUtil.split(types, StrUtil.COMMA), "status", 1));
     }

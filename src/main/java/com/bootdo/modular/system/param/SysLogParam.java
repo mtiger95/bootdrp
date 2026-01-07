@@ -1,7 +1,7 @@
 package com.bootdo.modular.system.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 public class SysLogParam extends BaseParam {
 
-    @ApiModelProperty(value = "操作用户")
+    @Schema(description = "操作用户")
     private String userId;
 
 }

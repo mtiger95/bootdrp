@@ -9,8 +9,8 @@ import com.bootdo.modular.data.param.AccountQryParam;
 import com.bootdo.modular.data.service.AccountService;
 import com.bootdo.modular.data.validator.DataValidator;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "帐户管理")
+@Tag(name = "帐户管理")
 @Controller
 @RequestMapping("/data/account")
 public class AccountController extends BaseController {
@@ -41,7 +41,7 @@ public class AccountController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @ApiOperation(value = "列表查询")
+    @Operation(summary = "列表查询")
     public PageR list(AccountQryParam param) {
         //查询列表数据
         return accountService.page(param);
@@ -53,7 +53,7 @@ public class AccountController extends BaseController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         AccountDO account = accountService.getById(id);
         model.addAttribute("account", account);
         return "data/account/edit";
@@ -61,7 +61,7 @@ public class AccountController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @Operation(summary = "保存")
     public R save(@Validated AccountDO account) {
         dataValidator.validateAccount(account);
         accountService.add(account);
@@ -70,7 +70,7 @@ public class AccountController extends BaseController {
 
     @ResponseBody
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @Operation(summary = "修改")
     public R update(@Validated(edit.class) AccountDO account) {
         dataValidator.validateAccount(account);
         accountService.updateById(account);
@@ -79,7 +79,7 @@ public class AccountController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     @RequiresPermissions("data:account:remove")
     public R remove(Integer id) {
         accountService.removeById(id);
@@ -88,7 +88,7 @@ public class AccountController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     @RequiresPermissions("data:account:remove")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         accountService.removeByIds(ids);

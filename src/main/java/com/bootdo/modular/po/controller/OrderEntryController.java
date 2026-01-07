@@ -8,7 +8,7 @@ import com.bootdo.modular.po.param.OrderDetailParam;
 import com.bootdo.modular.po.param.OrderVO;
 import com.bootdo.modular.po.service.OrderEntryService;
 import com.bootdo.modular.po.validator.OrderValidator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-01-21 12:38:44
  */
-@Api(tags = "采购订单")
+@Tag(name = "采购订单")
 @Controller
 @RequestMapping("/po/entry")
 public class OrderEntryController {

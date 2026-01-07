@@ -2,7 +2,7 @@ package com.bootdo.modular.po.param;
 
 import com.bootdo.core.enums.OrderStatus;
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -16,19 +16,19 @@ import java.util.List;
 @Data
 public class OrderQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "供应商（多个逗号分隔）")
+    @Schema(description = "供应商（多个逗号分隔）")
     private String vendorId;
 
-    @ApiModelProperty(value = "订单类型")
+    @Schema(description = "订单类型")
     private String billType;
 
-    @ApiModelProperty(value = "审核状态")
+    @Schema(description = "审核状态")
     private String auditStatus;
 
-    @ApiModelProperty(value = "订单状态")
+    @Schema(description = "订单状态")
     private String status;
 
-    @ApiModelProperty(value = "订单状态过滤")
+    @Schema(description = "订单状态过滤")
     private List<OrderStatus> statusNot;
 
 }

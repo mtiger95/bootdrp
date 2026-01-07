@@ -8,7 +8,7 @@ import com.bootdo.modular.rp.domain.PointEntryDO;
 import com.bootdo.modular.rp.param.PointQryParam;
 import com.bootdo.modular.rp.service.PointEntryService;
 import com.bootdo.modular.rp.validator.RPPointValidator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-03-06 23:17:49
  */
-@Api(tags = "积分记录")
+@Tag(name = "积分记录")
 @Controller
 @RequestMapping("/rp/point")
 public class RPPointController {
@@ -55,7 +55,7 @@ public class RPPointController {
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("rp:point:edit")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         PointEntryDO pointEntry = pointEntryService.getById(id);
         model.addAttribute("pointEntry", pointEntry);
         return "rp/point/edit";

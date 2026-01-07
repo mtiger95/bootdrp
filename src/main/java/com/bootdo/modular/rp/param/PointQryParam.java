@@ -2,7 +2,7 @@ package com.bootdo.modular.rp.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
 import com.bootdo.modular.rp.enums.PointSearchType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -14,13 +14,13 @@ import lombok.Data;
 @Data
 public class PointQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "类目分类")
+    @Schema(description = "类目分类")
     private PointSearchType type;
 
-    @ApiModelProperty(value = "积分状态")
+    @Schema(description = "积分状态")
     private String status;
 
-    @ApiModelProperty(value = "客户ID")
+    @Schema(description = "客户ID")
     private String consumerId;
 
 }

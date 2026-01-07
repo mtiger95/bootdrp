@@ -5,7 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.core.utils.GenUtils;
 import com.bootdo.modular.system.service.GeneratorService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ import java.util.Map;
 /**
  * @author L
  */
-@Api(tags = "代码生成")
+@Tag(name = "代码生成")
 @RequestMapping("/common/generator")
 @Controller
 public class GeneratorController {
@@ -45,8 +44,7 @@ public class GeneratorController {
     }
 
     @RequestMapping("/code/{tableName}")
-    public void code(HttpServletRequest request, HttpServletResponse response,
-                     @PathVariable("tableName") String tableName) throws IOException {
+    public void code(HttpServletResponse response, @PathVariable String tableName) throws IOException {
         String[] tableNames = new String[]{tableName};
         byte[] data = generatorService.generatorCode(tableNames);
         response.reset();
@@ -58,7 +56,7 @@ public class GeneratorController {
     }
 
     @RequestMapping("/batchCode")
-    public void batchCode(HttpServletRequest request, HttpServletResponse response, String tables) throws IOException {
+    public void batchCode(HttpServletResponse response, String tables) throws IOException {
         String[] tableNames = JSONUtil.parseArray(tables).toArray(new String[0]);
         byte[] data = generatorService.generatorCode(tableNames);
         response.reset();

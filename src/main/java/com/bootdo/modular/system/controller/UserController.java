@@ -14,7 +14,7 @@ import com.bootdo.modular.system.result.UserVO;
 import com.bootdo.modular.system.service.DictService;
 import com.bootdo.modular.system.service.RoleService;
 import com.bootdo.modular.system.service.UserService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author L
  */
-@Api(tags = "用户管理")
+@Tag(name = "用户管理")
 @RequestMapping("/sys/user")
 @Controller
 public class UserController extends BaseController {
@@ -65,7 +65,7 @@ public class UserController extends BaseController {
     @Log("编辑用户")
     @GetMapping("/edit/{id}")
     @RequiresPermissions("sys:user:edit")
-    String edit(Model model, @PathVariable("id") Long id) {
+    String edit(Model model, @PathVariable Long id) {
         UserDO userDO = userService.getUser(id);
         model.addAttribute("user", userDO);
         List<RoleDO> roles = roleService.list(id);

@@ -6,7 +6,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.MenuDO;
 import com.bootdo.modular.system.param.SysMenuParam;
 import com.bootdo.modular.system.service.MenuService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author L
  */
-@Api(tags = "系统菜单")
+@Tag(name = "系统菜单")
 @RequestMapping("/sys/menu")
 @Controller
 public class MenuController extends BaseController {
@@ -42,7 +42,7 @@ public class MenuController extends BaseController {
     @Log("添加菜单")
     @RequiresPermissions("sys:menu:add")
     @GetMapping("/add/{pId}")
-    String add(Model model, @PathVariable("pId") Long pId) {
+    String add(Model model, @PathVariable Long pId) {
         model.addAttribute("pId", pId);
         if (pId == 0) {
             model.addAttribute("pName", "根目录");
@@ -55,7 +55,7 @@ public class MenuController extends BaseController {
     @Log("编辑菜单")
     @RequiresPermissions("sys:menu:edit")
     @GetMapping("/edit/{id}")
-    String edit(Model model, @PathVariable("id") Long id) {
+    String edit(Model model, @PathVariable Long id) {
         MenuDO mdo = menuService.getById(id);
         Long pId = mdo.getParentId();
         model.addAttribute("pId", pId);
@@ -103,7 +103,7 @@ public class MenuController extends BaseController {
 
     @GetMapping("/tree/{roleId}")
     @ResponseBody
-    Tree<MenuDO> tree(@PathVariable("roleId") Long roleId) {
+    Tree<MenuDO> tree(@PathVariable Long roleId) {
         return menuService.getTree(roleId);
     }
 }

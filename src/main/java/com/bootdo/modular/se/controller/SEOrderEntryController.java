@@ -8,7 +8,7 @@ import com.bootdo.modular.se.domain.SEOrderDO;
 import com.bootdo.modular.se.param.SEOrderVO;
 import com.bootdo.modular.se.service.SEOrderEntryService;
 import com.bootdo.modular.se.validator.SEOrderValidator;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
  * @author yogiCai
  * @since 2018-02-18 16:50:26
  */
-@Api(tags = "销售订单")
+@Tag(name = "销售订单")
 @Controller
 @RequestMapping("/se/entry")
 public class SEOrderEntryController {

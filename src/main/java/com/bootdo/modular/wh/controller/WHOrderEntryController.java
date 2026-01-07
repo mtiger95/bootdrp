@@ -9,7 +9,7 @@ import com.bootdo.modular.wh.param.WHOrderVO;
 import com.bootdo.modular.wh.service.WHOrderEntryService;
 import com.bootdo.modular.wh.validator.WHOrderValidator;
 import com.google.common.collect.ImmutableMap;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-25 11:17:02
  */
-@Api(tags = "出库、入库订单")
+@Tag(name = "出库、入库订单")
 @Controller
 @RequestMapping("/wh/entry")
 public class WHOrderEntryController {
@@ -35,7 +35,7 @@ public class WHOrderEntryController {
     private WHOrderEntryService whOrderEntryService;
 
     /**
-     * 左侧菜单单据详情页URL
+     * 左侧菜单单据详情页 URL
      */
     @GetMapping()
     @RequiresPermissions("wh:entry:entry")

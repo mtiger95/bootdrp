@@ -19,7 +19,7 @@ import com.bootdo.modular.workbench.param.PBalanceParam;
 import com.bootdo.modular.workbench.param.PBillTrendParam;
 import com.bootdo.modular.workbench.param.SEBillTotalParam;
 import com.bootdo.modular.workbench.service.WorkbenchService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +35,7 @@ import java.util.Map;
  * @author yogiCai
  * @since 2018-02-25 11:17:02
  */
-@Api(tags = "工作台")
+@Tag(name = "工作台")
 @Controller
 @RequestMapping("/workbench")
 public class WorkbenchController extends BaseController {

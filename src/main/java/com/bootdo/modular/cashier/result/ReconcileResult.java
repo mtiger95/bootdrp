@@ -1,7 +1,7 @@
 package com.bootdo.modular.cashier.result;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,16 +20,16 @@ public class ReconcileResult {
 
     private String end;
 
-    @ApiModelProperty(name = "单据数量")
+    @Schema(description = "单据数量")
     private BigDecimal billCount;
 
-    @ApiModelProperty(name = "核销金额")
+    @Schema(description = "核销金额")
     private BigDecimal checkAmountTotal;
 
-    @ApiModelProperty(name = "收款金额")
+    @Schema(description = "收款金额")
     private BigDecimal paymentAmountTotal;
 
-    @ApiModelProperty(name = "到账金额")
+    @Schema(description = "到账金额")
     private BigDecimal payAmountTotal;
 
     private Collection<ReconcileItem> reconcileItemList;

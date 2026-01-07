@@ -5,7 +5,7 @@ import com.bootdo.core.utils.DateUtils;
 import com.bootdo.modular.system.domain.ContentDO;
 import com.bootdo.modular.system.param.SysBlogParam;
 import com.bootdo.modular.system.service.BlogContentService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 /**
  * @author L
  */
-@Api(tags = "文章列表")
+@Tag(name = "文章列表")
 @RequestMapping("/blog")
 @Controller
 public class BlogController {
@@ -38,7 +38,7 @@ public class BlogController {
     }
 
     @GetMapping("/open/post/{cid}")
-    String post(@PathVariable("cid") Long cid, Model model) {
+    String post(@PathVariable Long cid, Model model) {
         ContentDO bContentDO = blogContentService.getById(cid);
         model.addAttribute("bContent", bContentDO);
         model.addAttribute("gtmModified", DateUtils.format(bContentDO.getGtmModified()));
@@ -46,7 +46,7 @@ public class BlogController {
     }
 
     @GetMapping("/open/page/{categories}")
-    String about(@PathVariable("categories") String categories, Model model) {
+    String about(@PathVariable String categories, Model model) {
         ContentDO bContentDO = blogContentService.list(SysBlogParam.builder().categories(categories).build()).get(0);
         model.addAttribute("bContent", bContentDO);
         return "system/blog/index/post";

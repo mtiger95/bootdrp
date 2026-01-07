@@ -4,7 +4,7 @@ import com.bootdo.core.pojo.response.PageR;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.param.SysLogParam;
 import com.bootdo.modular.system.service.LogService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author L
  */
-@Api(tags = "系统日志")
+@Tag(name = "系统日志")
 @RequestMapping("/common/log")
 @Controller
 public class LogController {

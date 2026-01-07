@@ -3,7 +3,6 @@ server:
   port: 80
   max-http-header-size: 10240
 
-#spring相关配置
 spring:
   profiles:
     active: dev
@@ -17,7 +16,6 @@ spring:
   jackson:
     date-format: com.bootdo.config.converter.JsonDateFormat
 
-#mybaits相关配置
 mybatis-plus:
   mapper-locations: classpath*:mybatis/**/*Mapper.xml, classpath:/META-INF/modeler-mybatis-mappings/*.xml
   configuration:
@@ -39,3 +37,24 @@ mybatis-plus:
     blobType: BLOB
     #如果数据库为oracle或mssql，则需要配置为boolValue: 1
     boolValue: true
+
+swagger:
+  title: BootDrp
+  description: BootDrp 是一个基于 Spring Boot 的快速开发平台
+  version: 1.5.0
+  email: bootdrp@vip.qq.com
+  license: MIT
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui
+  default-flat-param-object: true # 参见 https://doc.xiaominfo.com/docs/faq/v4/knife4j-parameterobject-flat-param 文档
+
+knife4j:
+  enable: false # 需要关闭增强，具体原因见：https://github.com/xiaoymin/knife4j/issues/874
+  setting:
+    language: zh_cn

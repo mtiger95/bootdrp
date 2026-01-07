@@ -1,7 +1,7 @@
 package com.bootdo.modular.data.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,13 +19,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class ShopQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "店铺名称")
+    @Schema(description = "店铺名称")
     private String name;
 
-    @ApiModelProperty(value = "店铺管理员")
+    @Schema(description = "店铺管理员")
     private String managerId;
 
-    @ApiModelProperty(value = "状态")
+    @Schema(description = "状态")
     private String status;
 
 }

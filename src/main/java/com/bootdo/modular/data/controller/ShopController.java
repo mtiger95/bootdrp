@@ -5,7 +5,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.data.domain.DataShop;
 import com.bootdo.modular.data.param.ShopQryParam;
 import com.bootdo.modular.data.service.ShopService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author L
  * @since 2024-01-26 15:46
  */
-@Api(tags = "店铺管理")
+@Tag(name = "店铺管理")
 @Controller
 @RequestMapping("/data/shop")
 public class ShopController {
@@ -43,7 +43,7 @@ public class ShopController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         DataShop dataShop = shopService.getById(id);
         model.addAttribute("shop", dataShop);
         return "data/shop/edit";

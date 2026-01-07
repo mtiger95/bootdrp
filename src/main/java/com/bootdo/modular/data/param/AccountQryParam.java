@@ -1,7 +1,7 @@
 package com.bootdo.modular.data.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 public class AccountQryParam extends BaseParam {
 
-    @ApiModelProperty(value = "类目分类")
+    @Schema(description = "类目分类")
     private String type;
 }

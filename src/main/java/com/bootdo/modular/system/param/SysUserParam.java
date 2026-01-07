@@ -1,7 +1,7 @@
 package com.bootdo.modular.system.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,13 +13,13 @@ import lombok.Data;
 @Data
 public class SysUserParam extends BaseParam {
 
-    @ApiModelProperty(value = "用户名（多个逗号分隔）")
+    @Schema(description = "用户名（多个逗号分隔）")
     private String name;
 
-    @ApiModelProperty(value = "账户名（多个逗号分隔）")
+    @Schema(description = "账户名（多个逗号分隔）")
     private String userName;
 
-    @ApiModelProperty(value = "部门ID（多个逗号分隔）")
+    @Schema(description = "部门ID（多个逗号分隔）")
     private String deptId;
 
 }

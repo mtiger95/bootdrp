@@ -1,7 +1,7 @@
 package com.bootdo.modular.system.param;
 
 import com.bootdo.core.pojo.base.param.BaseParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 public class SysTaskParam extends BaseParam {
 
-    @ApiModelProperty(value = "类别")
+    @Schema(description = "类别")
     private String type;
 }

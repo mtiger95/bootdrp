@@ -8,7 +8,7 @@ import com.bootdo.modular.engage.domain.ProductCostDO;
 import com.bootdo.modular.engage.param.ProductCostQryParam;
 import com.bootdo.modular.engage.service.ProductCostService;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "商品成本")
+@Tag(name = "商品成本")
 @Controller
 @RequestMapping("/engage/product/cost")
 public class ProductCostController extends BaseController {
@@ -61,7 +61,7 @@ public class ProductCostController extends BaseController {
      */
     @GetMapping("/adjust/{id}")
     @RequiresPermissions("engage:product:cost")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         ProductCostDO productCost = productCostService.getById(id);
         model.addAttribute("productCost", productCost);
         return "engage/product/costAdjust";

@@ -12,8 +12,8 @@ import com.bootdo.modular.data.validator.DataValidator;
 import com.bootdo.modular.engage.param.ProductCostQryParam;
 import com.bootdo.modular.engage.service.ProductCostService;
 import com.bootdo.modular.system.controller.BaseController;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +29,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-02-16 16:30:26
  */
-@Api(tags = "商品管理")
+@Tag(name = "商品管理")
 @Controller
 @RequestMapping("/data/product")
 public class ProductController extends BaseController {
@@ -49,7 +49,7 @@ public class ProductController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @ApiOperation(value = "列表查询")
+    @Operation(summary = "列表查询")
     public PageR list(ProductQryParam param) {
         return productService.page(param);
     }
@@ -57,7 +57,7 @@ public class ProductController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/listJQ")
-    @ApiOperation(value = "分页查询")
+    @Operation(summary = "分页查询")
     public PageJQ listJQ(ProductQryParam param) {
         return productService.pageJQ(param);
     }
@@ -70,7 +70,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/edit/{id}")
     @RequiresPermissions("data:product:edit")
-    public String edit(@PathVariable("id") Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model) {
         ProductDO product = productService.getById(id);
         model.addAttribute("product", product);
         return "data/product/edit";
@@ -78,7 +78,7 @@ public class ProductController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @Operation(summary = "保存")
     @RequiresPermissions("data:product:add")
     public R save(@Validated ProductDO product) {
         dataValidator.validateProduct(product);
@@ -88,7 +88,7 @@ public class ProductController extends BaseController {
 
     @ResponseBody
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @Operation(summary = "修改")
     public R update(@Validated(edit.class) ProductDO product) {
         dataValidator.validateProduct(product);
         productService.updateById(product);
@@ -97,7 +97,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @ApiOperation(value = "删除")
+    @Operation(summary = "删除")
     public R remove(Integer id) {
         productService.removeById(id);
         return R.ok();
@@ -105,7 +105,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @ApiOperation(value = "批量删除")
+    @Operation(summary = "批量删除")
     @RequiresPermissions("data:product:batchRemove")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         productService.removeBatchByIds(ids);
@@ -122,7 +122,7 @@ public class ProductController extends BaseController {
 
     @ResponseBody
     @GetMapping("/listCost")
-    @ApiOperation(value = "商品成本")
+    @Operation(summary = "商品成本")
     public PageJQ listCost(ProductCostQryParam param) {
         return productCostService.page(param);
     }

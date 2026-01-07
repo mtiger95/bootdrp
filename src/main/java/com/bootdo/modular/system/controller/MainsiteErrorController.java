@@ -1,6 +1,6 @@
 package com.bootdo.modular.system.controller;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author L
  */
-@Api(tags = "异常")
+@Tag(name = "异常")
 @Controller
 public class MainsiteErrorController implements ErrorController {
     private static final String ERROR_PATH = "/error";

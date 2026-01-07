@@ -9,7 +9,7 @@ import com.bootdo.modular.system.domain.FileDO;
 import com.bootdo.modular.system.domain.MenuDO;
 import com.bootdo.modular.system.service.FileService;
 import com.bootdo.modular.system.service.MenuService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * @author L
  */
-@Api(tags = "登录管理")
+@Tag(name = "登录管理")
 @Controller
 public class LoginController extends BaseController {
     @Resource

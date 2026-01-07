@@ -8,7 +8,7 @@ import com.bootdo.modular.cashier.param.RecordImportParam;
 import com.bootdo.modular.cashier.param.RecordQryParam;
 import com.bootdo.modular.cashier.result.MultiSelect;
 import com.bootdo.modular.cashier.service.RecordService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.util.List;
  * @author yogiCai
  * @since 2018-07-14 22:31:58
  */
-@Api(tags = "日记账明细")
+@Tag(name = "日记账明细")
 @Controller
 @RequestMapping("/cashier/record")
 public class RecordController {

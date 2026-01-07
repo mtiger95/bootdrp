@@ -1,7 +1,7 @@
 package com.bootdo.modular.data.param;
 
 import com.bootdo.core.enums.CategoryType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -13,10 +13,10 @@ import lombok.Data;
 @Data
 public class CategoryTreeParam {
 
-    @ApiModelProperty(value = "类目ID")
+    @Schema(description = "类目ID")
     private String categoryId;
 
-    @ApiModelProperty(value = "类目分类")
+    @Schema(description = "类目分类")
     private CategoryType type;
 
 }

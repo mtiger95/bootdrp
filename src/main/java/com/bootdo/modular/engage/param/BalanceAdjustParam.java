@@ -1,6 +1,6 @@
 package com.bootdo.modular.engage.param;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class BalanceAdjustParam {
 
-    @ApiModelProperty(value = "商品编号，多个逗号分隔")
+    @Schema(description = "商品编号，多个逗号分隔")
     private String productNos;
 
 }
