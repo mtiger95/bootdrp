@@ -13,7 +13,6 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -39,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -72,10 +72,10 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
         JournalGeneralResult result = new JournalGeneralResult();
 
         Map<String, Object> beanToMap = BeanUtil.beanToMap(param);
-        //账户支出流水明细
+        // 账户支出流水明细
         List<Map<String, Object>> flowRecordList = journalDao.flowRecordList(beanToMap);
 
-        //按年份+账户，统计资金流水
+        // 按年份+账户，统计资金流水
         List<AccountItem> flowRecordBeanList = flowRecordList.stream()
                 .collect(Collectors.groupingBy(m -> CollUtil.join(CollUtil.valuesOfKeys(m, "year", "account"), StrUtil.COMMA), Collectors.toList()))
                 .entrySet()
@@ -84,13 +84,13 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                     String[] keyArr = StrUtil.splitToArray(entry.getKey(), StrUtil.COMMA);
                     AccountItem accountItem = new AccountItem(keyArr[0], keyArr[1]);
                     entry.getValue().forEach(m -> {
-                        //现金流map转bean
+                        // 现金流 map转bean
                         BeanUtil.descForEach(AccountItem.class, action -> {
-                            //现金流map转bean
+                            // 现金流 map转bean
                             Excel excel = action.getField().getAnnotation(Excel.class);
-                            //支出类型
+                            // 支出类型
                             String excelName = ObjectUtil.defaultIfNull(excel, Excel::name, null);
-                            //支出类型
+                            // 支出类型
                             String costType = MapUtil.getStr(m, "costType", StrUtil.EMPTY);
 
                             if (StrUtil.equals(costType, excelName) && action.getFieldType().equals(BigDecimal.class)) {
@@ -101,9 +101,9 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                     return accountItem;
                 })
                 .sorted(Comparator.comparing(AccountItem::getYear))
-                .collect(Collectors.toList());
+                .toList();
 
-        //账户现金流合计
+        // 账户现金流合计
         Map<String, AccountItem> flowRecordAccountMap = flowRecordBeanList.stream()
                 .collect(Collectors.groupingBy(AccountItem::getAccount, LinkedHashMap::new, Collector.of(AccountItem::new, (o, n) -> {
                             BeanUtil.descForEach(AccountItem.class, action -> {
@@ -116,7 +116,7 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                         }, (o, p) -> o))
                 );
 
-        //年份现金流合计
+        // 年份现金流合计
         Map<String, AccountItem> flowRecordYearMap = flowRecordBeanList.stream()
                 .collect(Collectors.groupingBy(AccountItem::getYear, LinkedHashMap::new, Collector.of(AccountItem::new, (o, n) -> {
                             BeanUtil.descForEach(AccountItem.class, action -> {
@@ -129,14 +129,14 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                         }, (o, p) -> o))
                 );
 
-        //设置工资
+        // 设置工资
         Map<String, SalaryRecord> salaryRecordMap = salaryDao.salaryRecordList(beanToMap)
                 .stream().collect(Collectors.toMap(SalaryRecord::getYear, Function.identity(), (o, n) -> o));
 
-        //经营年度统计
+        // 经营年度统计
         List<OperateItem> operateItemList = journalDao.generalFlowYear(beanToMap);
 
-        //2017年销售额来年excel手工数据，毛利率按28.12%算
+        // 2017年销售额来年excel手工数据，毛利率按28.12%算
         Date billStart = Date.from(LocalDate.of(2017, 12, 31).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         if (DateUtil.compare(param.getStart(), billStart) <= 0) {
             operateItemList.add(0, OperateItem.builder()
@@ -147,50 +147,50 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
         }
 
         operateItemList.forEach(item -> {
-            //毛利润率
+            // 毛利润率
             item.setProfitRate(NumberUtil.div(item.getProfitAmount(), item.getTotalAmount(), 2));
-            //父母费用
+            // 父母费用
             item.setParentFee(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), AccountItem::getParent, BigDecimal.ZERO));
-            //生活开支
+            // 生活开支
             item.setLivingFee(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), AccountItem::getLiving, BigDecimal.ZERO));
-            //运营费用
+            // 运营费用
             item.setOperationFee(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), AccountItem::getOperation, BigDecimal.ZERO));
-            //工资费用
+            // 工资费用
             item.setSalaryFee(ObjectUtil.defaultIfNull(salaryRecordMap.get(item.getYear()), SalaryRecord::getTotalAmount, BigDecimal.ZERO));
-            //营销费用
+            // 营销费用
             item.setMarketFee(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), AccountItem::getMarket, BigDecimal.ZERO));
-            //净利润
+            // 净利润
             item.setNetProfit(NumberUtil.sub(item.getProfitAmount(), item.getParentFee(), item.getLivingFee(), item.getOperationFee(), item.getSalaryFee(), item.getMarketFee(), 2));
-            //净利润率
+            // 净利润率
             item.setNetProfitRate(NumberUtil.div(item.getNetProfit(), item.getTotalAmount(), 2));
-            //已实现净利润 = 净利润 - 欠款
+            // 已实现净利润 = 净利润 - 欠款
             item.setNetProfitRealized(NumberUtil.sub(item.getNetProfit(), item.getDebtAmount(), 2));
-            //已支付工资
-            item.setSalaryRealized(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), AccountItem::getSalary, BigDecimal.ZERO));
+            // 已支付工资
+            item.setSalaryRealized(ObjectUtil.defaultIfNull(flowRecordYearMap.get(item.getYear()), m -> NumberUtil.add(m.getSalary(), m.getConsume()), BigDecimal.ZERO));
         });
 
-        //年度核销金额合计
+        // 年度核销金额合计
         SettleYear settleYear = settleService.flowSettleYear(beanToMap);
-        //订单核销明细
+        // 订单核销明细
         List<SettleOrderItem> settleOrderItemList = settleService.generalSettleOrderItem(beanToMap);
 
-        //月现金流
+        // 月现金流
         List<OperateMonthItem> operateItemMonthList = journalDao.generalFlowMonth(beanToMap);
-        //欠款明细
+        // 欠款明细
         List<DebtItem> debtItemList = journalDao.debtRecordList(beanToMap);
-        //账户流水明细
+        // 账户流水明细
         Map<String, List<RecordDO>> flowRecordMap = recordService.list(beanToMap).stream()
                 .collect(Collectors.groupingBy(RecordDO::getAccount, Collectors.toList()));
 
-        //经营年份
+        // 经营年份
         result.setStartYear(DateUtil.format(param.getStart(), DatePattern.NORM_YEAR_PATTERN));
         result.setEndYear(DateUtil.format(param.getEnd(), DatePattern.NORM_YEAR_PATTERN));
-        //账户现金流合计、年份现金流合计、经营情况
+        // 账户现金流合计、年份现金流合计、经营情况
         result.setFlowAccountStatList(flowRecordAccountMap.values());
         result.setFlowAccountYearList(flowRecordYearMap.values());
         result.setOperateYearList(operateItemList);
         result.setSettleYear(settleYear);
-        //账户现金流水、月现金流、欠款明细
+        // 账户现金流水、月现金流、欠款明细
         result.setFlowRecordMap(flowRecordMap);
         result.setOperateMonthList(operateItemMonthList);
         result.setDebtItemList(debtItemList);
@@ -215,10 +215,10 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                     .put("operateYearList", result.getOperateYearList())
                     .put("settleYear", result.getSettleYear())
                     .build();
-            //汇总统计
+            // 汇总统计
             Workbook workbook = ExcelExportUtil.exportExcel(MapUtil.of(0, statMap), new TemplateExportParams("doc/OperateStat.xlsx"));
 
-            //账户流水明细、月现金流、客户欠款
+            // 账户流水明细、月现金流、客户欠款
             BeanUtil.descForEach(JournalGeneralResult.class, action -> {
                 ExcelCollection excelCollection = action.getField().getAnnotation(ExcelCollection.class);
                 if (ObjectUtil.isNotNull(excelCollection)) {
@@ -229,7 +229,7 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                                 .forEach((key, value) -> {
                                     ExcelExportService service = new ExcelExportService();
                                     ExportParams params = new InnerExportParams();
-                                    //过滤sheet name非法字符
+                                    // 过滤sheet name非法字符
                                     params.setSheetName(StrUtil.replaceChars(key, "[]:\\*?/（） ", StrUtil.EMPTY));
                                     service.createSheet(workbook, params, excelCollection.type(), value);
                                 });
@@ -242,12 +242,12 @@ public class JournalService extends ServiceImpl<JournalDao, RecordDO> {
                 }
             });
 
-            //月现金流 网线图
+            // 月现金流 网线图
             xssfChartService.drawChart((XSSFSheet) workbook.getSheet("月现金流"), OperateMonthItem.class);
 
-            //excel导出
+            // excel 导出
             HttpServletResponse response = HttpServletUtil.getResponse();
-            String fileName = URLEncoder.encode(StrUtil.format("经营概况{}-{}.xlsx", result.getStartYear(), result.getEndYear()), CharsetUtil.UTF_8);
+            String fileName = URLEncoder.encode(StrUtil.format("经营概况{}-{}.xlsx", result.getStartYear(), result.getEndYear()), StandardCharsets.UTF_8);
             response.reset();
             response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
             response.setContentType("application/octet-stream;charset=UTF-8");

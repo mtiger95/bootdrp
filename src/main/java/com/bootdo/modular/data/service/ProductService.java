@@ -55,13 +55,19 @@ public class ProductService extends ServiceImpl<ProductDao, ProductDO> {
                 .in(ObjectUtil.isNotEmpty(param.getStatus()), ProductDO::getStatus, StrUtil.split(param.getStatus(), StrUtil.COMMA))
                 .ge(ObjectUtil.isNotEmpty(param.getStart()), ProductDO::getUpdateTime, param.getStart())
                 .le(ObjectUtil.isNotEmpty(param.getEnd()), ProductDO::getUpdateTime, param.getEnd())
-                .and(ObjectUtil.isNotEmpty(param.getSearchText()), query -> query.like(ProductDO::getNo, param.getSearchText()).or().like(ProductDO::getName, param.getSearchText()));
+                // 商品编号查询，多个逗号分隔
+                .and(StrUtil.contains(param.getSearchText(), StrUtil.COMMA), query ->
+                        query.in(ProductDO::getNo, StrUtil.split(param.getSearchText(), StrUtil.COMMA)))
+                // 商品编号或商品名称查询，单个查询
+                .and(StrUtil.isNotEmpty(param.getSearchText()) && !StrUtil.contains(param.getSearchText(), StrUtil.COMMA), query ->
+                        query.like(ProductDO::getNo, param.getSearchText()).or().like(ProductDO::getName, param.getSearchText()));
+
         Page<ProductDO> pageList = this.page(page, queryWrapper);
-        //商品成本
+        // 商品成本
         Set<Integer> productNoSet = pageList.getRecords().stream().map(ProductDO::getNo).collect(Collectors.toSet());
         Map<String, ProductCostDO> productCostDoMap = productCostService.listLate(productNoSet).stream()
                 .collect(Collectors.toMap(ProductCostDO::getProductNo, v -> v, (o, n) -> n));
-        //商品单位
+        // 商品单位
         Map<String, DictDO> unitMap = dictDao.selectList(Wrappers.lambdaQuery(DictDO.class).eq(DictDO::getType, "data_unit"))
                 .stream().collect(Collectors.toMap(DictDO::getValue, v -> v, (o, n) -> n));
 

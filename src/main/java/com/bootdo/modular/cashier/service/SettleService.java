@@ -41,40 +41,40 @@ public class SettleService extends ServiceImpl<RPOrderDao, RPOrderDO> {
     private AccountDao accountDao;
 
 
-    public SettleYear flowSettleYear( Map<String, Object> param) {
+    public SettleYear flowSettleYear(Map<String, Object> param) {
         SettleYear settleYear = new SettleYear();
-        ////结算账户列表
+        // 结算账户列表
         List<AccountDO> accountDOList = accountDao.selectList(Wrappers.lambdaQuery(AccountDO.class).orderByAsc(AccountDO::getNo));
-        //结算账户MAP
+        // 结算账户 MAP
         Map<String, Integer> accountIndexMap = new HashMap<>();
         IntStream.range(0, accountDOList.size()).forEach(index -> {
             AccountDO accountDO = accountDOList.get(index);
             accountIndexMap.put(accountDO.getNo().toString(), index);
             BeanUtil.setProperty(settleYear, "settleName" + index, accountDO.getName());
         });
-        //核销记录
+        // 核销记录
         List<Map<String, Object>> flowSettleYearList = settleDao.flowSettleYear(param);
-        //核销记录按年度分组
+        // 核销记录按年度分组
         Map<String, List<Map<String, Object>>> flowSettleYearMap = flowSettleYearList.stream()
                 .collect(Collectors.groupingBy(m -> MapUtil.getStr(m, "year"), Collectors.toList()));
-        //核销金额处理
+        // 核销金额处理
         List<SettleYearItem> settleYearItemList = flowSettleYearMap.entrySet()
                 .stream()
                 .map(entry -> {
                     SettleYearItem settleYearItem = new SettleYearItem();
                     settleYearItem.setYear(entry.getKey());
-                    //处理各账户核销金额
+                    // 处理各账户核销金额
                     entry.getValue().forEach(m -> {
                         String settleAccount = MapUtil.getStr(m, "settleAccount");
                         Integer index = accountIndexMap.get(settleAccount);
                         BeanUtil.setProperty(settleYearItem, "settleName" + index, MapUtil.getStr(m, "settleName"));
                         BeanUtil.setProperty(settleYearItem, "checkAmount" + index, MapUtil.getStr(m, "checkAmount"));
                         BeanUtil.setProperty(settleYearItem, "discountAmount" + index, MapUtil.getStr(m, "discountAmount"));
-                        //求合计金额，easypoi的{{#fe:}}命令，不支持在excel模板是配置公式
+                        // 求合计金额，easypoi的{{#fe:}}命令，不支持在excel模板是配置公式
                         BeanUtil.setProperty(settleYearItem, "checkAmountSum", NumberUtil.add(settleYearItem.getCheckAmountSum(), MapUtil.get(m, "checkAmount", BigDecimal.class)));
                         BeanUtil.setProperty(settleYearItem, "discountAmountSum", NumberUtil.add(settleYearItem.getDiscountAmountSum(), MapUtil.get(m, "discountAmount", BigDecimal.class)));
                     });
-                    //实际收款金额
+                    // 实际收款金额
                     settleYearItem.setPaymentAmountSum(NumberUtil.sub(settleYearItem.getCheckAmountSum(), settleYearItem.getDiscountAmountSum()));
                     return settleYearItem;
                 })
