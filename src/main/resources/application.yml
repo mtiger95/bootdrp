@@ -15,6 +15,11 @@ spring:
     cache: false
   jackson:
     date-format: com.bootdo.config.converter.JsonDateFormat
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          max-age: 31536000s
 
 mybatis-plus:
   mapper-locations: classpath*:mybatis/**/*Mapper.xml, classpath:/META-INF/modeler-mybatis-mappings/*.xml

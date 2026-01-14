@@ -123,11 +123,11 @@ public class SecurityConfig {
                         .successHandler(loginSuccessHandler) // 登录成功处理器
                         .failureHandler(loginFailureHandler) // 登录失败处理器
                 )
-                // 一堆自定义的 Spring Security 处理器
+                // 认证、授权异常处理器
                 .exceptionHandling(c -> c
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                // 全局共享规则
+                // 授权规则
                 .authorizeHttpRequests(c -> c
                         // 1.1 静态资源，可匿名访问
                         .mvcMatchers(HttpMethod.GET, "/login", "/css/**", "/js/**", "/fonts/**", "/img/**", "/docs/**", "/druid/**",
