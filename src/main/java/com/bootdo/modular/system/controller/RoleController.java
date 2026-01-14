@@ -6,7 +6,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.RoleDO;
 import com.bootdo.modular.system.service.RoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +25,13 @@ public class RoleController extends BaseController {
     private RoleService roleService;
 
 
-    @RequiresPermissions("sys:role:role")
+    @PreAuthorize("hasAuthority('sys:role:role')")
     @GetMapping()
     String role() {
         return "system/role/role";
     }
 
-    @RequiresPermissions("sys:role:role")
+    @PreAuthorize("hasAuthority('sys:role:role')")
     @GetMapping("/list")
     @ResponseBody()
     List<RoleDO> list() {
@@ -39,14 +39,14 @@ public class RoleController extends BaseController {
     }
 
     @Log("添加角色")
-    @RequiresPermissions("sys:role:add")
+    @PreAuthorize("hasAuthority('sys:role:add')")
     @GetMapping("/add")
     String add() {
         return "system/role/add";
     }
 
     @Log("编辑角色")
-    @RequiresPermissions("sys:role:edit")
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     @GetMapping("/edit/{id}")
     String edit(@PathVariable Long id, Model model) {
         RoleDO roleDO = roleService.getById(id);
@@ -55,7 +55,7 @@ public class RoleController extends BaseController {
     }
 
     @Log("保存角色")
-    @RequiresPermissions("sys:role:add")
+    @PreAuthorize("hasAuthority('sys:role:add')")
     @PostMapping("/save")
     @ResponseBody()
     R save(RoleDO role) {
@@ -64,7 +64,7 @@ public class RoleController extends BaseController {
     }
 
     @Log("更新角色")
-    @RequiresPermissions("sys:role:edit")
+    @PreAuthorize("hasAuthority('sys:role:edit')")
     @PostMapping("/update")
     @ResponseBody()
     R update(RoleDO role) {
@@ -73,7 +73,7 @@ public class RoleController extends BaseController {
     }
 
     @Log("删除角色")
-    @RequiresPermissions("sys:role:remove")
+    @PreAuthorize("hasAuthority('sys:role:remove')")
     @PostMapping("/remove")
     @ResponseBody()
     R remove(Long id) {
@@ -81,7 +81,7 @@ public class RoleController extends BaseController {
         return R.ok();
     }
 
-    @RequiresPermissions("sys:role:batchRemove")
+    @PreAuthorize("hasAuthority('sys:role:batchRemove')")
     @Log("批量删除角色")
     @PostMapping("/batchRemove")
     @ResponseBody

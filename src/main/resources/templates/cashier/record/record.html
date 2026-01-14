@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="utf-8">
 <head th:include="include :: header">
 </head>
@@ -16,38 +16,37 @@
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="选择店铺" name="shopNo" id="shopNo" class="form-control" required>
-                        <option value="">选择店铺</option>
+                    <select data-placeholder="请选择" name="shopNo" id="shopNo" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="交易渠道" name="type" id="type" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="type" id="type" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="交易账号" name="account" id="account" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="account" id="account" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="交易方向" name="payDirect" id="payDirect" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="payDirect" id="payDirect" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="交易状态" name="payStatus" id="payStatus" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="payStatus" id="payStatus" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="数据来源" name="source" id="source" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="source" id="source" class="form-control">
                     </select>
                 </div>
 
                 <div class="input-group columns pull-left tool-pull-left-sm">
-                    <select data-placeholder="资金用途" name="costType" id="costType" class="form-control" style="height: 30px; width: 100px;" multiple>
+                    <select data-placeholder="请选择" name="costType" id="costType" class="form-control">
                     </select>
                 </div>
             </form>
@@ -88,29 +87,7 @@
         </div>
     </div>
 </div>
-<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-<div>
-    <script type="text/javascript">
-        var s_edit_h = 'hidden';
-        var s_remove_h = 'hidden';
-        var s_resetPwd_h = 'hidden';
-    </script>
-</div>
-<div shiro:hasPermission="cashier:record:edit">
-    <script type="text/javascript">
-        s_edit_h = '';
-    </script>
-</div>
-<div shiro:hasPermission="cashier:record:remove">
-    <script type="text/javascript">
-        var s_remove_h = '';
-    </script>
-</div>
-<div shiro:hasPermission="cashier:record:resetPwd">
-    <script type="text/javascript">
-        var s_resetPwd_h = '';
-    </script>
-</div>
+
 <div th:include="include :: footer"></div>
 <script type="text/javascript" src="/js/appjs/cashier/record/record.js"></script>
 </body>

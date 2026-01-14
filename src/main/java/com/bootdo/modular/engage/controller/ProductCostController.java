@@ -3,13 +3,13 @@ package com.bootdo.modular.engage.controller;
 import com.bootdo.core.annotation.DataScope;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.core.pojo.response.R;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.engage.domain.ProductCostDO;
 import com.bootdo.modular.engage.param.ProductCostQryParam;
 import com.bootdo.modular.engage.service.ProductCostService;
 import com.bootdo.modular.system.controller.BaseController;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class ProductCostController extends BaseController {
 
 
     @GetMapping()
-    @RequiresPermissions("engage:product:cost")
+    @PreAuthorize("hasAuthority('engage:product:cost')")
     public String cost() {
         return "engage/product/cost";
     }
@@ -40,7 +40,7 @@ public class ProductCostController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("engage:product:cost")
+    @PreAuthorize("hasAuthority('engage:product:cost')")
     public PageJQ list(ProductCostQryParam param) {
         return productCostService.page(param);
     }
@@ -50,17 +50,17 @@ public class ProductCostController extends BaseController {
      */
     @ResponseBody
     @GetMapping("/export")
-    @RequiresPermissions("engage:product:cost")
+    @PreAuthorize("hasAuthority('engage:product:cost')")
     public void export(ProductCostQryParam param) {
         List<ProductCostDO> productList = productCostService.list(param);
-        PoiUtil.exportExcelWithStream("ProductCostResult.xls", ProductCostDO.class, productList);
+        PoiUtils.exportExcelWithStream("ProductCostResult.xls", ProductCostDO.class, productList);
     }
 
     /**
      * 成本调整
      */
     @GetMapping("/adjust/{id}")
-    @RequiresPermissions("engage:product:cost")
+    @PreAuthorize("hasAuthority('engage:product:cost')")
     public String edit(@PathVariable Integer id, Model model) {
         ProductCostDO productCost = productCostService.getById(id);
         model.addAttribute("productCost", productCost);
@@ -72,7 +72,7 @@ public class ProductCostController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/adjust")
-    @RequiresPermissions("engage:product:cost")
+    @PreAuthorize("hasAuthority('engage:product:cost')")
     public R update(ProductCostDO productCost) {
         productCostService.adjust(productCost);
         return R.ok();

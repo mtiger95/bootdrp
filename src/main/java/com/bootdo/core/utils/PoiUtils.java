@@ -48,13 +48,13 @@ import java.util.stream.Collectors;
  * @since 2022-02-6 23:36
  */
 @Slf4j
-public class PoiUtil {
+public class PoiUtils {
 
     /**
-     * 使用流的方式导出excel
+     * 使用流的方式导出 excel
      *
      * @param excelName 要导出的文件名称，如Users.xls
-     * @param pojoClass Excel实体类
+     * @param pojoClass Excel 实体类
      * @param data      要导出的数据集合
      */
     public static void exportExcelWithStream(String excelName, Class<?> pojoClass, Collection<?> data) {
@@ -113,10 +113,10 @@ public class PoiUtil {
     }
 
     /**
-     * 使用文件的方式导出excel
+     * 使用文件的方式导出 excel
      *
      * @param filePath  文件路径，如 d:/demo/demo.xls
-     * @param pojoClass Excel实体类
+     * @param pojoClass Excel 实体类
      * @param data      要导出的数据集合
      */
     public static void exportExcelWithFile(String filePath, Class pojoClass, Collection data) {
@@ -136,12 +136,12 @@ public class PoiUtil {
     }
 
     /**
-     * 根据文件路径来导入Excel
+     * 根据文件路径来导入 Excel
      *
      * @param filePath   文件路径
      * @param titleRows  表标题的行数
      * @param headerRows 表头行数
-     * @param pojoClass  Excel实体类
+     * @param pojoClass  Excel 实体类
      */
     public static <T> List<T> importExcel(String filePath, Integer titleRows, Integer headerRows, Class<T> pojoClass) {
         List<T> list = new ArrayList<>();
@@ -159,7 +159,7 @@ public class PoiUtil {
     }
 
     /**
-     * 生成workbook
+     * 生成 workbook
      *
      * @param file 上传的文件
      */
@@ -224,7 +224,7 @@ public class PoiUtil {
             List<T> resultList = CollUtil.unionAll(result.getFailList(), result.getList());
             //校验异常信息 Map<行号, errorMsg>
             errorMsgMap = result.getFailList().stream()
-                    .collect(Collectors.toMap(k -> k.getRowNum() + 1, v -> v.getErrorMsg(), (o, n) -> n, LinkedHashMap::new));
+                    .collect(Collectors.toMap(k -> k.getRowNum() + 1, IExcelModel::getErrorMsg, (o, n) -> n, LinkedHashMap::new));
             //excel行
             Map<Integer, String> finalErrorMsgMap = errorMsgMap;
 
@@ -334,7 +334,7 @@ public class PoiUtil {
     }
 
     /**
-     * Lambda去重
+     * Lambda 去重
      *
      * @param keyExtractor 属性对象
      * @return 属性对象列表

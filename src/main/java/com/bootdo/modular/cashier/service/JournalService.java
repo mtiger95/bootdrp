@@ -18,7 +18,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.utils.HttpServletUtil;
-import com.bootdo.core.utils.PoiUtil.InnerExportParams;
+import com.bootdo.core.utils.PoiUtils.InnerExportParams;
 import com.bootdo.modular.cashier.dao.JournalDao;
 import com.bootdo.modular.cashier.dao.SalaryDao;
 import com.bootdo.modular.cashier.domain.RecordDO;

@@ -4,7 +4,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.excel.param.OrderImportParam;
 import com.bootdo.modular.excel.service.OrderImportService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +31,7 @@ public class OrderImportController {
      * 导入
      */
     @GetMapping("/import/excel")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public String add() {
         return "se/order/import";
     }
@@ -41,7 +41,7 @@ public class OrderImportController {
      */
     @ResponseBody
     @PostMapping("/import/excel")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public R importExcel(@Validated OrderImportParam orderImportParam) throws Exception {
         //查询列表数据
         importService.importExcel(orderImportParam);
@@ -53,7 +53,7 @@ public class OrderImportController {
      */
     @ResponseBody
     @GetMapping("/import/excel/tpl")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public void exportTpl() {
         importService.exportTpl();
     }

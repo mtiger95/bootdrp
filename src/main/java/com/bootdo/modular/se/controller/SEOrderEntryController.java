@@ -9,7 +9,7 @@ import com.bootdo.modular.se.param.SEOrderVO;
 import com.bootdo.modular.se.service.SEOrderEntryService;
 import com.bootdo.modular.se.validator.SEOrderValidator;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class SEOrderEntryController {
     private SEOrderEntryService seOrderEntryService;
 
     @GetMapping()
-    @RequiresPermissions("se:entry:entry")
+    @PreAuthorize("hasAuthority('se:entry:entry')")
     public String orderEntry() {
         return "se/entry/entry";
     }
@@ -40,7 +40,7 @@ public class SEOrderEntryController {
     @Log("销售单保存")
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("se:entry:add")
+    @PreAuthorize("hasAuthority('se:entry:add')")
     public R save(@RequestBody @Validated SEOrderVO order) {
         seOrderValidator.validateSave(order);
         SEOrderDO orderDO = seOrderEntryService.save(order);
@@ -48,20 +48,20 @@ public class SEOrderEntryController {
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("se:entry:add")
+    @PreAuthorize("hasAuthority('se:entry:add')")
     public String add() {
         return "se/entry/add";
     }
 
     @GetMapping("/addHead")
-    @RequiresPermissions("se:entry:add")
+    @PreAuthorize("hasAuthority('se:entry:add')")
     public String addHead() {
         return "se/entry/addHead";
     }
 
     @ResponseBody
     @GetMapping("/get")
-    @RequiresPermissions("se:order:order")
+    @PreAuthorize("hasAuthority('se:order:order')")
     public R get(@Validated OrderDetailParam param) {
         //查询列表数据
         SEOrderVO orderVO = seOrderEntryService.getOrderVO(param);

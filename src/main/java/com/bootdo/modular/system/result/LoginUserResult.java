@@ -42,5 +42,9 @@ public class LoginUserResult {
      * 店铺列表
      */
     private List<DataShop> shopList;
+    /**
+     * 权限列表
+     */
+    private List<String> permList;
 
 }

@@ -115,18 +115,14 @@ function load() {
                         field: 'jobStatus',
                         title: '停起操作',
                         formatter: function (value, row, index) {
-                            var e = '<a class="btn btn-success btn-xs" href="#" mce_href="#" title="点击开启" onclick="changeStatus(\''
-                                + row.id + '\',\'' + row.jobStatus
-                                + '\')"><i class="fa fa-hourglass-start"></i>开启</a> ';
-                            var f = '<a class="btn btn-danger btn-xs" href="#" mce_href="#" title="点击关闭" onclick="changeStatus(\''
-                                + row.id + '\',\'' + row.jobStatus
-                                + '\')"><i class="fa fa-square-o">关闭</i></a> ';
-                            if (row.jobStatus == 0) {
-                                return e;
-                            } else {
-                                return f;
+                            if (row.jobStatus === '0') {
+                                return utils.renderButtons([
+                                    {html: `<a class="btn btn-success btn-xs" href="#" title="点击开启" onclick="changeStatus('${row.id}', '${row.jobStatus}')"><i class="fa fa-hourglass-start"></i>开启</a> `},
+                                ], row);
                             }
-
+                            return utils.renderButtons([
+                                {html: `<a class="btn btn-danger btn-xs" href="#" title="点击关闭" onclick="changeStatus('${row.id}', '${row.jobStatus}')"><i class="fa fa-square-o"></i>关闭</a> `},
+                            ], row);
                         }
                     },
 
@@ -135,16 +131,10 @@ function load() {
                         field: 'id',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                + row.id + '\',\'' + row.jobStatus
-                                + '\')"><i class="fa fa-edit"></i></a> ';
-                            var d = '<a class="btn btn-warning btn-sm" href="#" title="删除"  mce_href="#" onclick="remove(\''
-                                + row.id
-                                + '\')"><i class="fa fa-remove"></i></a> ';
-                            var f = '<a class="btn btn-success btn-sm" href="#" title="开启"  mce_href="#" onclick="resetPwd(\''
-                                + row.id
-                                + '\')"><i class="fa fa-key"></i></a> ';
-                            return e + d;
+                            return utils.renderButtons([
+                                {html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${row.id}', '${row.jobStatus}')"><i class="fa fa-edit"></i></a> `},
+                                {html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${row.id}')"><i class="fa fa-remove"></i></a> `}
+                            ], row);
                         }
                     }]
             });

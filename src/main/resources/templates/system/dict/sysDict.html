@@ -1,69 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
-	<div class="wrapper wrapper-content ">
-		<div class="col-sm-12">
-			<div class="ibox">
-				<div class="ibox-body">
-					<div class="fixed-table-toolbar">
-						<form id="search">
-							<div class="columns pull-left col-md-2 nopadding">
-								<input type="text" class="form-control" name="searchText" placeholder="请输入标签名或类型或描述" autocomplete="off">
-							</div>
-							<div class="input-group columns pull-left tool-pull-left">
-								<select data-placeholder="选择类别" name="type" class="form-control chosen-select">
-									<option value="">选择类别</option>
-								</select>
-							</div>
-						</form>
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <form id="search">
+                        <div class="columns pull-left col-md-2 nopadding">
+                            <input type="text" class="form-control" name="searchText" placeholder="请输入标签名或类型或描述" autocomplete="off">
+                        </div>
+                        <div class="input-group columns pull-left tool-pull-left">
+                            <select data-placeholder="字典类别" name="type" id="type" class="form-control">
+                            </select>
+                        </div>
+                    </form>
 
-						<div class="columns pull-left tool-pull-left">
-							<button class="btn btn-success" onclick="reLoad()">查询</button>
-						</div>
+                    <div class="columns pull-left tool-pull-left">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
 
-						<div class="columns pull-right">
-							<button shiro:hasPermission="common:sysDict:add" type="button" class="btn btn-primary" onclick="add()" href="/se/entry">
-								<i class="fa fa-plus" aria-hidden="true"></i>添加
-							</button>
-							<button shiro:hasPermission="common:sysDict:batchRemove" type="button" class="btn btn-danger" onclick="batchRemove()">
-								<i class="fa fa-trash" aria-hidden="true"></i>删除
-							</button>
-						</div>
-					</div>
+                    <div class="columns pull-right">
+                        <button sec:authorize="hasAuthority('common:sysDict:add')" type="button" class="btn btn-primary" onclick="add()" href="/se/entry">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </button>
+                        <button sec:authorize="hasAuthority('common:sysDict:batchRemove')" type="button" class="btn btn-danger" onclick="batchRemove()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>删除
+                        </button>
+                    </div>
+                </div>
 
-					<table id="exampleTable" data-mobile-responsive="true"></table>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-	<div>
-		<script type="text/javascript">
-			var s_edit_h = 'hidden';
-			var s_remove_h = 'hidden';
-			var s_resetPwd_h = 'hidden';
-		</script>
-	</div>
-	<div shiro:hasPermission="common:sysDict:edit">
-		<script type="text/javascript">
-			s_edit_h = '';
-		</script>
-	</div>
-	<div shiro:hasPermission="common:sysDict:remove">
-		<script type="text/javascript">
-			var s_remove_h = '';
-		</script>
-	</div>
-	<div shiro:hasPermission="common:sysDict:add">
-		<script type="text/javascript">
-			var s_add_h = '';
-		</script>
-	</div>
+                <table id="exampleTable" data-mobile-responsive="true"></table>
+            </div>
+        </div>
+    </div>
+</div>
 
-	</div>
-	<div th:include="include :: footer"></div>
-	<script type="text/javascript" src="/js/appjs/system/dict/dict.js"></script>
+<div th:include="include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/system/dict/dict.js"></script>
 </body>
 </html>

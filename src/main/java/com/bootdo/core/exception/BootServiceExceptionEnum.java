@@ -45,7 +45,7 @@ public enum BootServiceExceptionEnum implements BizServiceAssert {
     IMPORT_PRODUCT_NOT_FOUND(7000, "Product not found! sheetName:{0}, productName:{1}.", "【{0}】页，商品【{1}】不存在！"),
 
     /**
-     * excel图表
+     * excel 图表
      */
     CHART_CATEGORY_NOT_FOUND(7000, "Chart category record (X Axis) not found! clazz:{0}.", "图表X轴数据不存在！"),
 

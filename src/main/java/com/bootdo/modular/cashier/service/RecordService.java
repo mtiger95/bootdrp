@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageJQ;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.cashier.dao.RecordDao;
 import com.bootdo.modular.cashier.domain.RecordDO;
 import com.bootdo.modular.cashier.param.RecordImportParam;
@@ -71,7 +71,7 @@ public class RecordService extends ServiceImpl<RecordDao, RecordDO> {
         String pureEnd = DateUtil.format(param.getEnd(), DatePattern.PURE_DATE_FORMAT);
         String shopNo = StrUtil.blankToDefault(StrUtil.join(StrUtil.UNDERLINE, param.getShopNo()), StrUtil.AT);
         String fileName = StrUtil.format("支付对账单_{}_{}-{}.xlsx", shopNo, pureStart, pureEnd);
-        PoiUtil.exportExcelWithStream(fileName, RecordDO.class, orderList);
+        PoiUtils.exportExcelWithStream(fileName, RecordDO.class, orderList);
     }
 
     public void importCvs(RecordImportParam importParam) throws Exception {
@@ -199,15 +199,43 @@ public class RecordService extends ServiceImpl<RecordDao, RecordDO> {
     public MultiSelect multiSelect() {
         MultiSelect multiSelect = new MultiSelect();
         List<RecordDO> list = recordDao.multiSelect(MapUtil.empty());
-        list.forEach(recordDO -> {
-            multiSelect.getType().putIfAbsent(recordDO.getType(), recordDO.getType());
-            multiSelect.getAccount().putIfAbsent(recordDO.getAccount(), recordDO.getAccount());
-            multiSelect.getPayDirect().putIfAbsent(recordDO.getPayDirect(), recordDO.getPayDirect());
-            multiSelect.getPayStatus().putIfAbsent(recordDO.getPayStatus(), recordDO.getPayStatus());
-            multiSelect.getTradeClass().putIfAbsent(recordDO.getTradeClass(), recordDO.getTradeClass());
-            multiSelect.getSource().putIfAbsent(recordDO.getSource(), recordDO.getSource());
-            multiSelect.getCostType().putIfAbsent(recordDO.getCostType(), recordDO.getCostType());
-        });
+
+        multiSelect.getType().addAll(list.stream()
+                .map(RecordDO::getType)
+                .distinct()
+                .map(type -> Map.of("name", type, "value", type))
+                .toList());
+        multiSelect.getAccount().addAll(list.stream()
+                .map(RecordDO::getAccount)
+                .distinct()
+                .map(account -> Map.of("name", account, "value", account))
+                .toList());
+        multiSelect.getPayDirect().addAll(list.stream()
+                .map(RecordDO::getPayDirect)
+                .distinct()
+                .map(payDirect -> Map.of("name", payDirect, "value", payDirect))
+                .toList());
+        multiSelect.getPayStatus().addAll(list.stream()
+                .map(RecordDO::getPayStatus)
+                .distinct()
+                .map(payStatus -> Map.of("name", payStatus, "value", payStatus))
+                .toList());
+        multiSelect.getTradeClass().addAll(list.stream()
+                .map(RecordDO::getTradeClass)
+                .distinct()
+                .map(tradeClass -> Map.of("name", tradeClass, "value", tradeClass))
+                .toList());
+        multiSelect.getSource().addAll(list.stream()
+                .map(RecordDO::getSource)
+                .distinct()
+                .map(source -> Map.of("name", source, "value", source))
+                .toList());
+        multiSelect.getCostType().addAll(list.stream()
+                .map(RecordDO::getCostType)
+                .distinct()
+                .map(costType -> Map.of("name", costType, "value", costType))
+                .toList());
+
         return multiSelect;
     }
 

@@ -3,6 +3,7 @@ package com.bootdo.modular.system.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -13,13 +14,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.config.properties.BootdoProperties;
 import com.bootdo.core.enums.FileType;
+import com.bootdo.core.exception.assertion.BizServiceException;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.node.Tree;
 import com.bootdo.core.pojo.response.PageR;
+import com.bootdo.core.pojo.response.R;
 import com.bootdo.core.utils.BuildTree;
 import com.bootdo.core.utils.ImageUtils;
-import com.bootdo.core.utils.MD5Utils;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.domain.DataShop;
 import com.bootdo.modular.data.service.ShopService;
 import com.bootdo.modular.system.dao.UserDao;
@@ -30,6 +32,8 @@ import com.bootdo.modular.system.domain.UserRoleDO;
 import com.bootdo.modular.system.param.SysUserParam;
 import com.bootdo.modular.system.result.LoginUserResult;
 import com.bootdo.modular.system.result.UserVO;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,6 +62,8 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
     private FileService sysFileService;
     @Resource
     private BootdoProperties bootdoProperties;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     public PageR page(SysUserParam param) {
@@ -77,18 +83,22 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
     }
 
     public UserDO getUser(Long id) {
-        UserDO user = this.getById(id);
+        return fillUserInfo(this.getById(id));
+    }
+
+    public UserDO fillUserInfo(UserDO user) {
         user.setDeptName(deptService.getById(user.getDeptId()).getName());
-        user.setRoleIds(userRoleService.listRoleId(id));
-        //店铺信息
-        List<DataShop> dataShopList = shopService.listShop(id);
+        user.setRoleIds(userRoleService.listRoleId(user.getUserId()));
+        // 店铺信息
+        List<DataShop> dataShopList = shopService.listShop(user.getUserId());
         user.setShopNos(dataShopList.stream().map(DataShop::getNo).collect(Collectors.toList()));
         user.setShopList(dataShopList);
         return user;
     }
 
     @Transactional
-    public boolean save(UserDO user) {
+    public void saveUser(UserDO user) {
+        user.setPassword(encodePassword(user.getPassword()));
         this.saveOrUpdate(user);
         userRoleService.removeByUserId(user.getUserId());
 
@@ -101,11 +111,11 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
                         .build()
                 ).collect(Collectors.toList());
 
-        return userRoleService.saveBatch(userRoleList);
+        userRoleService.saveBatch(userRoleList);
     }
 
     @Transactional
-    public boolean update(UserDO user) {
+    public boolean updateUser(UserDO user) {
         this.updateById(user);
         userRoleService.removeByUserId(user.getUserId());
 
@@ -133,8 +143,8 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
 
     public void resetPwd(UserVO userVO, UserDO userDO) throws Exception {
         if (Objects.equals(userVO.getUserDO().getUserId(), userDO.getUserId())) {
-            if (Objects.equals(MD5Utils.encrypt(userDO.getUsername(), userVO.getPwdOld()), userDO.getPassword())) {
-                userDO.setPassword(MD5Utils.encrypt(userDO.getUsername(), userVO.getPwdNew()));
+            if (Objects.equals(encodePassword(userVO.getPwdOld()), userDO.getPassword())) {
+                userDO.setPassword(encodePassword(userVO.getPwdNew()));
                 this.updateById(userDO);
             } else {
                 throw new Exception("输入的旧密码有误！");
@@ -149,7 +159,7 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
         if ("admin".equals(userDO.getUsername())) {
             throw new Exception("超级管理员的账号不允许直接重置！");
         }
-        userDO.setPassword(MD5Utils.encrypt(userDO.getUsername(), userVO.getPwdNew()));
+        userDO.setPassword(encodePassword(userVO.getPwdNew()));
         this.updateById(userDO);
     }
 
@@ -190,35 +200,35 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
         return BuildTree.build(trees);
     }
 
-    public Map<String, Object> updatePersonalImg(MultipartFile file, String avatarData, Long userId) throws Exception {
+    public Map<String, Object> updatePersonalImg(MultipartFile file, String avatarData, Long userId) {
         String fileName = file.getOriginalFilename();
         fileName = StrUtil.replace(fileName, FileUtil.mainName(fileName), IdUtil.simpleUUID());
 
         FileDO sysFile = new FileDO(FileType.getFileType(fileName), "/files/" + fileName, new Date());
-        //获取图片后缀
+        // 获取图片后缀
         String prefix = fileName.substring((fileName.lastIndexOf(".") + 1));
         String[] str = avatarData.split(",");
-        //获取截取的x坐标
+        // 获取截取的 x坐标
         int x = (int) Math.floor(Double.parseDouble(str[0].split(":")[1]));
-        //获取截取的y坐标
+        // 获取截取的 y坐标
         int y = (int) Math.floor(Double.parseDouble(str[1].split(":")[1]));
-        //获取截取的高度
+        // 获取截取的高度
         int h = (int) Math.floor(Double.parseDouble(str[2].split(":")[1]));
-        //获取截取的宽度
+        // 获取截取的宽度
         int w = (int) Math.floor(Double.parseDouble(str[3].split(":")[1]));
-        //获取旋转的角度
+        // 获取旋转的角度
         int r = Integer.parseInt(str[4].split(":")[1].replaceAll("}", ""));
         try {
             BufferedImage cutImage = ImageUtils.cutImage(file, x, y, w, h, prefix);
             BufferedImage rotateImage = ImageUtils.rotateImage(cutImage, r);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             boolean flag = ImageIO.write(rotateImage, prefix, out);
-            //转换后存入数据库
+            // 转换后存入数据库
             byte[] b = out.toByteArray();
 
-            cn.hutool.core.io.FileUtil.writeBytes(b, cn.hutool.core.io.FileUtil.file(bootdoProperties.getUploadPath() + fileName));
+            FileUtil.writeBytes(b, FileUtil.file(bootdoProperties.getUploadPath() + fileName));
         } catch (Exception e) {
-            throw new Exception("图片裁剪错误！！");
+            throw new BizServiceException(R.SERVER_ERROR, "图片裁剪错误！！", e);
         }
         Map<String, Object> result = new HashMap<>();
         if (sysFileService.save(sysFile)) {
@@ -233,11 +243,17 @@ public class UserService extends ServiceImpl<UserDao, UserDO> {
     }
 
     public LoginUserResult loginUserInfo() {
-        UserDO userDO = this.getUser(ShiroUtils.getUserId());
+        UserDO userDO = SecurityUtils.getUser();
+        Assert.notNull(userDO, "用户不存在");
+
         LoginUserResult loginUserResult = BeanUtil.copyProperties(userDO, LoginUserResult.class);
-        loginUserResult.setShopNo(CollUtil.isNotEmpty(userDO.getShopNos()) ? userDO.getShopNos().get(0).toString() : StrUtil.EMPTY);
+        loginUserResult.setShopNo(ObjectUtil.defaultIfNull(userDO.getShopNos(), l -> l.get(0).toString(), StrUtil.EMPTY));
         loginUserResult.setShopList(userDO.getShopList());
+        loginUserResult.setPermList(SecurityUtils.getAuthentication().getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
         return loginUserResult;
     }
 
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
 }

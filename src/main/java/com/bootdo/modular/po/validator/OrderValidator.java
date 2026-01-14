@@ -16,7 +16,6 @@ import com.bootdo.modular.po.service.OrderService;
 import com.bootdo.modular.rp.domain.RPOrderDO;
 import com.bootdo.modular.rp.param.RPOrderQryParam;
 import com.bootdo.modular.rp.service.RPOrderService;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,13 +42,13 @@ public class OrderValidator {
             return;
         }
         List<OrderDO> orderDOList = orderService.list(Wrappers.lambdaQuery(OrderDO.class).eq(OrderDO::getBillNo, order.getBillNo()));
-        if (!CollectionUtils.isEmpty(orderDOList) && AuditStatus.YES.equals(orderDOList.get(0).getAuditStatus())) {
+        if (!CollUtil.isEmpty(orderDOList) && AuditStatus.YES.equals(orderDOList.get(0).getAuditStatus())) {
             throw new BizServiceException(OrderStatusCode.ORDER_PROCESS, String.format(ErrorMessage.STATUS_AUDIT_YES, "修改"));
         }
     }
 
     public void validateAudit(OrderAuditParam param) {
-        if (CollectionUtils.isEmpty(param.getBillNos()) || !EnumCollection.AUDIT_STATUS.contains(param.getAuditStatus())) {
+        if (CollUtil.isEmpty(param.getBillNos()) || !EnumCollection.AUDIT_STATUS.contains(param.getAuditStatus())) {
             throw new BizServiceException(OrderStatusCode.ORDER_INVALID, ErrorMessage.PARAM_INVALID);
         }
         AuditStatus auditStatus = param.getAuditStatus();

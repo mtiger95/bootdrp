@@ -12,7 +12,7 @@ import com.bootdo.modular.data.validator.DataValidator;
 import com.bootdo.modular.system.controller.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -90,7 +90,7 @@ public class ConsumerController extends BaseController {
     @PostMapping("/remove")
     @ResponseBody
     @Operation(summary = "删除")
-    @RequiresPermissions("data:consumer:remove")
+    @PreAuthorize("hasAuthority('data:consumer:remove')")
     public R remove(Integer id) {
         consumerService.removeById(id);
         return R.ok();
@@ -99,7 +99,7 @@ public class ConsumerController extends BaseController {
     @PostMapping("/batchRemove")
     @ResponseBody
     @Operation(summary = "批量删除")
-    @RequiresPermissions("data:consumer:batchRemove")
+    @PreAuthorize("hasAuthority('data:consumer:batchRemove')")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         consumerService.removeBatchByIds(ids);
         return R.ok();

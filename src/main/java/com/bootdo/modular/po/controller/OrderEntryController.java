@@ -9,7 +9,7 @@ import com.bootdo.modular.po.param.OrderVO;
 import com.bootdo.modular.po.service.OrderEntryService;
 import com.bootdo.modular.po.validator.OrderValidator;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class OrderEntryController {
     private OrderEntryService orderEntryService;
 
     @GetMapping()
-    @RequiresPermissions("po:entry:entry")
+    @PreAuthorize("hasAuthority('po:entry:entry')")
     public String orderEntry(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("billType", MapUtil.getStr(params, "billType"));
         return "po/entry/entry";
@@ -43,7 +43,7 @@ public class OrderEntryController {
     @Log("采购单保存")
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("po:entry:add")
+    @PreAuthorize("hasAuthority('po:entry:add')")
     public R save(@RequestBody @Validated OrderVO order) {
         orderValidator.validateSave(order);
         OrderDO orderDO = orderEntryService.save(order);
@@ -51,21 +51,21 @@ public class OrderEntryController {
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("po:entry:add")
+    @PreAuthorize("hasAuthority('po:entry:add')")
     public String add() {
         return "po/entry/add";
     }
 
 
     @GetMapping("/addVendor")
-    @RequiresPermissions("po:entry:add")
+    @PreAuthorize("hasAuthority('po:entry:add')")
     public String addHead() {
         return "po/entry/addVendor";
     }
 
     @ResponseBody
     @GetMapping("/get")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public R get(@Validated OrderDetailParam param) {
         OrderVO orderVO = orderEntryService.getOrderVO(param);
         return R.ok().put("order", orderVO);

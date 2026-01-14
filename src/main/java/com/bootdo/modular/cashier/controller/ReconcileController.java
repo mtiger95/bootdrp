@@ -4,7 +4,7 @@ import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.modular.cashier.param.ReconcileParam;
 import com.bootdo.modular.cashier.service.ReconcileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,21 +27,21 @@ public class ReconcileController {
     private ReconcileService reconcileService;
 
     @GetMapping()
-    @RequiresPermissions("cashier:reconcile:reconcile")
+    @PreAuthorize("hasAuthority('cashier:reconcile:reconcile')")
     public String journal() {
         return "cashier/reconcile/reconcile";
     }
 
     @ResponseBody
     @GetMapping("/page")
-    @RequiresPermissions("cashier:reconcile:reconcile")
+    @PreAuthorize("hasAuthority('cashier:reconcile:reconcile')")
     public PageJQ page(@Validated ReconcileParam param) {
         return reconcileService.page(param);
     }
 
     @ResponseBody
     @GetMapping("/export")
-    @RequiresPermissions("cashier:reconcile:reconcile")
+    @PreAuthorize("hasAuthority('cashier:reconcile:reconcile')")
     public void export(@Validated ReconcileParam param) {
         reconcileService.export(param);
     }

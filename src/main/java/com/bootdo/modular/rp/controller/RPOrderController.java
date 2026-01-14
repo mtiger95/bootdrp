@@ -6,7 +6,7 @@ import com.bootdo.core.annotation.Log;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.core.pojo.response.R;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.po.param.OrderAuditParam;
 import com.bootdo.modular.rp.domain.RPOrderDO;
 import com.bootdo.modular.rp.param.RPOrderQryParam;
@@ -14,7 +14,7 @@ import com.bootdo.modular.rp.service.RPOrderService;
 import com.bootdo.modular.rp.validator.RPOrderValidator;
 import com.bootdo.modular.system.controller.BaseController;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -41,7 +41,7 @@ public class RPOrderController extends BaseController {
 
     
     @GetMapping()
-    @RequiresPermissions("rp:order:order")
+    @PreAuthorize("hasAuthority('rp:order:order')")
     public String order(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("billType", MapUtil.getStr(params, "billType"));
         return "rp/order/order";
@@ -50,7 +50,7 @@ public class RPOrderController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rp:order:order")
+    @PreAuthorize("hasAuthority('rp:order:order')")
     public PageJQ list(RPOrderQryParam param) {
         return rpOrderService.selectJoinGroupPage(param);
     }
@@ -58,17 +58,17 @@ public class RPOrderController extends BaseController {
     @DataScope
     @ResponseBody
     @GetMapping("/export")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public void export(RPOrderQryParam param) {
         //查询列表数据
         List<RPOrderDO> orderList = rpOrderService.pageList(PageFactory.defalultAllPage(), param).getRecords();
-        PoiUtil.exportExcelWithStream("RPOrderResult.xls", RPOrderDO.class, orderList);
+        PoiUtils.exportExcelWithStream("RPOrderResult.xls", RPOrderDO.class, orderList);
     }
 
     @Log("财务单审核、反审核")
     @PostMapping("/audit")
     @ResponseBody
-    @RequiresPermissions("rp:order:audit")
+    @PreAuthorize("hasAuthority('rp:order:audit')")
     public R audit(@RequestBody @Validated OrderAuditParam param) {
         rpOrderValidator.validateAudit(param);
         rpOrderService.audit(param);
@@ -78,7 +78,7 @@ public class RPOrderController extends BaseController {
     @Log("财务单删除")
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rp:order:remove")
+    @PreAuthorize("hasAuthority('rp:order:remove')")
     public R remove(@RequestParam("billNos[]") List<String> billNos) {
         rpOrderValidator.validateRemove(billNos);
         rpOrderService.batchRemove(billNos);

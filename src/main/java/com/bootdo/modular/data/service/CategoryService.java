@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.node.Tree;
 import com.bootdo.core.utils.BuildTree;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.data.dao.CategoryDao;
 import com.bootdo.modular.data.domain.CategoryDO;
 import com.bootdo.modular.data.param.CategoryQryParam;
@@ -87,11 +87,11 @@ public class CategoryService extends ServiceImpl<CategoryDao, CategoryDO> {
         List<CategoryDataResult> categoryData = categoryDao.listTreeData(params);
         //去重，1、若不区别店铺：按类目ID + 数据ID；2、区分店铺时：按类目ID + 数据ID + 店铺编号
         if (!filterScope) {
-            categoryData = categoryData.stream().filter(PoiUtil.distinctByKey(data -> data.getCategoryId() + data.getDataId())).collect(Collectors.toList());
+            categoryData = categoryData.stream().filter(PoiUtils.distinctByKey(data -> data.getCategoryId() + data.getDataId())).collect(Collectors.toList());
         }
         //类目节点
         List<Tree<Object>> treeNodeList = categoryData.stream()
-                .filter(PoiUtil.distinctByKey(CategoryDataResult::getCategoryId)).map(data -> {
+                .filter(PoiUtils.distinctByKey(CategoryDataResult::getCategoryId)).map(data -> {
                     Tree<Object> treeNode = new Tree<>();
                     treeNode.setId(data.getCategoryId());
                     treeNode.setParentId("0");

@@ -11,7 +11,7 @@ import com.bootdo.modular.rp.service.RPOrderEntryService;
 import com.bootdo.modular.rp.validator.RPOrderValidator;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -37,20 +37,20 @@ public class RPOrderEntryController {
 
     
     @GetMapping()
-    @RequiresPermissions("rp:entry:entry")
+    @PreAuthorize("hasAuthority('rp:entry:entry')")
     public String orderEntry(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("billType", MapUtil.getStr(params, "billType"));
         return "rp/entry/entry";
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("rp:entry:add")
+    @PreAuthorize("hasAuthority('rp:entry:add')")
     public String add() {
         return "rp/entry/add";
     }
 
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("rp:entry:edit")
+    @PreAuthorize("hasAuthority('rp:entry:edit')")
     public String edit(@PathVariable Integer id, Model model) {
         RPOrderEntryDO orderEntry = rpOrderEntryService.getById(id);
         model.addAttribute("entry", orderEntry);
@@ -60,7 +60,7 @@ public class RPOrderEntryController {
     @Log("财务单保存")
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("rp:entry:add")
+    @PreAuthorize("hasAuthority('rp:entry:add')")
     public R save(@RequestBody @Validated RPOrderVO order) {
         rpOrderValidator.validateSave(order);
         RPOrderDO orderDO = rpOrderEntryService.save(order);
@@ -69,7 +69,7 @@ public class RPOrderEntryController {
 
     @ResponseBody
     @GetMapping("/get")
-    @RequiresPermissions("rp:order:order")
+    @PreAuthorize("hasAuthority('rp:order:order')")
     public R get(OrderDetailParam param) {
         //查询列表数据
         RPOrderVO orderVO = rpOrderEntryService.getOrderVO(param);

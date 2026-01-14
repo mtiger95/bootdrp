@@ -1,10 +1,10 @@
 package com.bootdo.core.aspect;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.bootdo.core.annotation.Log;
 import com.bootdo.core.utils.HttpServletUtil;
-import com.bootdo.core.utils.IPUtils;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.system.dao.LogDao;
 import com.bootdo.modular.system.domain.LogDO;
 import com.bootdo.modular.system.domain.UserDO;
@@ -63,15 +63,15 @@ public class LogAspect {
         try {
             String params = JSONUtil.toJsonStr(args[0]).substring(0, 4999);
             sysLog.setParams(params);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
-        // 获取request
+        // 获取 request
         HttpServletRequest request = HttpServletUtil.getRequest();
-        // 设置IP地址
-        sysLog.setIp(IPUtils.getIpAddr(request));
+        // 设置 IP地址
+        sysLog.setIp(ServletUtil.getClientIP(request));
         // 用户名
-        UserDO currUser = ShiroUtils.getUser();
+        UserDO currUser = SecurityUtils.getUser();
         if (null == currUser) {
             if (null != sysLog.getParams()) {
                 sysLog.setUserId(-1L);
@@ -81,8 +81,8 @@ public class LogAspect {
                 sysLog.setUsername("获取用户信息为空");
             }
         } else {
-            sysLog.setUserId(ShiroUtils.getUserId());
-            sysLog.setUsername(ShiroUtils.getUser().getUsername());
+            sysLog.setUserId(SecurityUtils.getUserId());
+            sysLog.setUsername(SecurityUtils.getUser().getUsername());
         }
         sysLog.setTime((int) time);
         // 系统当前时间

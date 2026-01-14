@@ -3,7 +3,7 @@ package com.bootdo.core.mybatis.permission;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.handler.MultiDataPermissionHandler;
 import com.bootdo.core.annotation.DataScope.DataType;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
@@ -30,12 +30,12 @@ public class DataPermissionHandlerImpl implements MultiDataPermissionHandler {
     @Override
     public Expression getSqlSegment(Table table, Expression where, String mappedStatementId) {
 
-        Collection<Long> shopNoList = ShiroUtils.getScopes(DataType.SHOP);
+        Collection<Long> shopNoList = SecurityUtils.getScopes(DataType.SHOP);
 
         if (ObjectUtil.isNotEmpty(shopNoList)) {
-            // 把集合转变为JSQLParser需要的元素列表
-            ParenthesedExpressionList ids = new ParenthesedExpressionList<>(shopNoList.stream().map(LongValue::new).collect(Collectors.toList()));
-            //in表达式的写法
+            // 把集合转变为 JSQLParser需要的元素列表
+            ParenthesedExpressionList<LongValue> ids = new ParenthesedExpressionList<>(shopNoList.stream().map(LongValue::new).collect(Collectors.toList()));
+            //in 表达式的写法
             String columnName = ObjectUtil.defaultIfNull(table.getAlias(), Alias::getName, table.getName());
 
             return new InExpression(new Column(columnName + "." + DataType.SHOP.getColumn()), ids);

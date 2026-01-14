@@ -9,7 +9,7 @@ import com.bootdo.modular.rp.param.PointQryParam;
 import com.bootdo.modular.rp.service.PointEntryService;
 import com.bootdo.modular.rp.validator.RPPointValidator;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class RPPointController {
 
 
     @GetMapping()
-    @RequiresPermissions("rp:point:point")
+    @PreAuthorize("hasAuthority('rp:point:point')")
     public String point() {
         return "rp/point/point";
     }
@@ -42,19 +42,19 @@ public class RPPointController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("rp:point:point")
+    @PreAuthorize("hasAuthority('rp:point:point')")
     public PageJQ list(PointQryParam param) {
         return pointEntryService.page(param);
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("rp:point:add")
+    @PreAuthorize("hasAuthority('rp:point:add')")
     public String add() {
         return "rp/point/add";
     }
 
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("rp:point:edit")
+    @PreAuthorize("hasAuthority('rp:point:edit')")
     public String edit(@PathVariable Integer id, Model model) {
         PointEntryDO pointEntry = pointEntryService.getById(id);
         model.addAttribute("pointEntry", pointEntry);
@@ -64,7 +64,7 @@ public class RPPointController {
     @Log("积分保存、修改")
     @ResponseBody
     @RequestMapping({"/save", "/update"})
-    @RequiresPermissions("rp:point:edit")
+    @PreAuthorize("hasAuthority('rp:point:edit')")
     public R update(PointEntryDO pointEntry) {
         rpPointValidator.validateSave(pointEntry);
         pointEntryService.addOrUpdate(pointEntry);
@@ -74,7 +74,7 @@ public class RPPointController {
     @Log("积分删除")
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("rp:point:remove")
+    @PreAuthorize("hasAuthority('rp:point:remove')")
     public R remove(@RequestParam("ids[]") List<Integer> ids) {
         pointEntryService.removeByIds(ids);
         return R.ok();

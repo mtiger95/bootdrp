@@ -8,7 +8,7 @@ import com.bootdo.modular.data.service.StockService;
 import com.bootdo.modular.data.validator.DataValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +77,7 @@ public class StockController {
     @PostMapping("/remove")
     @ResponseBody
     @Operation(summary = "删除")
-    @RequiresPermissions("data:stock:remove")
+    @PreAuthorize("hasAuthority('data:stock:remove')")
     public R remove(Integer id) {
         stockService.removeById(id);
         return R.ok();
@@ -86,7 +86,7 @@ public class StockController {
     @PostMapping("/batchRemove")
     @ResponseBody
     @Operation(summary = "批量删除")
-    @RequiresPermissions("data:stock:remove")
+    @PreAuthorize("hasAuthority('data:stock:remove')")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         stockService.removeBatchByIds(ids);
         return R.ok();

@@ -11,7 +11,7 @@ import com.bootdo.modular.system.domain.FileDO;
 import com.bootdo.modular.system.param.SysFileParam;
 import com.bootdo.modular.system.service.FileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,14 +38,14 @@ public class FileController extends BaseController {
     private BootdoProperties bootdoProperties;
 
     @GetMapping()
-    @RequiresPermissions("common:sysFile:sysFile")
+    @PreAuthorize("hasAuthority('common:sysFile:sysFile')")
     String sysFile(Model model) {
         return "system/file/file";
     }
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("common:sysFile:sysFile")
+    @PreAuthorize("hasAuthority('common:sysFile:sysFile')")
     public PageR list(SysFileParam param) {
         // 查询列表数据
         return sysFileService.page(param);
@@ -67,7 +67,7 @@ public class FileController extends BaseController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("common:info")
+    @PreAuthorize("hasAuthority('common:info')")
     public R info(@PathVariable Long id) {
         FileDO sysFile = sysFileService.getById(id);
         return R.ok().put("sysFile", sysFile);
@@ -78,7 +78,7 @@ public class FileController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("common:save")
+    @PreAuthorize("hasAuthority('common:save')")
     public R save(FileDO sysFile) {
         sysFileService.save(sysFile);
         return R.ok();
@@ -88,7 +88,7 @@ public class FileController extends BaseController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("common:update")
+    @PreAuthorize("hasAuthority('common:update')")
     public R update(@RequestBody FileDO sysFile) {
         sysFileService.updateById(sysFile);
         return R.ok();
@@ -109,7 +109,7 @@ public class FileController extends BaseController {
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("common:remove")
+    @PreAuthorize("hasAuthority('common:remove')")
     public R remove(@RequestParam("ids[]") List<Integer> ids) {
         sysFileService.removeBatchByIds(ids);
         return R.ok();

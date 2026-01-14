@@ -1,8 +1,9 @@
 let $exampleTable;
-
+let $dataForm;
 let prefix = "/system/sysDept"
 
 $(function() {
+	$dataForm = $('#search');
 	$exampleTable = $('#exampleTable');
 	load();
 });
@@ -27,26 +28,25 @@ function load() {
 					{title: '排序', field: 'orderNum'},
 					{
 						title: '状态', field: 'delFlag', align: 'center', formatter: (item, index) => {
-							if (item.delFlag === 0) {
-								return '<span class="label label-danger">禁用</span>';
-							} else if (item.delFlag === 1) {
-								return '<span class="label label-primary">正常</span>';
-							}
+							return item.delFlag === 0 ? '<span class="label label-danger">禁用</span>' : '<span class="label label-primary">正常</span>';
 						}
 					},
 					{
-						title: '操作', field: 'id', align: 'center', formatter: (item, index) => {
-							let e = `<a class="btn btn-primary btn-sm ${s_edit_h}" href="#" title="编辑" onclick="edit('${item.deptId}')"><i class="fa fa-edit"></i></a> `;
-							let a = `<a class="btn btn-primary btn-sm ${s_add_h}" href="#" title="增加下級" onclick="add('${item.deptId}')"><i class="fa fa-plus"></i></a> `;
-							let d = `<a class="btn btn-warning btn-sm ${s_remove_h}" href="#" title="删除" onclick="removeOne('${item.deptId}')"><i class="fa fa-remove"></i></a> `;
-							return e + a + d;
+						title: '操作', field: 'id', align: 'center', formatter: (item, row, index) => {
+							return utils.renderButtons([
+								{html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${item.deptId}')"><i class="fa fa-edit"></i></a> `, perm: 'system:sysDept:edit'},
+								{html: `<a class="btn btn-primary btn-sm" href="#" title="增加下級" onclick="add('${item.deptId}')"><i class="fa fa-plus"></i></a> `, perm: 'system:sysDept:add'},
+								{html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="removeOne('${item.deptId}')"><i class="fa fa-remove"></i></a> `, perm: 'system:sysDept:remove'}
+							], item);
 						}
 					} ]
 			});
 }
+
 function reLoad() {
 	load();
 }
+
 function add(pId) {
 	layer.open({
 		type : 2,

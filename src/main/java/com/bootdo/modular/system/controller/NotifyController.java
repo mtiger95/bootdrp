@@ -9,7 +9,7 @@ import com.bootdo.modular.system.param.SysNotifyParam;
 import com.bootdo.modular.system.service.NotifyRecordService;
 import com.bootdo.modular.system.service.NotifyService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,27 +35,27 @@ public class NotifyController extends BaseController {
     private NotifyRecordService notifyRecordService;
 
     @GetMapping()
-    @RequiresPermissions("oa:notify:notify")
+    @PreAuthorize("hasAuthority('oa:notify:notify')")
     String oaNotify() {
         return "system/notify/notify";
     }
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("oa:notify:notify")
+    @PreAuthorize("hasAuthority('oa:notify:notify')")
     public PageR list(SysNotifyParam param) {
         // 查询列表数据
         return notifyService.page(param);
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("oa:notify:add")
+    @PreAuthorize("hasAuthority('oa:notify:add')")
     String add() {
         return "system/notify/add";
     }
 
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("oa:notify:edit")
+    @PreAuthorize("hasAuthority('oa:notify:edit')")
     String edit(@PathVariable Long id, Model model) {
         NotifyDO notify = notifyService.getById(id);
         model.addAttribute("notify", notify);
@@ -67,7 +67,7 @@ public class NotifyController extends BaseController {
      */
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("oa:notify:add")
+    @PreAuthorize("hasAuthority('oa:notify:add')")
     public R save(NotifyDO notify) {
         notify.setCreateBy(getUserId());
         notifyService.saveNotify(notify);
@@ -79,7 +79,7 @@ public class NotifyController extends BaseController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("oa:notify:edit")
+    @PreAuthorize("hasAuthority('oa:notify:edit')")
     public R update(NotifyDO notify) {
         notifyService.updateById(notify);
         return R.ok();
@@ -90,7 +90,7 @@ public class NotifyController extends BaseController {
      */
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("oa:notify:remove")
+    @PreAuthorize("hasAuthority('oa:notify:remove')")
     public R remove(Long id) {
         notifyService.removeNotify(id);
         return R.ok();
@@ -101,7 +101,7 @@ public class NotifyController extends BaseController {
      */
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("oa:notify:batchRemove")
+    @PreAuthorize("hasAuthority('oa:notify:batchRemove')")
     public R remove(@RequestParam("ids[]") List<Long> ids) {
         notifyService.batchRemoveNotify(ids);
         return R.ok();
@@ -125,7 +125,7 @@ public class NotifyController extends BaseController {
     }
 
     @GetMapping("/read/{id}")
-    @RequiresPermissions("oa:notify:edit")
+    @PreAuthorize("hasAuthority('oa:notify:edit')")
     String read(@PathVariable Long id, Model model) {
         NotifyDO notify = notifyService.getById(id);
         //更改阅读状态

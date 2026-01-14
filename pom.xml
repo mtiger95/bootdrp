@@ -29,14 +29,13 @@
         <druid.version>1.2.9</druid.version>
         <springdoc.version>1.8.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
-        <lombok.versin>1.18.42</lombok.versin>
+        <lombok.version>1.18.30</lombok.version>
         <easypoi.version>4.5.0</easypoi.version>
-        <velocity.version>1.7</velocity.version>
-        <hutool.version>5.8.26</hutool.version>
-        <shiro.version>1.11.0</shiro.version>
-        <thymeleaf.extras.shiro.version>2.1.0</thymeleaf.extras.shiro.version>
-        <quartz.version>2.2.1</quartz.version>
-        <jsoup.version>1.9.2</jsoup.version>
+        <velocity.version>2.3</velocity.version>
+        <hutool.version>5.8.42</hutool.version>
+        <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
+        <quartz.version>2.3.2</quartz.version>
+        <jsoup.version>1.17.2</jsoup.version>
     </properties>
 
     <dependencies>
@@ -53,11 +52,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
         <!--web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <!-- websocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,14 +68,30 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
+
         <!-- validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+        <!-- thymeleaf -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Spring Security 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Spring Security Thymeleaf 整合 -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>${thymeleaf.extras.version}</version>
         </dependency>
 
         <!--mybatis-plus-->
@@ -97,6 +114,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
+
         <!--druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -116,35 +134,10 @@
             <version>${commons.configuration.version}</version>
         </dependency>
 
-        <!--shiro -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <!-- shiro ehcache -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-
-        <!--thymeleaf整合shiro 在thymeleaf中使用shiro的自定义tag-->
-        <dependency>
-            <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>thymeleaf-extras-shiro</artifactId>
-            <version>${thymeleaf.extras.shiro.version}</version>
-        </dependency>
-
         <!--velocity 代码生成使用模板 -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
+            <artifactId>velocity-engine-core</artifactId>
             <version>${velocity.version}</version>
         </dependency>
 
@@ -153,14 +146,9 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>${quartz.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
+        <!-- knif4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
@@ -176,7 +164,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.versin}</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!--easypoi-->
@@ -193,7 +181,7 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <!-- xss过滤组件 html解析：jsoup、nekohtml  -->
+        <!-- xss过滤组件 html解析：jsoup -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>

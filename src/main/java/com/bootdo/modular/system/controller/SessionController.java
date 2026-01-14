@@ -2,9 +2,9 @@ package com.bootdo.modular.system.controller;
 
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.system.domain.UserOnline;
-import com.bootdo.modular.system.service.SessionService;
+import com.bootdo.modular.system.service.SecuritySessionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.session.Session;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 @Controller
 public class SessionController {
     @Resource
-    SessionService sessionService;
+    private SecuritySessionService sessionService;
 
     @GetMapping()
     public String online() {
@@ -37,17 +37,13 @@ public class SessionController {
     @ResponseBody
     @RequestMapping("/forceLogout/{sessionId}")
     public R forceLogout(@PathVariable String sessionId) {
-        try {
-            sessionService.forceLogout(sessionId);
-            return R.ok();
-        } catch (Exception e) {
-            return R.error(e.getMessage());
-        }
+        sessionService.forceLogout(sessionId);
+        return R.ok();
     }
 
     @ResponseBody
     @RequestMapping("/sessionList")
-    public Collection<Session> sessionList() {
+    public Collection<SessionInformation> sessionList() {
         return sessionService.sessionList();
     }
 }

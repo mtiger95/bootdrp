@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.bootdo.core.enums.AuditStatus;
 import com.bootdo.core.utils.NumberUtils;
 import com.bootdo.core.utils.OrderUtils;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.domain.ConsumerDO;
 import com.bootdo.modular.data.domain.StockDO;
 import com.bootdo.modular.engage.domain.ProductCostDO;
@@ -62,8 +62,8 @@ public class WHOrderConverter {
         orderDO.setDebtorName(consumerDO.getName());
         orderDO.setAuditStatus(AuditStatus.NO);
         orderDO.setRemark(orderVO.getRemark());
-        orderDO.setOperatorId(ShiroUtils.getUser().getUserId().toString());
-        orderDO.setOperatorName(ShiroUtils.getUser().getUsername());
+        orderDO.setOperatorId(SecurityUtils.getUser().getUserId().toString());
+        orderDO.setOperatorName(SecurityUtils.getUser().getUsername());
         return orderDO;
     }
 }

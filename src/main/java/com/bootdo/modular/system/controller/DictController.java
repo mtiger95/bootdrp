@@ -9,7 +9,7 @@ import com.bootdo.modular.system.domain.DictDO;
 import com.bootdo.modular.system.param.SysDictParam;
 import com.bootdo.modular.system.service.DictService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,27 +33,26 @@ public class DictController extends BaseController {
     private DictService sysDictService;
 
     @GetMapping()
-    @RequiresPermissions("common:sysDict:sysDict")
+    @PreAuthorize("hasAuthority('common:sysDict:sysDict')")
     String sysDict() {
         return "system/dict/sysDict";
     }
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("common:sysDict:sysDict")
+    @PreAuthorize("hasAuthority('common:sysDict:sysDict')")
     public PageR list(SysDictParam param) {
-        // 查询列表数据
         return sysDictService.page(param);
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("common:sysDict:add")
+    @PreAuthorize("hasAuthority('common:sysDict:add')")
     String add() {
         return "system/dict/add";
     }
 
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("common:sysDict:edit")
+    @PreAuthorize("hasAuthority('common:sysDict:edit')")
     String edit(@PathVariable Long id, Model model) {
         DictDO sysDict = sysDictService.getById(id);
         model.addAttribute("sysDict", sysDict);
@@ -62,7 +61,7 @@ public class DictController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("common:sysDict:add")
+    @PreAuthorize("hasAuthority('common:sysDict:add')")
     public R save(DictDO sysDict) {
         sysDictService.save(sysDict);
         return R.ok();
@@ -70,7 +69,7 @@ public class DictController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("common:sysDict:edit")
+    @PreAuthorize("hasAuthority('common:sysDict:edit')")
     public R update(DictDO sysDict) {
         sysDictService.updateById(sysDict);
         return R.ok();
@@ -78,7 +77,7 @@ public class DictController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("common:sysDict:remove")
+    @PreAuthorize("hasAuthority('common:sysDict:remove')")
     public R remove(Long id) {
         sysDictService.removeById(id);
         return R.ok();
@@ -86,7 +85,7 @@ public class DictController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("common:sysDict:batchRemove")
+    @PreAuthorize("hasAuthority('common:sysDict:batchRemove')")
     public R remove(@RequestParam("ids[]") List<Integer> ids) {
         sysDictService.removeBatchByIds(ids);
         return R.ok();
@@ -99,7 +98,7 @@ public class DictController extends BaseController {
     }
 
     @GetMapping("/addNew")
-    @RequiresPermissions("common:sysDict:add")
+    @PreAuthorize("hasAuthority('common:sysDict:add')")
     String addD(Model model, String type, String description) {
         model.addAttribute("type", type);
         model.addAttribute("description", description);

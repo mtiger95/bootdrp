@@ -16,7 +16,7 @@ public class Constant {
     public static String OA_NOTIFY_READ_NO = "0";
     //通知公告阅读状态-已读
     public static int OA_NOTIFY_READ_YES = 1;
-    //部门根节点id
+    //部门根节点 id
     public static Long DEPT_ROOT_ID = 0L;
 
 
@@ -33,7 +33,7 @@ public class Constant {
     public static String R = "YEAR";
 
     /**
-     * main主页
+     * main 主页
      */
     public static String MAIN_TAB_CUSTOMER = "CUSTOMER";
     public static String MAIN_TAB_PRODUCT = "PRODUCT";

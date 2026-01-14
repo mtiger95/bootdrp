@@ -5,14 +5,14 @@ import com.bootdo.core.annotation.Log;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.core.pojo.response.R;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.po.param.OrderAuditParam;
 import com.bootdo.modular.se.domain.SEOrderDO;
 import com.bootdo.modular.se.param.SeOrderQryParam;
 import com.bootdo.modular.se.service.SEOrderService;
 import com.bootdo.modular.se.validator.SEOrderValidator;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class SEOrderController {
 
     
     @GetMapping()
-    @RequiresPermissions("se:order:order")
+    @PreAuthorize("hasAuthority('se:order:order')")
     public String order() {
         return "se/order/order";
     }
@@ -45,7 +45,7 @@ public class SEOrderController {
     @DataScope
     @ResponseBody
     @PostMapping(value = "/list")
-    @RequiresPermissions("se:order:order")
+    @PreAuthorize("hasAuthority('se:order:order')")
     public PageJQ listP(@RequestBody SeOrderQryParam param) {
         return list(param);
     }
@@ -53,7 +53,7 @@ public class SEOrderController {
     @DataScope
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("se:order:order")
+    @PreAuthorize("hasAuthority('se:order:order')")
     public PageJQ list(SeOrderQryParam param) {
         return seOrderService.page(param);
     }
@@ -61,17 +61,17 @@ public class SEOrderController {
     @DataScope
     @ResponseBody
     @GetMapping("/export")
-    @RequiresPermissions("po:order:order")
+    @PreAuthorize("hasAuthority('po:order:order')")
     public void export(SeOrderQryParam param) {
         //查询列表数据
         List<SEOrderDO> orderList = seOrderService.pageList(PageFactory.defalultAllPage(), param).getRecords();
-        PoiUtil.exportExcelWithStream("SEOrderResult.xls", SEOrderDO.class, orderList);
+        PoiUtils.exportExcelWithStream("SEOrderResult.xls", SEOrderDO.class, orderList);
     }
 
     @Log("销售单审核、反审核")
     @PostMapping("/audit")
     @ResponseBody
-    @RequiresPermissions("se:order:audit")
+    @PreAuthorize("hasAuthority('se:order:audit')")
     public R audit(@RequestBody @Validated OrderAuditParam param) {
         seOrderValidator.validateAudit(param);
         seOrderService.audit(param);
@@ -81,7 +81,7 @@ public class SEOrderController {
     @Log("销售单删除")
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("se:order:remove")
+    @PreAuthorize("hasAuthority('se:order:remove')")
     public R remove(@RequestParam("billNos[]") List<String> billNos) {
         seOrderValidator.validateRemove(billNos);
         seOrderService.batchRemove(billNos);

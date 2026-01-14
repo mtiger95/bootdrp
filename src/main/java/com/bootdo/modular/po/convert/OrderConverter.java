@@ -8,7 +8,7 @@ import com.bootdo.core.enums.BillType;
 import com.bootdo.core.enums.OrderStatus;
 import com.bootdo.core.utils.NumberUtils;
 import com.bootdo.core.utils.OrderUtils;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.domain.AccountDO;
 import com.bootdo.modular.data.domain.StockDO;
 import com.bootdo.modular.data.domain.VendorDO;
@@ -78,7 +78,7 @@ public class OrderConverter {
         orderDO.setTotalAmount(NumberUtils.add(orderVO.getFinalAmountTotal(), orderVO.getPurchaseFeeTotal()));
         orderDO.setStatus(OrderStatus.fromPayment(orderVO.getPaymentAmountTotal(), orderDO.getTotalAmount()));
         orderDO.setSettleAccount(orderVO.getSettleAccountTotal());
-        orderDO.setBillerId(ShiroUtils.getUser().getUserId().toString());
+        orderDO.setBillerId(SecurityUtils.getUser().getUserId().toString());
         orderDO.setAuditStatus(AuditStatus.NO);
         orderDO.setRemark(orderVO.getRemark());
         return orderDO;
@@ -121,8 +121,8 @@ public class OrderConverter {
         rpOrderDO.setBillType(billType);
         rpOrderDO.setDebtorId(orderDO.getVendorId());
         rpOrderDO.setDebtorName(orderDO.getVendorName());
-        rpOrderDO.setCheckId(ShiroUtils.getUserId().toString());
-        rpOrderDO.setCheckName(ShiroUtils.getUser().getName());
+        rpOrderDO.setCheckId(SecurityUtils.getUserId().toString());
+        rpOrderDO.setCheckName(SecurityUtils.getUser().getName());
         rpOrderDO.setPaymentAmount(orderDO.getPaymentAmount());
         rpOrderDO.setCheckAmount(orderDO.getPaymentAmount());
         rpOrderDO.setDiscountAmount(BigDecimal.ZERO);

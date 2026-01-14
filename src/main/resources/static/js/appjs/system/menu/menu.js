@@ -71,23 +71,12 @@ var load = function() {
 									title : '操作',
 									field : 'id',
 									align : 'center',
-									formatter : function(item, index) {
-										var e = '<a class="btn btn-primary btn-sm '
-												+ s_edit_h
-												+ '" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ item.menuId
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var p = '<a class="btn btn-primary btn-sm '
-												+ s_add_h
-												+ '" href="#" mce_href="#" title="添加下级" onclick="add(\''
-												+ item.menuId
-												+ '\')"><i class="fa fa-plus"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '
-												+ s_remove_h
-												+ '" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ item.menuId
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										return e + d + p;
+									formatter : function(item, row, index) {
+										return utils.renderButtons([
+											{html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${item.menuId}')"><i class="fa fa-edit"></i></a> `, perm: 'sys:menu:edit'},
+											{html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${item.menuId}')"><i class="fa fa-remove"></i></a> `, perm: 'sys:menu:remove'},
+											{html: `<a class="btn btn-primary btn-sm" href="#" title="增加下級" onclick="add('${item.menuId}')"><i class="fa fa-plus"></i></a> `, perm: 'sys:menu:add'}
+										], row);
 									}
 								} ]
 					});

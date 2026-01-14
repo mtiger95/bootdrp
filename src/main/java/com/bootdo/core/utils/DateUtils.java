@@ -1,5 +1,6 @@
 package com.bootdo.core.utils;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.bootdo.core.consts.Constant;
 import com.google.common.collect.Lists;
@@ -121,9 +122,6 @@ public class DateUtils {
         return LocalDateTime.now().minusDays(30).with(LocalTime.MIN).format(DATE_TIME_FORMAT);
     }
 
-    public static String getStartStr(int i) {
-        return LocalDateTime.now().plusDays(i).with(LocalTime.MIN).format(DATE_TIME_FORMAT);
-    }
 
     public static String getStartStr(String type) {
         String value = "";
@@ -153,26 +151,11 @@ public class DateUtils {
         return LocalDate.parse(dateStr, DATE_FORMAT).atStartOfDay().plusHours(23).plusMinutes(59).plusSeconds(59).format(DATE_TIME_FORMAT);
     }
 
-    public static String getMonthBegin(String dateStr) {
-        return getMonthBegin(dateStr, DATE_FORMAT);
-    }
-
     public static String getMonthBegin(String dateStr, DateTimeFormatter formatter) {
         if (StrUtil.isEmpty(dateStr)) {
             return LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay().format(DATE_TIME_FORMAT);
         }
         return LocalDate.parse(dateStr, formatter).with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay().format(DATE_TIME_FORMAT);
-    }
-
-    public static String getMonthEnd(String dateStr) {
-        return getMonthEnd(dateStr, DATE_FORMAT);
-    }
-
-    public static String getMonthEnd(String dateStr, DateTimeFormatter formatter) {
-        if (StrUtil.isEmpty(dateStr)) {
-            return LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59).format(DATE_TIME_FORMAT);
-        }
-        return LocalDate.parse(dateStr, formatter).with(TemporalAdjusters.lastDayOfMonth()).atTime(23, 59, 59).format(DATE_TIME_FORMAT);
     }
 
     public static String getYearBegin() {
@@ -186,19 +169,8 @@ public class DateUtils {
         return LocalDate.parse(dateStr, DATE_FORMAT).with(TemporalAdjusters.firstDayOfYear()).atStartOfDay().format(DATE_TIME_FORMAT);
     }
 
-    public static String getYearEnd() {
-        return getYearEnd("");
-    }
-
-    public static String getYearEnd(String dateStr) {
-        if (StrUtil.isEmpty(dateStr)) {
-            return LocalDate.now().with(TemporalAdjusters.lastDayOfYear()).atTime(23, 59, 59).format(DATE_TIME_FORMAT);
-        }
-        return LocalDate.parse(dateStr, DATE_FORMAT).with(TemporalAdjusters.lastDayOfYear()).atTime(23, 59, 59).format(DATE_TIME_FORMAT);
-    }
-
     public static void main(String[] args) {
-        System.out.println(LocalDateTime.now().minusDays(30).with(LocalTime.MIN).format(DATE_TIME_FORMAT));
-        System.out.println(getMonthBegin("2018-07-01", DateUtils.DATE_FORMAT));
+        System.out.println(DateUtils.nowDate());
+        System.out.println(DateUtil.date());
     }
 }

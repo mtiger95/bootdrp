@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HttpServletUtil {
 
     /**
-     * 获取当前请求的request对象
+     * 获取当前请求的 request对象
      */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -27,7 +27,7 @@ public class HttpServletUtil {
     }
 
     /**
-     * 获取当前请求的response对象
+     * 获取当前请求的 response对象
      */
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

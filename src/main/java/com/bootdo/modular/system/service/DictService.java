@@ -11,8 +11,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.enums.CommonStatus;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageR;
-import com.bootdo.core.utils.PoiUtil;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.PoiUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.dao.AccountDao;
 import com.bootdo.modular.data.dao.DataShopDao;
 import com.bootdo.modular.data.dao.StockDao;
@@ -61,7 +61,7 @@ public class DictService extends ServiceImpl<DictDao, DictDO> {
         LambdaQueryWrapper<DictDO> queryWrapper = Wrappers.lambdaQuery(DictDO.class).select(DictDO::getType, DictDO::getDescription);
 
         return this.list(queryWrapper).stream()
-                .filter(PoiUtil.distinctByKey(dict -> StrUtil.concat(true, dict.getType(), dict.getDescription())))
+                .filter(PoiUtils.distinctByKey(dict -> StrUtil.concat(true, dict.getType(), dict.getDescription())))
                 .collect(Collectors.toList());
     }
 
@@ -106,7 +106,7 @@ public class DictService extends ServiceImpl<DictDao, DictDO> {
                 .map(stock -> MapUtil.<String, Object>builder().put("name", stock.getStockName()).put("value", stock.getStockNo()).build())
                 .collect(Collectors.toList());
         //店铺
-        Wrapper<DataShop> shopWrapper = filterScope ? Wrappers.lambdaQuery(DataShop.class).like(DataShop::getManagerId, ShiroUtils.getUserId()) :
+        Wrapper<DataShop> shopWrapper = filterScope ? Wrappers.lambdaQuery(DataShop.class).like(DataShop::getManagerId, SecurityUtils.getUserId()) :
                 Wrappers.lambdaQuery(DataShop.class);
         List<Map<String, Object>> listShopMap = dataShopDao.selectList(shopWrapper)
                 .stream()

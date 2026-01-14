@@ -6,7 +6,7 @@
         this.dataCache.sysDict = {};
         this.dataCache.sysEnum = {};
         this.dataCache.categoryData = {};
-        this.dataCache.loginUserInfo = {};
+        this.dataCache.loginUserInfo = {permList: []};
         this.dataCache.loginShopInfo = {};
     }
 
@@ -425,12 +425,7 @@
     * ======================================================================== */
     //多选下拉框
     Utils.prototype.loadMultiSelect = function loadMultiSelect(types, elementIds, options, url) {
-        let o = {
-            buttonWidth: '100px',
-            includeSelectAllOption: true,
-            enableFiltering: true,
-            includeResetOption: true,
-        };
+        let o = {width: "100px", liveSearch: true, multiple: true};
         if (types.length === elementIds.length) {
             $.ajax({
                 url: url,
@@ -438,16 +433,8 @@
                     if (result) {
                         for (let t = 0; t < types.length; t++) {
                             let option = $.extend(o, options[t]);
-                            let html = "", data = result[types[t]];
-                            if (data) {
-                                Object.values(data).forEach(function (value, index) {
-                                    html += '<option value="' + value + '">' + value + '</option>';
-                                })
-                                let element = $("#" + elementIds[t]);
-                                element.html(html);
-                                element.multiselect(option);
-                                element.multiselect('rebuild');
-                            }
+                            let data = option && option.setData || result[types[t]];
+                            Utils.prototype.selectpickerLocal(elementIds[t], option, data);
                         }
                     }
                 }
@@ -783,6 +770,31 @@
         } else {
             return cellValue;
         }
+    }
+
+    /**
+     * 权限控制
+     */
+    Utils.prototype.hasPermission = function hasPermission(permission) {
+        // 防止潜在的原型污染
+        if (typeof permission !== 'string' || !permission.trim()) {
+            return true; // 没有权限要求的按钮默认显示
+        }
+        const permList = utils.dataCache.loginUserInfo?.permList;
+        return Array.isArray(permList) && permList.includes(permission.trim());
+    };
+
+
+    /**
+     * 根据权限动态渲染按钮
+     * 1、没有设置perm属性的按钮默认显示；2、设置了perm属性的按钮需要通过权限检查
+     */
+    Utils.prototype.renderButtons = function (buttons, row) {
+        return buttons
+            .map(btn => ({ ...btn, html: typeof btn.html === 'function' ? btn.html(row) : btn.html }))
+            .filter(btn => !btn.perm || utils.hasPermission(btn.perm))
+            .map(btn => btn.html)
+            .join(' ');
     }
 
     /* ========================================================================

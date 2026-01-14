@@ -7,7 +7,7 @@ import com.bootdo.core.annotation.DataScope;
 import com.bootdo.core.annotation.DataScope.DataType;
 import com.bootdo.core.exception.BootServiceExceptionEnum;
 import com.bootdo.core.pojo.base.param.BaseParam;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 数据权限切面
@@ -42,19 +43,19 @@ public class DataScopeAspect {
                 if (DataType.SHOP.equals(type)) {
                     Collection<Long> paramShopNoList = CollUtil.filterNew(baseParam.getShopNo(), ObjectUtil::isNotEmpty);
                     //1、baseParam未指定店铺，查所有有权限的店铺数据；2、baseParam指定了店铺，取交集
-                    Collection<Long> shopNoList = CollUtil.isEmpty(paramShopNoList) ? ShiroUtils.getUser().getShopNos()
-                            : CollUtil.intersectionDistinct(paramShopNoList, ShiroUtils.getUser().getShopNos());
+                    Collection<Long> shopNoList = CollUtil.isEmpty(paramShopNoList) ? Objects.requireNonNull(SecurityUtils.getUser()).getShopNos()
+                            : CollUtil.intersectionDistinct(paramShopNoList, Objects.requireNonNull(SecurityUtils.getUser()).getShopNos());
 
                     BootServiceExceptionEnum.DATA_PERMISSION_NOT_VALID.assertNotEmpty(shopNoList, method.getName(), baseParam);
                     //设置ThreadLocal，DataPermissionHandlerImpl处理
-                    ShiroUtils.setScopes(type, shopNoList);
+                    SecurityUtils.setScopes(type, shopNoList);
                 }
             });
 
             return joinPoint.proceed();
 
         } finally {
-            ShiroUtils.SCOPE_DATA.remove();
+            SecurityUtils.SCOPE_DATA.remove();
         }
     }
 

@@ -2,7 +2,7 @@ package com.bootdo.core.mybatis.fieldfill;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.system.domain.UserDO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -77,7 +77,7 @@ public class CustomMetaObjectHandler implements MetaObjectHandler {
      */
     private Long getUserUniqueId() {
         try {
-            UserDO sysLoginUser = ShiroUtils.getUser();
+            UserDO sysLoginUser = SecurityUtils.getUser();
             if (ObjectUtil.isNotNull(sysLoginUser)) {
                 return sysLoginUser.getUserId();
             } else {

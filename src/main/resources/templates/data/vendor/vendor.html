@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
 <body class="gray-bg">
@@ -43,10 +43,10 @@
                 </div>
 
                 <div class="columns pull-right">
-                    <button shiro:hasPermission="data:vendor:add" type="button" class="btn  btn-primary" onclick="add()">
+                    <button sec:authorize="hasAuthority('data:vendor:add')" type="button" class="btn  btn-primary" onclick="add()">
                         <i class="fa fa-plus" aria-hidden="true"></i>添加
                     </button>
-                    <button shiro:hasPermission="data:vendor:remove" type="button" class="btn  btn-danger" onclick="batchRemove()">
+                    <button sec:authorize="hasAuthority('data:vendor:remove')" type="button" class="btn  btn-danger" onclick="batchRemove()">
                         <i class="fa fa-trash" aria-hidden="true"></i>删除
                     </button>
                 </div>
@@ -60,30 +60,8 @@
             </div>
         </div>
     </div>
-    <!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-    <div>
-        <script type="text/javascript">
-            var s_edit_h = 'hidden';
-            var s_remove_h = 'hidden';
-            var s_resetPwd_h = 'hidden';
-        </script>
-    </div>
-    <div shiro:hasPermission="data:vendor:edit">
-        <script type="text/javascript">
-            s_edit_h = '';
-        </script>
-    </div>
-    <div shiro:hasPermission="data:vendor:remove">
-        <script type="text/javascript">
-            var s_remove_h = '';
-        </script>
-    </div>
-    <div shiro:hasPermission="data:vendor:resetPwd">
-        <script type="text/javascript">
-            var s_resetPwd_h = '';
-        </script>
-    </div>
 </div>
+
 <div th:include="include :: footer"></div>
 <script type="text/javascript" src="/js/appjs/data/vendor/vendor.js"></script>
 </body>

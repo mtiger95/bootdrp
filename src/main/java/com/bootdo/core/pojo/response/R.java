@@ -11,6 +11,10 @@ import java.util.Map;
 @Data
 public class R extends HashMap<String, Object> {
 
+    public static final Integer SUCCESS = 0;
+    public static final Integer ERROR = 1;
+    public static final Integer SERVER_ERROR = 500;
+
     public R() {
         put("code", 0);
         put("msg", "操作成功");

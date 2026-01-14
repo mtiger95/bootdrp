@@ -8,7 +8,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -24,14 +23,12 @@ public class ImageUtils {
      * @param y  纵坐标
      * @param w  长
      * @param h  高
-     * @throws IOException
-     * @since
      */
     public static BufferedImage cutImage(MultipartFile file, int x, int y, int w, int h, String prefix) {
 
-        Iterator iterator = ImageIO.getImageReadersByFormatName(prefix);
+        Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName(prefix);
         try {
-            ImageReader reader = (ImageReader) iterator.next();
+            ImageReader reader = iterator.next();
             //转换成输入流
             InputStream in = file.getInputStream();
             ImageInputStream iis = ImageIO.createImageInputStream(in);
@@ -39,8 +36,7 @@ public class ImageUtils {
             ImageReadParam param = reader.getDefaultReadParam();
             Rectangle rect = new Rectangle(x, y, w, h);
             param.setSourceRegion(rect);
-            BufferedImage bi = reader.read(0, param);
-            return bi;
+            return reader.read(0, param);
         } catch (Exception ignored) {
         }
         return null;
@@ -50,8 +46,6 @@ public class ImageUtils {
      * 图片旋转指定角度
      * @param bufferedimage 图像
      * @param degree      角度
-     * @return
-     * @since
      */
     public static BufferedImage rotateImage(BufferedImage bufferedimage, int degree) {
         int w = bufferedimage.getWidth();
@@ -65,7 +59,7 @@ public class ImageUtils {
                 RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         graphics2d.setPaint(Color.WHITE);
         graphics2d.fillRect(0, 0, w, h);
-        graphics2d.rotate(Math.toRadians(degree), w / 2, h / 2);
+        graphics2d.rotate(Math.toRadians(degree), (double) w / 2, (double) h / 2);
         graphics2d.drawImage(bufferedimage, 0, 0, Color.WHITE, null);
         graphics2d.dispose();
         return img;

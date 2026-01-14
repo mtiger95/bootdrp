@@ -77,9 +77,9 @@ function load() {
 									title : '状态',
 									align : 'center',
 									formatter : function(value, row, index) {
-										if (value == 'on_line') {
+										if (value === 'on_line') {
 											return '<span class="label label-success">在线</span>';
-										} else if (value == 'off_line') {
+										} else if (value === 'off_line') {
 											return '<span class="label label-primary">离线</span>';
 										}
 									}
@@ -89,10 +89,9 @@ function load() {
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var d = '<a class="btn btn-warning btn-sm" href="#" title="下线   "  mce_href="#" onclick="forceLogout(\''
-												+ row.id
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										return d;
+										return utils.renderButtons([
+											{html: `<a class="btn btn-warning btn-sm" href="#" title="下线" onclick="forceLogout('${row.id}')"><i class="fa fa-remove"></i></a> `},
+										], row);
 									}
 								} ]
 					});
@@ -107,9 +106,7 @@ function forceLogout(id) {
 		$.ajax({
 			url : prefix+"/forceLogout/" + id,
 			type : "post",
-			data : {
-				'id' : id
-			},
+			data : {'id' : id},
 			success : function(r) {
 				if (r.code == 0) {
 					layer.msg(r.msg);

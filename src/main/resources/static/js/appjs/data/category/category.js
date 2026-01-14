@@ -43,13 +43,12 @@ function load() {
                 }
             },
             {
-                title: '操作', field: 'id', align: 'center',
-                formatter: function (item, index) {
-                    let e = `<a class="btn btn-primary btn-sm ${s_edit_h}" href="#" title="编辑" onclick="edit('${item.categoryId}')"><i class="fa fa-edit"></i></a> `;
-                    let a = `<a class="btn btn-primary btn-sm ${s_add_h}" href="#" title="增加下級" onclick="edit('${item.categoryId}')"><i class="fa fa-plus"></i></a> `;
-                    let d = `<a class="btn btn-warning btn-sm ${s_remove_h}" href="#" title="删除" onclick="remove('${item.categoryId}')"><i class="fa fa-remove"></i></a> `;
-                    let f = `<a class="btn btn-success btn-sm" href="#" title="备用" onclick="resetPwd('${item.categoryId}')"><i class="fa fa-key"></i></a> `;
-                    return e + a + d;
+                title: '操作', field: 'id', align: 'center', formatter: (value, row, index) => {
+                    return utils.renderButtons([
+                        {html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${row.categoryId}')"><i class="fa fa-edit"></i></a> `, perm: 'data:category:edit'},
+                        {html: `<a class="btn btn-primary btn-sm" href="#" title="增加下級" onclick="edit('${row.categoryId}')"><i class="fa fa-plus"></i></a> `, perm: 'data:category:add'},
+                        {html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${row.categoryId}')"><i class="fa fa-remove"></i></a> `, perm: 'data:category:remove'}
+                    ], row);
                 }
             }
         ]

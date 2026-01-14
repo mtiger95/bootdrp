@@ -1,7 +1,9 @@
 package com.bootdo.modular.workbench.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.bootdo.core.consts.Constant;
 import com.bootdo.core.enums.AuditStatus;
@@ -23,9 +25,7 @@ import com.bootdo.modular.workbench.param.PBalanceParam;
 import com.bootdo.modular.workbench.param.SEBillTotalParam;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.map.MultiKeyMap;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -103,7 +103,7 @@ public class WorkbenchService {
         for (String time : dayTimeSerial) {
             boolean exists = false;
             for (Map<String, Object> map : seList) {
-                if (StringUtils.equals(time, MapUtil.getStr(map, "otime"))) {
+                if (StrUtil.equals(time, MapUtil.getStr(map, "otime"))) {
                     BigDecimal count = MapUtil.get(map, "count", BigDecimal.class, BigDecimal.ZERO);
                     BigDecimal totalAmount = MapUtil.get(map, "totalAmount", BigDecimal.class, BigDecimal.ZERO);
                     billCount = billCount.compareTo(count) < 0 ? count : billCount;
@@ -160,7 +160,7 @@ public class WorkbenchService {
 
     public R pCashTotal(Map<String, Object> params) {
         List<Map<String, Object>> list = workbenchDao.pCashTrend(params);
-        if (CollectionUtils.isNotEmpty(list)) {
+        if (CollUtil.isNotEmpty(list)) {
             return R.ok(ImmutableMap.of("profitAmountT", MapUtil.get(list.get(0), "profitAmount", BigDecimal.class, BigDecimal.ZERO), "cashFlowAmountT", MapUtil.get(list.get(0), "cashFlowAmount", BigDecimal.class, BigDecimal.ZERO)));
         }
         return R.ok(ImmutableMap.of("profitAmountT", 0, "cashFlowAmountT", 0));
@@ -179,7 +179,7 @@ public class WorkbenchService {
         for (String time : dayTimeSerial) {
             boolean exists = false;
             for (Map<String, Object> map : seList) {
-                if (StringUtils.equals(time, MapUtil.getStr(map, "otime"))) {
+                if (StrUtil.equals(time, MapUtil.getStr(map, "otime"))) {
                     BigDecimal profitAmount = MapUtil.get(map, "profitAmount", BigDecimal.class, BigDecimal.ZERO);
                     maxYAxis = maxYAxis.compareTo(profitAmount) < 0 ? profitAmount : maxYAxis;
 

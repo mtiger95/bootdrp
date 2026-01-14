@@ -66,10 +66,10 @@ function load() {
                 {field: 'updateTime', title: '修改时间'},
                 {
                     title: '操作', field: 'id', align: 'center', formatter: (value, row, index) => {
-                        let e = `<a class="btn btn-primary btn-sm ${s_edit_h}" href="#" title="编辑" onclick="edit('${row.id}')"><i class="fa fa-edit"></i></a> `;
-                        let d = `<a class="btn btn-warning btn-sm ${s_remove_h}" href="#" title="删除" onclick="remove('${row.id}')"><i class="fa fa-remove"></i></a> `;
-                        let f = `<a class="btn btn-success btn-sm" href="#" title="备用" onclick="resetPwd('${row.id}')"><i class="fa fa-key"></i></a> `;
-                        return e + d;
+                        return utils.renderButtons([
+                            {html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${row.id}')"><i class="fa fa-edit"></i></a> `, perm: 'data:consumer:edit'},
+                            {html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${row.id}')"><i class="fa fa-remove"></i></a> `, perm: 'data:consumer:remove'},
+                        ], row);
                     }
                 }]
         });

@@ -5,7 +5,7 @@ import com.bootdo.core.pojo.response.R;
 import com.bootdo.modular.cashier.param.JournalGeneralParam;
 import com.bootdo.modular.cashier.service.JournalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class JournalController {
     private JournalService journalService;
 
     @GetMapping()
-    @RequiresPermissions("cashier:journal:journal")
+    @PreAuthorize("hasAuthority('cashier:journal:journal')")
     public String journal() {
         return "cashier/journal/journal";
     }
@@ -37,7 +37,7 @@ public class JournalController {
     @DataScope
     @ResponseBody
     @PostMapping("/general")
-    @RequiresPermissions("cashier:journal:journal")
+    @PreAuthorize("hasAuthority('cashier:journal:journal')")
     public R general(@Validated JournalGeneralParam param) {
         return R.ok(journalService.general(param));
     }
@@ -45,7 +45,7 @@ public class JournalController {
     @DataScope
     @ResponseBody
     @GetMapping("/general/export")
-    @RequiresPermissions("cashier:journal:journal")
+    @PreAuthorize("hasAuthority('cashier:journal:journal')")
     public void generalExport(@Validated JournalGeneralParam param) {
         journalService.export(param);
     }

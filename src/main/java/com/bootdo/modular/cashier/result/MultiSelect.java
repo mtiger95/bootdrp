@@ -2,8 +2,9 @@ package com.bootdo.modular.cashier.result;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * (CashierRecord)实体类
@@ -16,36 +17,36 @@ public class MultiSelect {
     /**
      * 交易渠道
      */
-    private Map<String, String> type = new TreeMap<>();
+    private List<Map<String, String>> type = new ArrayList<>();
     /**
      * 交易账号
      */
-    private Map<String, String> account = new TreeMap<>();
+    private List<Map<String, String>> account = new ArrayList<>();
 
     /**
      * 交易方向
      */
-    private Map<String, String> payDirect = new TreeMap<>();
+    private List<Map<String, String>> payDirect = new ArrayList<>();
 
     /**
      * 交易状态
      */
-    private Map<String, String> payStatus = new TreeMap<>();
+    private List<Map<String, String>> payStatus = new ArrayList<>();
 
     /**
      * 交易分类
      */
-    private Map<String, String> tradeClass = new TreeMap<>();
+    private List<Map<String, String>> tradeClass = new ArrayList<>();
 
     /**
      * 数据来源
      */
-    private Map<String, String> source = new TreeMap<>();
+    private List<Map<String, String>> source = new ArrayList<>();
 
     /**
      * 资金用途
      */
-    private Map<String, String> costType = new TreeMap<>();
+    private List<Map<String, String>> costType = new ArrayList<>();
 
 }
 

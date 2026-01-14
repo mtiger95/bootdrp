@@ -1,8 +1,8 @@
 package com.bootdo.core.filter.xss;
 
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -71,8 +71,8 @@ public class XssFilter implements Filter {
             log.debug("xss filter init~~~~~~~~~~~~");
         }
         String isIncludeRichText = filterConfig.getInitParameter("isIncludeRichText");
-        if (StringUtils.isNotBlank(isIncludeRichText)) {
-            IS_INCLUDE_RICH_TEXT = BooleanUtils.toBoolean(isIncludeRichText);
+        if (StrUtil.isNotBlank(isIncludeRichText)) {
+            IS_INCLUDE_RICH_TEXT = BooleanUtil.toBoolean(isIncludeRichText);
         }
 
         String temp = filterConfig.getInitParameter("excludes");

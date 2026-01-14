@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageR;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.dao.DataShopDao;
 import com.bootdo.modular.data.domain.DataShop;
 import com.bootdo.modular.data.param.ShopQryParam;
@@ -51,7 +51,7 @@ public class ShopService extends ServiceImpl<DataShopDao, DataShop> {
 
     public List<DataShop> selectManageShop() {
         Wrapper<DataShop> queryWrapper = Wrappers.lambdaQuery(DataShop.class)
-                .like(DataShop::getManagerId, ShiroUtils.getUserId());
+                .like(DataShop::getManagerId, SecurityUtils.getUserId());
         return this.list(queryWrapper);
     }
 

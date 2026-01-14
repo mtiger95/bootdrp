@@ -14,7 +14,7 @@ import com.bootdo.modular.engage.service.ProductCostService;
 import com.bootdo.modular.system.controller.BaseController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -63,13 +63,13 @@ public class ProductController extends BaseController {
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("data:product:add")
+    @PreAuthorize("hasAuthority('data:product:add')")
     public String add() {
         return "data/product/add";
     }
 
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("data:product:edit")
+    @PreAuthorize("hasAuthority('data:product:edit')")
     public String edit(@PathVariable Integer id, Model model) {
         ProductDO product = productService.getById(id);
         model.addAttribute("product", product);
@@ -79,7 +79,7 @@ public class ProductController extends BaseController {
     @ResponseBody
     @PostMapping("/save")
     @Operation(summary = "保存")
-    @RequiresPermissions("data:product:add")
+    @PreAuthorize("hasAuthority('data:product:add')")
     public R save(@Validated ProductDO product) {
         dataValidator.validateProduct(product);
         productService.add(product);
@@ -106,7 +106,7 @@ public class ProductController extends BaseController {
     @PostMapping("/batchRemove")
     @ResponseBody
     @Operation(summary = "批量删除")
-    @RequiresPermissions("data:product:batchRemove")
+    @PreAuthorize("hasAuthority('data:product:batchRemove')")
     public R batchRemove(@RequestParam("ids[]") List<Integer> ids) {
         productService.removeBatchByIds(ids);
         return R.ok();

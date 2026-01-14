@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageJQ;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.cashier.dao.ReconcileDao;
 import com.bootdo.modular.cashier.param.ReconcileParam;
 import com.bootdo.modular.cashier.result.ReconcileResult.ReconcileItem;
@@ -45,6 +45,6 @@ public class ReconcileService extends ServiceImpl<ReconcileDao, RPOrderDO> {
         String pureStart = DateUtil.format(param.getStart(), DatePattern.PURE_DATE_FORMAT);
         String pureEnd = DateUtil.format(param.getEnd(), DatePattern.PURE_DATE_FORMAT);
         String fileName = StrUtil.format("收款对账单_{}-{}.xlsx", pureStart, pureEnd);
-        PoiUtil.exportExcelWithStream(fileName, ReconcileItem.class, orderList);
+        PoiUtils.exportExcelWithStream(fileName, ReconcileItem.class, orderList);
     }
 }

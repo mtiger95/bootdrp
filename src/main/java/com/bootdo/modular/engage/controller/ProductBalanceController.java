@@ -5,7 +5,7 @@ import com.bootdo.core.enums.CommonStatus;
 import com.bootdo.core.pojo.request.QueryJQ;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.core.pojo.response.R;
-import com.bootdo.core.utils.PoiUtil;
+import com.bootdo.core.utils.PoiUtils;
 import com.bootdo.modular.engage.param.BalanceAdjustParam;
 import com.bootdo.modular.engage.param.BalanceQryParam;
 import com.bootdo.modular.engage.result.BalanceResult;
@@ -14,7 +14,7 @@ import com.bootdo.modular.engage.service.ProductBalanceService;
 import com.bootdo.modular.system.controller.BaseController;
 import com.bootdo.modular.wh.result.WHProductInfo;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class ProductBalanceController extends BaseController {
      * 库存余量查询-左侧菜单
      */
     @GetMapping("/balance")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public String bBalance() {
         return "engage/product/balance";
     }
@@ -51,7 +51,7 @@ public class ProductBalanceController extends BaseController {
      */
     @ResponseBody
     @PostMapping(value = "/balance/list")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public R pBalance(@RequestBody BalanceQryParam param) {
         param.setStatus(CommonStatus.ENABLE.getValue());
         BalanceResult result = productBalanceService.pBalance(param);
@@ -63,18 +63,18 @@ public class ProductBalanceController extends BaseController {
      */
     @ResponseBody
     @GetMapping(value = "/balance/export")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public void pBalanceExport(BalanceQryParam param) {
         param.setStatus(CommonStatus.ENABLE.getValue());
         BalanceResult result = productBalanceService.pBalance(param);
-        PoiUtil.exportExcelWithStream("ProductBalanceResult.xls", WHProductInfo.class, result.getProductInfoList());
+        PoiUtils.exportExcelWithStream("ProductBalanceResult.xls", WHProductInfo.class, result.getProductInfoList());
     }
 
     /**
      * 库存余量查询-左侧菜单
      */
     @GetMapping("/balanceEntry")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public String bBalanceEntry(@RequestParam Map<String, Object> params, Model model) {
         return "engage/product/balanceEntry";
     }
@@ -84,7 +84,7 @@ public class ProductBalanceController extends BaseController {
      */
     @ResponseBody
     @GetMapping(value = "/balanceEntry/list")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public PageJQ pBalanceEntry(@RequestParam Map<String, Object> params, Model model) {
         params.put("status", 1);
         QueryJQ query = new QueryJQ(params);
@@ -101,7 +101,7 @@ public class ProductBalanceController extends BaseController {
      */
     @ResponseBody
     @GetMapping(value = "/balance/adjust")
-    @RequiresPermissions("engage:product:balance")
+    @PreAuthorize("hasAuthority('engage:product:balance')")
     public R pBalance(BalanceAdjustParam balanceAdjustParam) {
         Collection<String> result = productBalanceService.pBalanceAdjust(balanceAdjustParam);
         return R.ok().put("result", result);

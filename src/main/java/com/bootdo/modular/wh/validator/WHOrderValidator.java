@@ -12,7 +12,6 @@ import com.bootdo.modular.po.param.OrderAuditParam;
 import com.bootdo.modular.wh.domain.WHOrderDO;
 import com.bootdo.modular.wh.param.WHOrderVO;
 import com.bootdo.modular.wh.service.WHOrderService;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,7 +46,7 @@ public class WHOrderValidator {
     }
 
     public void validateRemove(List<String> billNos) {
-        if (CollectionUtils.isEmpty(billNos)) {
+        if (CollUtil.isEmpty(billNos)) {
             return;
         }
         List<WHOrderDO> orderDOList = whOrderService.list(Wrappers.lambdaQuery(WHOrderDO.class).in(WHOrderDO::getBillNo, billNos));

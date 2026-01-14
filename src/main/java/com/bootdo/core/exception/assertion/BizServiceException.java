@@ -29,6 +29,12 @@ public class BizServiceException extends RuntimeException {
         this.errorMessage = message;
     }
 
+    public BizServiceException(Integer code, String message, Throwable cause) {
+        super(message, cause);
+        this.code = code;
+        this.errorMessage = message;
+    }
+
     public BizServiceException(Integer code, String message, String errorMessage) {
         super(message);
         this.code = code;

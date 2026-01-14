@@ -7,7 +7,7 @@ import com.bootdo.modular.system.domain.ContentDO;
 import com.bootdo.modular.system.param.SysBlogParam;
 import com.bootdo.modular.system.service.BlogContentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,26 +31,26 @@ public class BlogContentController extends BaseController {
     private BlogContentService bBlogContentService;
 
     @GetMapping()
-    @RequiresPermissions("blog:bContent:bContent")
+    @PreAuthorize("hasAuthority('blog:bContent:bContent')")
     String bContent() {
         return "system/blog/bContent/bContent";
     }
 
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("blog:bContent:bContent")
+    @PreAuthorize("hasAuthority('blog:bContent:bContent')")
     public PageR list(SysBlogParam param) {
         return bBlogContentService.page(param);
     }
 
     @GetMapping("/add")
-    @RequiresPermissions("blog:bContent:add")
+    @PreAuthorize("hasAuthority('blog:bContent:add')")
     String add() {
         return "system/blog/bContent/add";
     }
 
     @GetMapping("/edit/{cid}")
-    @RequiresPermissions("blog:bContent:edit")
+    @PreAuthorize("hasAuthority('blog:bContent:edit')")
     String edit(@PathVariable Long cid, Model model) {
         ContentDO bContentDO = bBlogContentService.getById(cid);
         model.addAttribute("bContent", bContentDO);
@@ -61,7 +61,7 @@ public class BlogContentController extends BaseController {
      * 保存
      */
     @ResponseBody
-    @RequiresPermissions("blog:bContent:add")
+    @PreAuthorize("hasAuthority('blog:bContent:add')")
     @PostMapping("/save")
     public R save(ContentDO bContent) {
         bContent.setAllowComment(ObjectUtil.defaultIfNull(bContent.getAllowComment(), 0));
@@ -76,7 +76,7 @@ public class BlogContentController extends BaseController {
     /**
      * 修改
      */
-    @RequiresPermissions("blog:bContent:edit")
+    @PreAuthorize("hasAuthority('blog:bContent:edit')")
     @ResponseBody
     @RequestMapping("/update")
     public R update(ContentDO bContent) {
@@ -88,7 +88,7 @@ public class BlogContentController extends BaseController {
     /**
      * 删除
      */
-    @RequiresPermissions("blog:bContent:remove")
+    @PreAuthorize("hasAuthority('blog:bContent:remove')")
     @PostMapping("/remove")
     @ResponseBody
     public R remove(Long id) {
@@ -99,7 +99,7 @@ public class BlogContentController extends BaseController {
     /**
      * 删除
      */
-    @RequiresPermissions("blog:bContent:batchRemove")
+    @PreAuthorize("hasAuthority('blog:bContent:batchRemove')")
     @PostMapping("/batchRemove")
     @ResponseBody
     public R remove(@RequestParam("ids[]") List<Integer> cids) {

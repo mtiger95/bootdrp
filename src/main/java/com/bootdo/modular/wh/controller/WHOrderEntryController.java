@@ -10,7 +10,7 @@ import com.bootdo.modular.wh.service.WHOrderEntryService;
 import com.bootdo.modular.wh.validator.WHOrderValidator;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +38,7 @@ public class WHOrderEntryController {
      * 左侧菜单单据详情页 URL
      */
     @GetMapping()
-    @RequiresPermissions("wh:entry:entry")
+    @PreAuthorize("hasAuthority('wh:entry:entry')")
     public String orderEntry(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("billType", MapUtil.getStr(params, "billType"));
         return "wh/entry/entry";
@@ -50,7 +50,7 @@ public class WHOrderEntryController {
     @Log("库存单保存")
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("se:entry:add")
+    @PreAuthorize("hasAuthority('se:entry:add')")
     public R save(@RequestBody @Validated WHOrderVO order) {
         whOrderValidator.validateSave(order);
         WHOrderDO orderDO = whOrderEntryService.save(order);
@@ -61,7 +61,7 @@ public class WHOrderEntryController {
      * 保证单据页面，添加分录商品弹窗
      */
     @GetMapping("/add")
-    @RequiresPermissions("wh:entry:add")
+    @PreAuthorize("hasAuthority('wh:entry:add')")
     public String add() {
         return "wh/entry/add";
     }
@@ -70,7 +70,7 @@ public class WHOrderEntryController {
      * 保证单据页面，供应商弹窗
      */
     @GetMapping("/addHead")
-    @RequiresPermissions("wh:entry:add")
+    @PreAuthorize("hasAuthority('wh:entry:add')")
     public String addHead() {
         return "wh/entry/addHead";
     }
@@ -80,7 +80,7 @@ public class WHOrderEntryController {
      */
     @ResponseBody
     @GetMapping("/get")
-    @RequiresPermissions("wh:order:remove")
+    @PreAuthorize("hasAuthority('wh:order:remove')")
     public R get(@Validated OrderDetailParam param) {
         //查询列表数据
         WHOrderVO orderVO = whOrderEntryService.getOrderVO(param);

@@ -13,7 +13,7 @@ import com.bootdo.core.enums.CostVersion;
 import com.bootdo.core.factory.PageFactory;
 import com.bootdo.core.pojo.response.PageJQ;
 import com.bootdo.core.utils.DateUtils;
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.data.domain.ProductDO;
 import com.bootdo.modular.engage.dao.ProductCostDao;
 import com.bootdo.modular.engage.domain.ProductCostDO;
@@ -73,7 +73,7 @@ public class ProductCostService extends ServiceImpl<ProductCostDao, ProductCostD
         productCostDO1.setCostPrice(productCost.getCostPrice());
         productCostDO1.setCostDate(DateUtils.nowDate());
         productCostDO1.setCostType(CostType.MANUAL.name());
-        productCostDO1.setRemark(String.format(Constant.COST_REMARK, CostType.MANUAL.getRemark(), ShiroUtils.getUser().getUsername()));
+        productCostDO1.setRemark(String.format(Constant.COST_REMARK, CostType.MANUAL.getRemark(), SecurityUtils.getUser().getUsername()));
         return this.save(productCostDO1);
     }
 

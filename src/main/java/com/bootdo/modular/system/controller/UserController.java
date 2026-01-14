@@ -4,7 +4,6 @@ import com.bootdo.core.annotation.Log;
 import com.bootdo.core.pojo.node.Tree;
 import com.bootdo.core.pojo.response.PageR;
 import com.bootdo.core.pojo.response.R;
-import com.bootdo.core.utils.MD5Utils;
 import com.bootdo.modular.system.domain.DeptDO;
 import com.bootdo.modular.system.domain.RoleDO;
 import com.bootdo.modular.system.domain.UserDO;
@@ -15,7 +14,7 @@ import com.bootdo.modular.system.service.DictService;
 import com.bootdo.modular.system.service.RoleService;
 import com.bootdo.modular.system.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author L
@@ -41,7 +39,7 @@ public class UserController extends BaseController {
 
 
     @GetMapping("")
-    @RequiresPermissions("sys:user:user")
+    @PreAuthorize("hasAuthority('sys:user:user')")
     String user(Model model) {
         return "system/user/user";
     }
@@ -49,13 +47,12 @@ public class UserController extends BaseController {
     @GetMapping("/list")
     @ResponseBody
     PageR list(SysUserParam param) {
-        // 查询列表数据
         return userService.page(param);
     }
 
     @Log("添加用户")
     @GetMapping("/add")
-    @RequiresPermissions("sys:user:add")
+    @PreAuthorize("hasAuthority('sys:user:add')")
     String add(Model model) {
         List<RoleDO> roles = roleService.list();
         model.addAttribute("roles", roles);
@@ -64,7 +61,7 @@ public class UserController extends BaseController {
 
     @Log("编辑用户")
     @GetMapping("/edit/{id}")
-    @RequiresPermissions("sys:user:edit")
+    @PreAuthorize("hasAuthority('sys:user:edit')")
     String edit(Model model, @PathVariable Long id) {
         UserDO userDO = userService.getUser(id);
         model.addAttribute("user", userDO);
@@ -76,26 +73,25 @@ public class UserController extends BaseController {
     @Log("保存用户")
     @PostMapping("/save")
     @ResponseBody
-    @RequiresPermissions("sys:user:add")
-    R save(UserDO user) {
-        user.setPassword(MD5Utils.encrypt(user.getUsername(), user.getPassword()));
-        userService.save(user);
+    @PreAuthorize("hasAuthority('sys:user:add')")
+    R saveUser(UserDO user) {
+        userService.saveUser(user);
         return R.ok();
     }
 
     @Log("更新用户")
     @PostMapping("/update")
     @ResponseBody
-    @RequiresPermissions("sys:user:edit")
+    @PreAuthorize("hasAuthority('sys:user:edit')")
     R update(UserDO user) {
-        userService.update(user);
+        userService.updateUser(user);
         return R.ok();
     }
 
     @Log("更新用户")
     @PostMapping("/updatePersonal")
     @ResponseBody
-    @RequiresPermissions("sys:user:edit")
+    @PreAuthorize("hasAuthority('sys:user:edit')")
     R updatePersonal(UserDO user) {
         userService.updateById(user);
         return R.ok();
@@ -104,7 +100,7 @@ public class UserController extends BaseController {
     @Log("删除用户")
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("sys:user:remove")
+    @PreAuthorize("hasAuthority('sys:user:remove')")
     R remove(Long id) {
         userService.removeUser(id);
         return R.ok();
@@ -113,7 +109,7 @@ public class UserController extends BaseController {
     @Log("批量删除用户")
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("sys:user:batchRemove")
+    @PreAuthorize("hasAuthority('sys:user:batchRemove')")
     R batchRemove(@RequestParam("ids[]") List<Integer> userIds) {
         userService.batchRemove(userIds);
         return R.ok();
@@ -128,7 +124,7 @@ public class UserController extends BaseController {
 
     @Log("请求更改用户密码")
     @GetMapping("/resetPwd/{id}")
-    @RequiresPermissions("sys:user:resetPwd")
+    @PreAuthorize("hasAuthority('sys:user:resetPwd')")
     String resetPwd(@PathVariable("id") Long userId, Model model) {
         UserDO userDO = new UserDO();
         userDO.setUserId(userId);
@@ -147,7 +143,7 @@ public class UserController extends BaseController {
     @Log("admin提交更改用户密码")
     @PostMapping("/adminResetPwd")
     @ResponseBody
-    @RequiresPermissions("sys:user:resetPwd")
+    @PreAuthorize("hasAuthority('sys:user:resetPwd')")
     R adminResetPwd(UserVO userVO) throws Exception {
         userService.adminResetPwd(userVO);
         return R.ok();
@@ -175,18 +171,8 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @PostMapping("/uploadImg")
-    R uploadImg(@RequestParam("avatar_file") MultipartFile file, String avatar_data) {
-        Map<String, Object> result;
-        try {
-            result = userService.updatePersonalImg(file, avatar_data, getUserId());
-        } catch (Exception e) {
-            return R.error("更新图像失败！");
-        }
-        if (result != null && !result.isEmpty()) {
-            return R.ok(result);
-        } else {
-            return R.error("更新图像失败！");
-        }
+    R uploadImg(@RequestParam("avatar_file") MultipartFile file, String avatarData) {
+        return R.ok(userService.updatePersonalImg(file, avatarData, getUserId()));
     }
 
     @GetMapping("/loginUserInfo")

@@ -170,16 +170,11 @@ function load() {
 									field : 'id',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.cid
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.cid
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="预览"  mce_href="#" onclick="preview(\''
-												+ row.cid
-												+ '\')"><i class="fa fa-rocket"></i></a> ';
-										return e + d +f;
+										return utils.renderButtons([
+											{html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${row.cid}')"><i class="fa fa-edit"></i></a> `, perm: 'blog:bContent:edit'},
+											{html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${row.cid}')"><i class="fa fa-remove"></i></a> `, perm: 'blog:bContent:remove'},
+											{html: `<a class="btn btn-success btn-sm" href="#" title="预览" onclick="preview('${row.cid}')"><i class="fa fa-rocket"></i></a> `, perm: ''},
+										], row);
 									}
 								} ]
 					});

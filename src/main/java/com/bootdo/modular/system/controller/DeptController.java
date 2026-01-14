@@ -8,7 +8,7 @@ import com.bootdo.modular.system.param.SysDeptParam;
 import com.bootdo.modular.system.service.DeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class DeptController extends BaseController {
 
 
     @GetMapping()
-    @RequiresPermissions("system:sysDept:sysDept")
+    @PreAuthorize("hasAuthority('system:sysDept:sysDept')")
     String dept() {
         return "system/dept/dept";
     }
@@ -40,13 +40,13 @@ public class DeptController extends BaseController {
     @Operation(summary = "获取部门列表")
     @ResponseBody
     @GetMapping("/list")
-    @RequiresPermissions("system:sysDept:sysDept")
-    public List<DeptDO> list() {
-        return sysDeptService.list(new SysDeptParam());
+    @PreAuthorize("hasAuthority('system:sysDept:sysDept')")
+    public List<DeptDO> list(SysDeptParam param) {
+        return sysDeptService.list(param);
     }
 
     @GetMapping("/add/{pId}")
-    @RequiresPermissions("system:sysDept:add")
+    @PreAuthorize("hasAuthority('system:sysDept:add')")
     String add(@PathVariable Long pId, Model model) {
         model.addAttribute("pId", pId);
         if (pId == 0) {
@@ -58,7 +58,7 @@ public class DeptController extends BaseController {
     }
 
     @GetMapping("/edit/{deptId}")
-    @RequiresPermissions("system:sysDept:edit")
+    @PreAuthorize("hasAuthority('system:sysDept:edit')")
     String edit(@PathVariable Long deptId, Model model) {
         DeptDO sysDept = sysDeptService.getById(deptId);
         model.addAttribute("sysDept", sysDept);
@@ -73,7 +73,7 @@ public class DeptController extends BaseController {
 
     @ResponseBody
     @PostMapping("/save")
-    @RequiresPermissions("system:sysDept:add")
+    @PreAuthorize("hasAuthority('system:sysDept:add')")
     public R save(DeptDO sysDept) {
         sysDeptService.save(sysDept);
         return R.ok();
@@ -81,7 +81,7 @@ public class DeptController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("system:sysDept:edit")
+    @PreAuthorize("hasAuthority('system:sysDept:edit')")
     public R update(DeptDO sysDept) {
         sysDeptService.updateById(sysDept);
         return R.ok();
@@ -89,7 +89,7 @@ public class DeptController extends BaseController {
 
     @PostMapping("/remove")
     @ResponseBody
-    @RequiresPermissions("system:sysDept:remove")
+    @PreAuthorize("hasAuthority('system:sysDept:remove')")
     public R remove(Long deptId) {
         if (sysDeptService.checkDeptHasUser(deptId)) {
             return R.error("部门包含部门或用户,不允许修改");
@@ -100,7 +100,7 @@ public class DeptController extends BaseController {
 
     @PostMapping("/batchRemove")
     @ResponseBody
-    @RequiresPermissions("system:sysDept:batchRemove")
+    @PreAuthorize("hasAuthority('system:sysDept:batchRemove')")
     public R remove(@RequestParam("ids[]") List<Integer> deptIds) {
         sysDeptService.removeByIds(deptIds);
         return R.ok();

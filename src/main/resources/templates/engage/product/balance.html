@@ -1,83 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <meta charset="utf-8">
 <head th:include="include :: header">
 </head>
 <body class="gray-bg">
-    <div class="col-sm-12">
-        <div class="ibox-body">
-            <div class="fixed-table-toolbar form-inline">
-                <form id="search">
-                    <div class="columns pull-left nopadding">
-                        <input type="text" class="form-control" name="searchText" placeholder="请输入商品编号或名称" autocomplete="off">
-                    </div>
+<div class="col-sm-12">
+    <div class="ibox-body">
+        <div class="fixed-table-toolbar form-inline">
+            <form id="search">
+                <div class="columns pull-left nopadding">
+                    <input type="text" class="form-control" name="searchText" placeholder="请输入商品编号或名称" autocomplete="off">
+                </div>
 
-                    <div class="input-group columns date pull-left tool-pull-left" style="margin-left: 5px; width: 120px;">
-                        <input placeholder="库存日期" id="date_1" type="text" name="toDate" class="form-control">
-                    </div>
-
-                    <div class="input-group columns pull-left tool-pull-left">
-                        <select data-placeholder="请选择" name="shopNo" id="shopNo" class="form-control">
-                            <option value="">选择店铺</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group columns pull-left tool-pull-left">
-                        <select data-placeholder="请选择" name="stock" id="stock" class="form-control">
-                            <option value="">选择仓库</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group columns pull-left tool-pull-left">
-                        <select data-placeholder="请选择" name="productNo" id="productNo" class="form-control">
-                            <option value="">选择商品</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group columns pull-left tool-pull-left">
-                        <select data-placeholder="请选择" name="type" id="type" class="form-control">
-                            <option value="">选择类别</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group columns pull-left tool-pull-left checkbox">
-                        <label class="i-checks">
-                            <input type="checkbox" name="showSto" value="0">零库存商品
-                        </label>
-                    </div>
-                </form>
+                <div class="input-group columns date pull-left tool-pull-left" style="margin-left: 5px; width: 120px;">
+                    <input placeholder="库存日期" id="date_1" type="text" name="toDate" class="form-control">
+                </div>
 
                 <div class="input-group columns pull-left tool-pull-left">
-                    <button class="btn btn-success" onclick="search()">查询</button>
-                </div>
-                <div class="input-group columns pull-left tool-pull-left">
-                    <button class="btn btn-success" onclick="exportExcel()">导出</button>
+                    <select data-placeholder="请选择" name="shopNo" id="shopNo" class="form-control">
+                        <option value="">选择店铺</option>
+                    </select>
                 </div>
 
-                <div class="input-group columns pull-right">
-                    <span class="input-group-addon" name="toDate">库存日期:</span>
+                <div class="input-group columns pull-left tool-pull-left">
+                    <select data-placeholder="请选择" name="stock" id="stock" class="form-control">
+                        <option value="">选择仓库</option>
+                    </select>
                 </div>
+
+                <div class="input-group columns pull-left tool-pull-left">
+                    <select data-placeholder="请选择" name="productNo" id="productNo" class="form-control">
+                        <option value="">选择商品</option>
+                    </select>
+                </div>
+
+                <div class="input-group columns pull-left tool-pull-left">
+                    <select data-placeholder="请选择" name="type" id="type" class="form-control">
+                        <option value="">选择类别</option>
+                    </select>
+                </div>
+
+                <div class="input-group columns pull-left tool-pull-left checkbox">
+                    <label class="i-checks">
+                        <input type="checkbox" name="showSto" value="0">零库存商品
+                    </label>
+                </div>
+            </form>
+
+            <div class="input-group columns pull-left tool-pull-left">
+                <button class="btn btn-success" onclick="search()">查询</button>
+            </div>
+            <div class="input-group columns pull-left tool-pull-left">
+                <button class="btn btn-success" onclick="exportExcel()">导出</button>
             </div>
 
-            <div class="ibox-content">
-                <div class="jqGrid_wrapper">
-                    <table id="table_list"></table>
-                    <div id="pager_list"></div>
-                </div>
+            <div class="input-group columns pull-right">
+                <span class="input-group-addon" name="toDate">库存日期:</span>
+            </div>
+        </div>
+
+        <div class="ibox-content">
+            <div class="jqGrid_wrapper">
+                <table id="table_list"></table>
+                <div id="pager_list"></div>
             </div>
         </div>
     </div>
-    <!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
-    <div>
-        <script type="text/javascript">
-            var s_edit_h = 'hidden';
-        </script>
-    </div>
-    <div shiro:hasPermission="engage:product:balance">
-        <script type="text/javascript">
-            s_edit_h = '';
-        </script>
-    </div>
+</div>
 
 <div th:include="include :: footer"></div>
 <script type="text/javascript" src="/js/appjs/engage/product/balance.js"></script>

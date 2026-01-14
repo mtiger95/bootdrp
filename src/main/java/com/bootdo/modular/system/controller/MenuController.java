@@ -7,7 +7,7 @@ import com.bootdo.modular.system.domain.MenuDO;
 import com.bootdo.modular.system.param.SysMenuParam;
 import com.bootdo.modular.system.service.MenuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +26,13 @@ public class MenuController extends BaseController {
     private MenuService menuService;
 
 
-    @RequiresPermissions("sys:menu:menu")
+    @PreAuthorize("hasAuthority('sys:menu:menu')")
     @GetMapping()
     String menu() {
         return "system/menu/menu";
     }
 
-    @RequiresPermissions("sys:menu:menu")
+    @PreAuthorize("hasAuthority('sys:menu:menu')")
     @RequestMapping("/list")
     @ResponseBody
     List<MenuDO> list() {
@@ -40,7 +40,7 @@ public class MenuController extends BaseController {
     }
 
     @Log("添加菜单")
-    @RequiresPermissions("sys:menu:add")
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     @GetMapping("/add/{pId}")
     String add(Model model, @PathVariable Long pId) {
         model.addAttribute("pId", pId);
@@ -53,7 +53,7 @@ public class MenuController extends BaseController {
     }
 
     @Log("编辑菜单")
-    @RequiresPermissions("sys:menu:edit")
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     @GetMapping("/edit/{id}")
     String edit(Model model, @PathVariable Long id) {
         MenuDO mdo = menuService.getById(id);
@@ -69,7 +69,7 @@ public class MenuController extends BaseController {
     }
 
     @Log("保存菜单")
-    @RequiresPermissions("sys:menu:add")
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     @PostMapping("/save")
     @ResponseBody
     R save(MenuDO menu) {
@@ -78,7 +78,7 @@ public class MenuController extends BaseController {
     }
 
     @Log("更新菜单")
-    @RequiresPermissions("sys:menu:edit")
+    @PreAuthorize("hasAuthority('sys:menu:edit')")
     @PostMapping("/update")
     @ResponseBody
     R update(MenuDO menu) {
@@ -87,7 +87,7 @@ public class MenuController extends BaseController {
     }
 
     @Log("删除菜单")
-    @RequiresPermissions("sys:menu:remove")
+    @PreAuthorize("hasAuthority('sys:menu:remove')")
     @PostMapping("/remove")
     @ResponseBody
     R remove(Long id) {

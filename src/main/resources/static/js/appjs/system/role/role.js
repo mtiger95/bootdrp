@@ -4,8 +4,7 @@ $(function() {
 });
 
 function load() {
-	$('#exampleTable')
-			.bootstrapTable(
+	$('#exampleTable').bootstrapTable(
 					{
 						method : 'get', // 服务器数据的请求方式 get or post
 						url : prefix + "/list", // 服务器数据的加载地址
@@ -59,13 +58,10 @@ function load() {
 									field : 'roleId',
 									align : 'center',
 									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.roleId
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.roleId
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										return e + d;
+										return utils.renderButtons([
+											{html: `<a class="btn btn-primary btn-sm" href="#" title="编辑" onclick="edit('${row.roleId}')"><i class="fa fa-edit"></i></a> `, perm: 'sys:role:edit'},
+											{html: `<a class="btn btn-warning btn-sm" href="#" title="删除" onclick="remove('${row.roleId}')"><i class="fa fa-remove"></i></a> `, perm: 'sys:role:remove'},
+										], row);
 									}
 								} ]
 					});

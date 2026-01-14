@@ -12,11 +12,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ServletComponentScan
 @MapperScan("com.bootdo.modular.**.dao")
-@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
-public class BootdoApplication {
+// @SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
+@SpringBootApplication
+public class BootDoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(BootdoApplication.class, args);
-        System.out.println("ヾ(◍°∇°◍)ﾉﾞ    bootdo启动成功      ヾ(◍°∇°◍)ﾉﾞ\n" +
+        SpringApplication.run(BootDoApplication.class, args);
+        System.out.println("ヾ(◍°∇°◍)ﾉﾞ    BootDo启动成功      ヾ(◍°∇°◍)ﾉﾞ\n" +
                 " ______                    _   ______            \n" +
                 "|_   _ \\                  / |_|_   _ `.          \n" +
                 "  | |_) |   .--.    .--. `| |-' | | `. \\  .--.   \n" +

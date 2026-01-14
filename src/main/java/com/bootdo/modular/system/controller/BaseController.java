@@ -1,6 +1,6 @@
 package com.bootdo.modular.system.controller;
 
-import com.bootdo.core.utils.ShiroUtils;
+import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.system.domain.UserDO;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Controller
 public class BaseController {
     public UserDO getUser() {
-        return ShiroUtils.getUser();
+        return SecurityUtils.getUser();
     }
 
     public Long getUserId() {
