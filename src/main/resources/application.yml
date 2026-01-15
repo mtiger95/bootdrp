@@ -19,7 +19,13 @@ spring:
     resources:
       cache:
         cachecontrol:
-          max-age: 31536000s
+          max-age: 30d
+      chain:
+        enabled: true  # 启用资源链
+        strategy:
+          content:
+            enabled: true  # 启用内容版本策略
+            paths: /js/**,/css/**  # 指定应用版本控制的路径
 
 mybatis-plus:
   mapper-locations: classpath*:mybatis/**/*Mapper.xml, classpath:/META-INF/modeler-mybatis-mappings/*.xml

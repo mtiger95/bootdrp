@@ -7,16 +7,13 @@
     <title>面向学习型的开源框架，简洁高效，减少过渡封装，展现技术本质</title>
     <meta name="keywords" content="面向学习型的开源框架，简洁高效，杜绝过渡封装，展现技术本质本质">
     <meta name="description" content="面向学习型的开源框架，简洁高效，杜绝过渡封装，展现技术本质本质">
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html"/>
-    <![endif]-->
+
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-    <!--    <link href="/css/animate.css" rel="stylesheet">-->
-    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-    <link href="/css/utils.css?v=4.1.0" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/utils.css}" rel="stylesheet">
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow: hidden">
 <div id="wrapper">
@@ -55,13 +52,6 @@
                         <div class="logo-element">BootDo</div>
                     </div>
                 </li>
-
-                <!--                <li>
-                                    <a href="#"> <i class="fa fa-home"></i> <span class="nav-label">主页</span> <span class="fa arrow"></span> </a>
-                                    <ul class="nav nav-second-level">
-                                        <li><a id="index001" class="J_menuItem" href="index_v1.html" data-index="0" th:href="@{/main}">了解BootDo</a></li>
-                                    </ul>
-                                </li>-->
 
                 <li th:each="menu : ${menus}">
                     <a href="#"> <i class="fa fa fa-bar-chart-o" th:class="${menu.attributes.icon}"></i>
@@ -262,13 +252,13 @@
     </div>
 </div>
 <!-- 全局js -->
-<script src="/js/jquery.min.js?v=2.1.4"></script>
-<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="/js/plugins/layer/layer.min.js"></script>
 <!-- 自定义js -->
-<script src="/js/app.js?v=4.1.0"></script>
+<script src="/js/app.js"></script>
 <script src="/js/contabs.js"></script>
 <!-- 第三方插件 -->
 <script src="/js/plugins/pace/pace.min.js"></script>
@@ -279,7 +269,7 @@
 <!-- Toastr script -->
 <script src="/js/plugins/toastr/toastr.min.js"></script>
 
-<script src="/js/utils.js"></script>
+<script th:src="@{/js/utils.js}"></script>
 
 <script type="text/javascript">
     var stompClient = null;

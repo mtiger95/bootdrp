@@ -34,12 +34,12 @@ class WebMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        //自定义日期转换器兼容 yyyy-MM-dd HH:mm:ss、yyyy-MM-dd
+        // 自定义日期转换器兼容 yyyy-MM-dd HH:mm:ss、yyyy-MM-dd
         registry.addConverter(new DateConverter());
     }
 
     /**
-     * xss过滤拦截器
+     * xss 过滤拦截器
      */
     @Bean
     public FilterRegistrationBean<XssFilter> xssFilterRegistrationBean() {
@@ -54,5 +54,4 @@ class WebMvcConfig implements WebMvcConfigurer {
         filterRegistrationBean.setInitParameters(initParameters);
         return filterRegistrationBean;
     }
-
 }

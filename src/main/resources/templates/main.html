@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <!--    <link href="css/animate.css" rel="stylesheet">-->
-    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
-    <link href="/css/utils.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/css/utils.css}" rel="stylesheet">
     <title></title>
 </head>
 
@@ -124,16 +123,15 @@
 </div>
 
 <!-- 全局js -->
-<script src="/js/jquery.min.js?v=2.1.4"></script>
-<script src="/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="/js/plugins/jquery-ui/jquery-ui.min.js?v=1.10.4"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="/js/plugins/animate/jquery.animateNumber.min.js"></script>
-
 <!-- ECharts -->
 <script src="/js/plugins/echarts/echarts-4.0.4.min.js"></script>
 <!-- 自定义js -->
-<script src="/js/content.js?v=1.0.0"></script>
-<script src="/js/main.js?v=1.0.0"></script>
+<script th:src="@{/js/content.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 
 </body>
 

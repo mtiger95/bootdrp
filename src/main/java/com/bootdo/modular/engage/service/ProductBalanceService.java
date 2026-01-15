@@ -58,7 +58,7 @@ public class ProductBalanceService {
         BalanceResult result = new BalanceResult();
 
         result.setToDate(StrUtil.blankToDefault(MapUtil.getStr(params, "toDate"), DateUtils.currentDate()));
-        //按商品ID分类整理库存信息
+        //按商品 ID分类整理库存信息
         for (Map<String, Object> map : list) {
             String key = MapUtil.getStr(map, "no");
             if (!listMap.containsKey(key)) {
