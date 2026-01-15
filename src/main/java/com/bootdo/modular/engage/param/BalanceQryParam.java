@@ -1,10 +1,10 @@
 package com.bootdo.modular.engage.param;
 
-import com.bootdo.config.converter.JsonListFormat;
+import com.bootdo.core.pojo.base.param.BaseParam;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 商品库存
@@ -13,21 +13,24 @@ import java.util.List;
  * @since 2024-02-21 13:14
  */
 @Data
-public class BalanceQryParam {
+public class BalanceQryParam extends BaseParam {
 
-    @JsonListFormat
-    private List<Long> shopNo;
-
+    @Schema(description = "库存日期")
     private Date toDate;
 
+    @Schema(description = "仓库编号")
     private String stock;
 
+    @Schema(description = "商品编号")
     private String productNo;
 
+    @Schema(description = "商品类型")
     private String type;
 
-    private String status;
+    @Schema(description = "是否显示库存")
+    private String showSto;
 
-    private String searchText;
+    @Schema(description = "商品状态")
+    private String status;
 
 }
