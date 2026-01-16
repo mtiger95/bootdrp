@@ -25,7 +25,7 @@ import com.bootdo.modular.system.domain.UserDO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +56,7 @@ public class SEOrderEntryService extends ServiceImpl<SEOrderEntryDao, SEOrderEnt
         ConsumerDO consumerDO = consumerService.getByNo(orderVO.getConsumerId());
         Map<String, StockDO> stockMap = stockService.listStock();
         Map<String, ProductCostDO> costMap = convertProductCostMap(orderVO);
-        Map<String, BigDecimal> purchaseMap = convertPurchaseMap(orderVO);//商品采购价信息
+        Map<String, BigDecimal> purchaseMap = convertPurchaseMap(orderVO);
         SEOrderDO orderDO = SEOrderConverter.convertOrder(orderVO, userDO, consumerDO);
         List<SEOrderEntryDO> orderEntryDOList = SEOrderConverter.convertOrderEntry(orderVO, orderDO, stockMap, costMap, purchaseMap);
         //订单入库

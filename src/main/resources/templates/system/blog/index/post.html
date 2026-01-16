@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<head th:include="system/blog/index/include_blog::header"></head>
+<head th:insert="~{system/blog/index/include_blog::header}"></head>
 <body>
-	<nav th:include="system/blog/index/include_blog::nav"  class="navbar navbar-default navbar-custom navbar-fixed-top" ></nav>
+	<nav th:insert="~{system/blog/index/include_blog::nav}"  class="navbar navbar-default navbar-custom navbar-fixed-top" ></nav>
 	<!-- Page Header -->
 	<header class="intro-header"
 		style="background-image: url('/img/blog/post-bg.jpg')">
@@ -32,7 +32,7 @@
 		</div>
 	</article>
 	<hr>
-	<div th:include="system/blog/index/include_blog::footer"></div>
+	<div th:insert="~{system/blog/index/include_blog::footer}"></div>
 	<script type="text/javascript" th:inline="javascript">
 		$().ready(function() {
 			$('.summernote').summernote({

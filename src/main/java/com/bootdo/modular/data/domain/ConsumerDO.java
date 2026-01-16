@@ -5,8 +5,8 @@ import com.bootdo.core.pojo.base.entity.BaseEntity;
 import com.bootdo.core.pojo.base.param.BaseParam.edit;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 /**

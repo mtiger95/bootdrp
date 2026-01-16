@@ -6,10 +6,10 @@
     <title>BootDo - 文件管理器</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/css/layui.css" rel="stylesheet">
+    <link href="/js/layui/css/layui.css" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body class="gray-bg">
@@ -24,18 +24,12 @@
                         </button>
                         <div class="hr-line-dashed"></div>
                         <ul class="folder-list" style="padding: 0">
-                            <li><a href="#" class="file-control "
-                                   onclick="changeType('')"><i class="fa fa-folder"></i>所有文件</a></li>
-                            <li><a href="javascript:void(0)"
-                                   onclick="changeType(0)" class="file-control"><i class="fa fa-folder"></i>图片</a></li>
-                            <li><a href="javascript:void(0)"
-                                   onclick="changeType(1)" class="file-control"><i class="fa fa-folder"></i>文档</a></li>
-                            <li><a href="javascript:void(0)" onclick="changeType(2)"
-                                   class="file-control"><i class="fa fa-folder"></i>视频</a></li>
-                            <li><a href="javascript:void(0)"
-                                   onclick="changeType(3)" class="file-control"><i class="fa fa-folder"></i>音乐</a>
-                            <li><a href="javascript:void(0)" onclick="changeType(99)"
-                                   class="file-control"><i class="fa fa-folder"></i>其他</a></li>
+                            <li><a href="#" class="file-control" onclick="changeType('')"><i class="fa fa-folder"></i>所有文件</a></li>
+                            <li><a href="javascript:void(0)" onclick="changeType(0)" class="file-control"><i class="fa fa-folder"></i>图片</a></li>
+                            <li><a href="javascript:void(0)" onclick="changeType(1)" class="file-control"><i class="fa fa-folder"></i>文档</a></li>
+                            <li><a href="javascript:void(0)" onclick="changeType(2)" class="file-control"><i class="fa fa-folder"></i>视频</a></li>
+                            <li><a href="javascript:void(0)" onclick="changeType(3)" class="file-control"><i class="fa fa-folder"></i>音乐</a>
+                            <li><a href="javascript:void(0)" onclick="changeType(99)" class="file-control"><i class="fa fa-folder"></i>其他</a></li>
                         </ul>
                     </div>
                 </div>
@@ -55,11 +49,8 @@
                                     <br/>
                                     <small>{{row.createDate}}</small>
                                 </div>
-                                &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;<button
-                                    class="btn btn-warning btn-xs copy" :url="row.url">复制
-                            </button>&nbsp; &nbsp; &nbsp; &nbsp;<button class="btn btn-danger btn-xs"
-                                                                        @click="remove(row.id)">删除
-                            </button>
+                                <button class="btn btn-warning btn-xs copy" :url="row.url">复制</button>
+                                <button class="btn btn-danger btn-xs" @click="remove(row.id)">删除</button>
                             </a>
                         </div>
                     </div>
@@ -74,15 +65,13 @@
 </div>
 
 <!-- 全局js -->
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/js/bootstrap-paginator.min.js"></script>
-
-<script src="/js/content.js"></script>
-<script src="/js/layui.js"></script>
+<script src="/js/jquery/jquery.min.js"></script>
+<script src="/js/bootstrap/bootstrap.min.js"></script>
+<script src="/js/layui/layui.js"></script>
 <script src="/js/plugins/clipboard/clipboard.min.js"></script>
-<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/plugins/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <script src="/js/vue.min.js"></script>
+<script src="/js/content.js"></script>
 
 <script>
     var app = new Vue({

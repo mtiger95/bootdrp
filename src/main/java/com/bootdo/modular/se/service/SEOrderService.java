@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -33,13 +34,12 @@ import com.bootdo.modular.se.domain.SEOrderEntryDO;
 import com.bootdo.modular.se.param.SeOrderQryParam;
 import com.bootdo.modular.system.dao.DictDao;
 import com.bootdo.modular.system.domain.DictDO;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -91,7 +91,7 @@ public class SEOrderService extends ServiceImpl<SEOrderDao, SEOrderDO> {
         List<SEOrderDO> orderDOList = this.list(Wrappers.lambdaQuery(SEOrderDO.class).in(SEOrderDO::getBillNo, param.getBillNos()));
         //去除已经是审核（未审核）状态的订单
         List<SEOrderDO> auditOrderList = orderDOList.stream()
-                .filter(orderDO -> !auditStatus.equals(orderDO.getAuditStatus())).collect(Collectors.toList());
+                .filter(orderDO -> !auditStatus.equals(orderDO.getAuditStatus())).toList();
         //计算客户积分、生成收付款单
         auditOrderList.forEach(orderDO -> {
             handleCostAndAudit(orderDO, auditStatus);
@@ -154,6 +154,18 @@ public class SEOrderService extends ServiceImpl<SEOrderDao, SEOrderDO> {
     public void batchRemove(List<String> billNos) {
         this.remove(Wrappers.lambdaQuery(SEOrderDO.class).in(SEOrderDO::getBillNo, billNos));
         seOrderEntryDao.delete(Wrappers.lambdaQuery(SEOrderEntryDO.class).in(SEOrderEntryDO::getBillNo, billNos));
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveOrUpdate(SEOrderDO entity, Wrapper<SEOrderDO> updateWrapper) {
+        // 首先尝试根据条件更新记录
+        boolean updated = update(entity, updateWrapper);
+        if (updated) {
+            // 如果更新成功，直接返回 true
+            return true;
+        }
+        // 如果更新失败（通常是因为没有找到符合条件的记录），则执行插入操作
+        return save(entity);
     }
 
 }

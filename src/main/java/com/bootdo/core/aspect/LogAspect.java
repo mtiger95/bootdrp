@@ -1,6 +1,6 @@
 package com.bootdo.core.aspect;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.bootdo.core.annotation.Log;
 import com.bootdo.core.utils.HttpServletUtil;
@@ -8,6 +8,8 @@ import com.bootdo.core.utils.SecurityUtils;
 import com.bootdo.modular.system.dao.LogDao;
 import com.bootdo.modular.system.domain.LogDO;
 import com.bootdo.modular.system.domain.UserDO;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,8 +17,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -69,7 +69,7 @@ public class LogAspect {
         // 获取 request
         HttpServletRequest request = HttpServletUtil.getRequest();
         // 设置 IP地址
-        sysLog.setIp(ServletUtil.getClientIP(request));
+        sysLog.setIp(JakartaServletUtil.getClientIP(request));
         // 用户名
         UserDO currUser = SecurityUtils.getUser();
         if (null == currUser) {

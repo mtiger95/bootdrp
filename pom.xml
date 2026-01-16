@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.13</version>
+        <version>3.2.2</version>
     </parent>
 
     <properties>
@@ -23,18 +23,18 @@
         <java.version>17</java.version>
         <commons.collections.version>4.4</commons.collections.version>
         <commons.configuration.version>1.10</commons.configuration.version>
-        <mp.version>3.5.7</mp.version>
-        <mp.jion.version>1.4.9</mp.jion.version>
+        <!-- DB 相关 -->
         <mysql.version>8.0.28</mysql.version>
-        <druid.version>1.2.9</druid.version>
-        <springdoc.version>1.8.0</springdoc.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <mybatis-plus.jion.version>1.5.4</mybatis-plus.jion.version>
+        <druid.version>1.2.24</druid.version>
+        <springdoc.version>2.3.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
         <lombok.version>1.18.30</lombok.version>
         <easypoi.version>4.5.0</easypoi.version>
         <velocity.version>2.3</velocity.version>
         <hutool.version>5.8.42</hutool.version>
-        <thymeleaf.extras.version>3.0.4.RELEASE</thymeleaf.extras.version>
-        <quartz.version>2.3.2</quartz.version>
+        <thymeleaf.extras.version>3.1.2.RELEASE</thymeleaf.extras.version>
         <jsoup.version>1.17.2</jsoup.version>
     </properties>
 
@@ -81,6 +81,12 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- Job 定时任务相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
         <!-- Spring Security 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -90,22 +96,34 @@
         <!-- Spring Security Thymeleaf 整合 -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>${thymeleaf.extras.version}</version>
         </dependency>
 
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mp.version}</version>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <!-- mybatis-plus-join -->
         <dependency>
             <groupId>com.github.yulichang</groupId>
             <artifactId>mybatis-plus-join-boot-starter</artifactId>
-            <version>${mp.jion.version}</version>
+            <version>${mybatis-plus.jion.version}</version>
+        </dependency>
+
+        <!--druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <version>${druid.version}</version>
         </dependency>
 
         <!-- mysql -->
@@ -113,13 +131,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
-        </dependency>
-
-        <!--druid -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
         </dependency>
 
         <!--commons -->
@@ -141,23 +152,11 @@
             <version>${velocity.version}</version>
         </dependency>
 
-        <!-- quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>${quartz.version}</version>
-        </dependency>
-
         <!-- knif4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
         </dependency>
 
         <!--lombok-->

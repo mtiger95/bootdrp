@@ -8,7 +8,7 @@ import org.quartz.DateBuilder.IntervalUnit;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +33,7 @@ public class QuartzManager {
             // 创建jobDetail实例，绑定Job实现类
             // 指明job的名称，所在组的名称，以及绑定job类
             Class<? extends Job> jobClass = ClassUtil.loadClass(job.getBeanClass());
-            // 任务名称和组构成任务key
+            // 任务名称和组构成任务 key
             JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(job.getJobName(), job.getJobGroup()).build();
             // 定义调度触发规则
             // 使用cornTrigger规则 触发器key
@@ -67,8 +67,7 @@ public class QuartzManager {
                 job.setDescription("触发器:" + trigger.getKey());
                 Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
                 job.setJobStatus(triggerState.name());
-                if (trigger instanceof CronTrigger) {
-                    CronTrigger cronTrigger = (CronTrigger) trigger;
+                if (trigger instanceof CronTrigger cronTrigger) {
                     String cronExpression = cronTrigger.getCronExpression();
                     job.setCronExpression(cronExpression);
                 }
@@ -94,8 +93,7 @@ public class QuartzManager {
             job.setDescription("触发器:" + trigger.getKey());
             Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
             job.setJobStatus(triggerState.name());
-            if (trigger instanceof CronTrigger) {
-                CronTrigger cronTrigger = (CronTrigger) trigger;
+            if (trigger instanceof CronTrigger cronTrigger) {
                 String cronExpression = cronTrigger.getCronExpression();
                 job.setCronExpression(cronExpression);
             }

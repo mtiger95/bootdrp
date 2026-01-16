@@ -1,7 +1,13 @@
 #服务配置
 server:
   port: 80
-  max-http-header-size: 10240
+  max-http-request-header-size: 10240
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
 
 spring:
   profiles:
@@ -11,7 +17,7 @@ spring:
       max-request-size: 30MB
       max-file-size: 30MB
   thymeleaf:
-    mode: LEGACYHTML5
+    mode: HTML
     cache: false
   jackson:
     date-format: com.bootdo.config.converter.JsonDateFormat
@@ -62,7 +68,7 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     enabled: true
-    path: /swagger-ui
+    path: /swagger-ui.html
   default-flat-param-object: true # 参见 https://doc.xiaominfo.com/docs/faq/v4/knife4j-parameterobject-flat-param 文档
 
 knife4j:

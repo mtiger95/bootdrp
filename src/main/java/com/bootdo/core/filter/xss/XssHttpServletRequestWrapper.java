@@ -4,8 +4,8 @@ import com.bootdo.core.utils.JsoupUtil;
 import lombok.Getter;
 import cn.hutool.core.util.StrUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 
 /**

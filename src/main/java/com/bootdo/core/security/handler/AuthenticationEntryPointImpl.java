@@ -1,14 +1,14 @@
 package com.bootdo.core.security.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.bootdo.core.pojo.response.R;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -48,7 +48,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             // AJAX请求返回JSON格式的401响应
             String content = JSONUtil.toJsonStr(R.error(UNAUTHORIZED.value(), UNAUTHORIZED.getReasonPhrase()));
 
-            ServletUtil.write(response, content, APPLICATION_JSON_VALUE);
+            JakartaServletUtil.write(response, content, APPLICATION_JSON_VALUE);
         } else {
             // 普通请求重定向到登录页面
             response.sendRedirect(request.getContextPath() + "/login");

@@ -18,7 +18,7 @@ import com.bootdo.modular.se.param.SEOrderVO;
 import com.bootdo.modular.se.service.SEOrderService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

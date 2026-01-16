@@ -1,15 +1,15 @@
 package com.bootdo.core.security.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.bootdo.core.pojo.response.R;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -30,6 +30,6 @@ public class LoginFailureHandlerImpl implements AuthenticationFailureHandler {
         // 返回失败的 JSON响应
         String content = JSONUtil.toJsonStr(R.error(UNAUTHORIZED.value(), e.getMessage()));
 
-        ServletUtil.write(response, content, APPLICATION_JSON_VALUE);
+        JakartaServletUtil.write(response, content, APPLICATION_JSON_VALUE);
     }
 }

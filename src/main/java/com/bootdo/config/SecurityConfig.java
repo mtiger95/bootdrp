@@ -5,6 +5,8 @@ import com.bootdo.core.security.handler.*;
 import com.bootdo.core.security.realm.BDUserDetailsService;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,10 +37,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.util.pattern.PathPattern;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
-import javax.annotation.Resource;
-import javax.annotation.security.PermitAll;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,7 +53,7 @@ import static com.bootdo.core.utils.CollectionUtils.convertList;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Resource
@@ -130,15 +130,15 @@ public class SecurityConfig {
                 // 授权规则
                 .authorizeHttpRequests(c -> c
                         // 1.1 静态资源，可匿名访问
-                        .mvcMatchers(HttpMethod.GET, "/login", "/css/**", "/js/**", "/fonts/**", "/img/**", "/docs/**", "/druid/**",
+                        .requestMatchers(HttpMethod.GET, "/login", "/css/**", "/js/**", "/fonts/**", "/img/**", "/docs/**", "/druid/**",
                                 "/upload/**", "/files/**", "/", "/blog", "/blog/open/**").permitAll()
                         // 1.2 设置 @PermitAll 无需认证
-                        .mvcMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
-                        .mvcMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
-                        .mvcMatchers(HttpMethod.PUT, permitAllUrls.get(HttpMethod.PUT).toArray(new String[0])).permitAll()
-                        .mvcMatchers(HttpMethod.DELETE, permitAllUrls.get(HttpMethod.DELETE).toArray(new String[0])).permitAll()
-                        .mvcMatchers(HttpMethod.HEAD, permitAllUrls.get(HttpMethod.HEAD).toArray(new String[0])).permitAll()
-                        .mvcMatchers(HttpMethod.PATCH, permitAllUrls.get(HttpMethod.PATCH).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.PUT, permitAllUrls.get(HttpMethod.PUT).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, permitAllUrls.get(HttpMethod.DELETE).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.HEAD, permitAllUrls.get(HttpMethod.HEAD).toArray(new String[0])).permitAll()
+                        .requestMatchers(HttpMethod.PATCH, permitAllUrls.get(HttpMethod.PATCH).toArray(new String[0])).permitAll()
                         // 兜底规则，必须认证
                         .anyRequest().authenticated()
                 );

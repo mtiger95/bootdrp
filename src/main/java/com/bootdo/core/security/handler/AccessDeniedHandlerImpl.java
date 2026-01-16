@@ -1,16 +1,16 @@
 package com.bootdo.core.security.handler;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.bootdo.core.pojo.response.R;
 import com.bootdo.core.utils.SecurityUtils;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -49,7 +49,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         // 返回 403
         String content = JSONUtil.toJsonStr(R.error(FORBIDDEN.value(), FORBIDDEN.getReasonPhrase()));
 
-        ServletUtil.write(response, content, APPLICATION_JSON_VALUE);
+        JakartaServletUtil.write(response, content, APPLICATION_JSON_VALUE);
     }
 
 }

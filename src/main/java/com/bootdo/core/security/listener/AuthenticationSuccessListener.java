@@ -1,15 +1,15 @@
 package com.bootdo.core.security.listener;
 
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.bootdo.core.security.context.CacheContextHolder;
 import com.bootdo.core.utils.HttpServletUtil;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 import static com.bootdo.core.security.context.CacheContextHolder.SESSION_KEY_IP;
@@ -58,7 +58,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
     public void onApplicationEvent(AuthenticationSuccessEvent event) {
         // 获取客户端 IP
         HttpServletRequest request = HttpServletUtil.getRequest();
-        String clientIp = ServletUtil.getClientIP(request);
+        String clientIp = JakartaServletUtil.getClientIP(request);
 
         Object principal = event.getAuthentication().getPrincipal();
         String sessionId = request.getSession().getId();

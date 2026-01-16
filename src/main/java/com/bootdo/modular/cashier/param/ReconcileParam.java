@@ -4,7 +4,7 @@ import com.bootdo.core.pojo.base.param.BaseParam;
 import com.bootdo.modular.cashier.enums.DateTypeEnum;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 收款对账

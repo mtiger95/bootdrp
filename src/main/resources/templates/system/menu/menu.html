@@ -2,7 +2,7 @@
 <html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head th:insert="~{include :: header}"></head>
 <body class="gray-bg">
 <div class="wrapper wrapper-content ">
     <div class="col-sm-12">
@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<div th:include="include::footer"></div>
+<div th:insert="~{include :: footer}"></div>
 <script th:src="@{/js/appjs/system/menu/menu.js}"></script>
 </body>
 

@@ -1,45 +1,74 @@
 bootdo:
   uploadPath: /var/uploaded_files/
+
 logging:
   level:
     root: error
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/bootdo?useUnicode=true&characterEncoding=utf8
-    username: bootdo
-    password: bootdo@0401#@!
-    initialSize: 1
-    minIdle: 3
-    maxActive: 20
-    # 配置获取连接等待超时的时间
-    maxWait: 60000
-    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-    timeBetweenEvictionRunsMillis: 60000
-    # 配置一个连接在池中最小生存的时间，单位是毫秒
-    minEvictableIdleTimeMillis: 30000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    # 打开PSCache，并且指定每个连接上PSCache的大小
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall,slf4j
-    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-    # 合并多个DruidDataSource的监控数据
-    #useGlobalDataSourceStat: true
+    url: jdbc:mysql://127.0.0.1:3306/bootdo?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&allowPublicKeyRetrieval=true&useSSL=false&nullCatalogMeansCurrent=true
+    username: root
+    password:
+    # Druid 【连接池】相关的全局配置
+    druid:
+      initial-size: 5 # 初始连接数
+      min-idle: 10 # 最小连接池数量
+      max-active: 20 # 最大连接池数量
+      max-wait: 600000 # 配置获取连接等待超时的时间，单位：毫秒
+      time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位：毫秒
+      min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位：毫秒
+      max-evictable-idle-time-millis: 900000 # 配置一个连接在池中最大生存的时间，单位：毫秒
+      validation-query: SELECT 1 # 配置检测连接是否有效
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 监控配置
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        allow: # 设置白名单，不填则允许所有访问
+        url-pattern: /druid/*
+        login-username: # 控制台管理用户名和密码
+        login-password:
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true # 慢 SQL 记录
+          slow-sql-millis: 100
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  # Quartz 配置项
+  quartz:
+    job-store-type: memory
+    scheduler-name: bootDoScheduler
+    properties:
+      org:
+        quartz:
+          # Scheduler 相关配置
+          scheduler:
+            instanceName: bootDoScheduler
+            instanceId: AUTO
+          # 线程池相关配置
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+
 configure:
-    cdn:
-      echarts: https://cdn.bootcss.com/echarts/4.0.4/echarts.min.js
-      bootstrap: https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js
-      bootstrapCss: https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css
-      jquery: https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js
-      jqueryUI: https://cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js
-      math: https://cdn.bootcss.com/mathjs/4.0.1/math.min.js
+  cdn:
+    echarts: /js/plugins/echarts/echarts-4.0.4.min.js
+    bootstrap: /js/bootstrap/bootstrap.min.js
+    bootstrapCss: /css/bootstrap/css/bootstrap.min.css
+    jquery: /js/jquery/jquery.min.js
+    jqueryUI: /js/plugins/jquery-ui/jquery-ui.min.js
+    math: /js/plugins/math/math.min.js
+
 web:
   login:
     cmd: cmd /c start http://localhost

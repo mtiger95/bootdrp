@@ -25,7 +25,7 @@ import com.bootdo.modular.system.domain.UserDO;
 import com.bootdo.modular.system.param.SysDictParam;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

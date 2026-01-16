@@ -14,7 +14,7 @@ import com.bootdo.modular.wh.param.WHOrderVO;
 import com.bootdo.modular.wh.service.WHOrderService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

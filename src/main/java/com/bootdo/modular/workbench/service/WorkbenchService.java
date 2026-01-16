@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

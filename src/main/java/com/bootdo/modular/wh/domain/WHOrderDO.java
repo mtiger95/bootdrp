@@ -111,7 +111,7 @@ public class WHOrderDO extends BaseEntity {
     /**
      * 创建人名称
      */
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     @Excel(name = "创建人名称")
     private String operatorName;
 

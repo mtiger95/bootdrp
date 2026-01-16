@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.bootdo.config.converter.JsonListFormat;
 import lombok.Data;
 
-import javax.validation.groups.Default;
+import jakarta.validation.groups.Default;
 import java.util.Date;
 import java.util.List;
 

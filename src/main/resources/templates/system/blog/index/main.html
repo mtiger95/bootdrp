@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<head th:include="system/blog/index/include_blog::header"></head>
+<head th:insert="~{system/blog/index/include_blog::header}"></head>
 <body>
-	<nav th:include="system/blog/index/include_blog::nav"  class="navbar navbar-default navbar-custom navbar-fixed-top" ></nav>
+	<nav th:insert="~{system/blog/index/include_blog::nav}"  class="navbar navbar-default navbar-custom navbar-fixed-top" ></nav>
 	<header class="intro-header"
 		style="background-image: url('/img/blog/home-bg.jpg')">
 		<div class="container">
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 	</body>
-	<div th:include="system/blog/index/include_blog::footer"></div>
+	<div th:insert="~{system/blog/index/include_blog::footer}"></div>
 	<script type="text/javascript">
 		var limit = 10;
 		var currentPage = 0;

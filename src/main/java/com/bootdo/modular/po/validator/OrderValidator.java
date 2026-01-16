@@ -18,7 +18,7 @@ import com.bootdo.modular.rp.param.RPOrderQryParam;
 import com.bootdo.modular.rp.service.RPOrderService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

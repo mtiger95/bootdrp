@@ -15,7 +15,7 @@ import com.bootdo.modular.system.domain.FileDO;
 import com.bootdo.modular.system.param.SysFileParam;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 

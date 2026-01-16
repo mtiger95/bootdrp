@@ -162,7 +162,7 @@ public class SEOrderDO extends BaseEntity {
     /**
      * 备注
      */
-    @TableField(updateStrategy = FieldStrategy.IGNORED)
+    @TableField(updateStrategy = FieldStrategy.NEVER)
     @Excel(name = "备注")
     private String remark;
 

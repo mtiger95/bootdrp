@@ -5,9 +5,12 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <!--bootstrap -->
+    <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <!--layui -->
+    <link href="/js/layui/css/layui.css" rel="stylesheet">
     <link href="/css/plugins/jsTree/style.min.css" rel="stylesheet">
     <link href="/css/plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
     <!--summernote -->
@@ -27,18 +30,17 @@
 </head>
 <div th:fragment="footer">
     <!-- jquery -->
-    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery/jquery.min.js"></script>
     <script src="/js/jquery/jquery.serializeObject.js"></script>
     <script src="/js/jquery/validation/jquery.validate.min.js"></script>
     <script src="/js/jquery/validation/localization/messages_zh.min.js"></script>
     <!-- bootstrap -->
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap/bootstrap.min.js"></script>
+    <!-- layui -->
+    <script src="/js/layui/layui.js"></script>
     <!-- lodash -->
     <script src="/js/lodash/lodash.min.js"></script>
-    <script src="/js/content.js"></script>
-    <script src="/js/utils.js"></script>
 
-    <script src="/js/plugins/layer/layer.min.js"></script>
     <script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
     <script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
     <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
@@ -67,4 +69,7 @@
     <script src="/js/plugins/blockui/jquery.blockUI.min.js"></script>
     <!-- dropzone -->
     <script src="/js/plugins/dropzone/dropzone.js"></script>
+
+    <script src="/js/content.js"></script>
+    <script src="/js/utils.js"></script>
 </div>

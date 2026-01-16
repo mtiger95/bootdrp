@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionEvent;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

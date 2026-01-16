@@ -8,8 +8,8 @@
     <meta name="keywords" content="">
     <meta name="description" content="">
 
-    <link rel="shortcut icon" href="favicon.ico">
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link href="/css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
@@ -78,7 +78,7 @@
     </div>
 </div>
 
-<div th:include="include::footer"></div>
+<div th:insert="~{include :: footer}"></div>
 <script th:src="@{/js/appjs/system/menu/edit.js}"></script>
 </body>
 </html>

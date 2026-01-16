@@ -15,7 +15,7 @@ import com.bootdo.modular.rp.dao.RPOrderDao;
 import com.bootdo.modular.rp.domain.RPOrderDO;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;

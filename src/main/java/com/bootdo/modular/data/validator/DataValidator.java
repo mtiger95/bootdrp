@@ -8,7 +8,7 @@ import com.bootdo.modular.data.domain.*;
 import com.bootdo.modular.data.service.*;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 /**
  * @author yogiCai
