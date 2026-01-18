@@ -264,23 +264,23 @@
 <script src="/js/vue.min.js"></script>
 <script src="/js/appjs/system/webSocket/sockjs.min.js"></script>
 <script src="/js/appjs/system/webSocket/stomp.min.js"></script>
-<!-- Toastr script -->
+<!-- 通知消息 -->
 <script src="/js/plugins/toastr/toastr.min.js"></script>
 
 <script th:src="@{/js/utils.js}"></script>
 
 <script type="text/javascript">
-    var stompClient = null;
+    /* global toastr, layer, $, Vue, SockJS, Stomp */
     $(function () {
         connect();
     });
 
     function connect() {
-        var socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
-        stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
+        let socket = new SockJS('/endpointWisely'); //链接SockJS 的endpoint 名称为"/endpointWisely"
+        let stompClient = Stomp.over(socket);//使用stomp子协议的WebSocket 客户端
         stompClient.connect({}, function (frame) {//链接Web Socket的服务端。
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/topic/getResponse', function (response) { //订阅/topic/getResponse 目标发送的消息。这个是在控制器的@SendTo中定义的。
+            stompClient.subscribe('/topic/getResponse', function (response) {
                 toastr.options = {
                     "closeButton": true,
                     "debug": false,
@@ -301,7 +301,7 @@
         });
     }
 
-    var wrapper = new Vue({
+    const wrapper = new Vue({
         el: '#wrapper',
         data: {
             total: '',
