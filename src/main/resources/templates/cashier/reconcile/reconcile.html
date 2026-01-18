@@ -20,13 +20,19 @@
                     </select>
                 </div>
                 <div class="input-group columns pull-left tool-pull-left">
+                    <select data-placeholder="请选择" name="billType" id="billType" class="form-control">
+                        <option value="CW_SK_ORDER">收款</option>
+                        <option value="CW_FK_ORDER">付款</option>
+                    </select>
+                </div>
+                <div class="input-group columns pull-left tool-pull-left">
                     <select data-placeholder="请选择" name="dateType" id="dateType" class="form-control">
                     </select>
                 </div>
             </form>
 
             <div class="input-group columns pull-left tool-pull-left">
-                <button class="btn btn-success" onclick="search()">查询</button>
+                <button class="btn btn-success" onclick="reload()">查询</button>
             </div>
             <div class="input-group columns pull-left tool-pull-left">
                 <button class="btn btn-success" onclick="exportExcel()">导出</button>

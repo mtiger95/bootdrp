@@ -2,6 +2,7 @@ let prefix = "/cashier";
 let tableGrid;
 let $tableList;
 let $dataForm;
+let $billType;
 let start;
 let end;
 let loginShopNo = utils.dataCache.loginShopInfo.no
@@ -9,16 +10,23 @@ let loginShopNo = utils.dataCache.loginShopInfo.no
 $(function() {
     $dataForm = $("#search");
     $tableList = $('#table_list');
+    $billType = $('#billType');
 
     utils.createDateRangePicker('datepicker', {}, utils.getYearFirstDay(), new Date());
     utils.loadTypes(["data_shop"], ["shopNo"], [{width: "120px", setValue: [loginShopNo]}]);
     utils.loadEnumTypes(["DATE_TYPE"], ["dateType"], [{width: "120px", setValue: ['DAY']}]);
+    utils.loadChosenStatic(["billType"], [{width: "100px", setValue:['CW_SK_ORDER'], noneSelectedText: '对账类型'}]);
 
     load();
 });
 
+
 function load() {
     $.jgrid.defaults.styleUI = 'Bootstrap';
+    // 表头设置
+    const SK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '收款金额', '到账金额'];
+    const FK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '付款金额', '出账金额'];
+    const colNameList = $billType.val() === 'CW_SK_ORDER' ? SK_COL_NAME_LIST : FK_COL_NAME_LIST;
 
     tableGrid = $tableList.jqGrid({
         url: prefix + "/reconcile/page",
@@ -32,7 +40,7 @@ function load() {
         rownumbers: true,
         rowNum: 50,
         rowList: [10, 20, 50, 100],
-        colNames: ['', '单据日期', '单据编号', '单据数量', '核销金额', '收款金额', '到账金额'],
+        colNames: colNameList,
         colModel: [
             { name:'id', index:'id', editable:false, width:50, hidden:true },
             { name:'billDate', index:'billDate', editable:false, sorttype:"text", align: "center", width:60 },
@@ -119,6 +127,22 @@ function search(pageBtn) {
     });
 
     tableGrid.jqGrid('setGridParam', {postData:  $.param(postData)}).trigger("reloadGrid");
+}
+
+function reload() {
+    // 卸载表格
+    $.jgrid.gridDestroy("table_list");
+
+    // 重新创建表格和分页器的DOM元素
+    let $wrapper = $('.jqGrid_wrapper');
+    $wrapper.empty();
+    $wrapper.append('<table id="table_list"></table>');
+    $wrapper.append('<div id="pager_list"></div>');
+
+    // 重新获取jQuery对象引用
+    $tableList = $('#table_list');
+    // 重新加载表格
+    load();
 }
 
 function exportExcel() {

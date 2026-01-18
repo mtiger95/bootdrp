@@ -3,7 +3,7 @@
 <mapper namespace="com.bootdo.modular.cashier.dao.ReconcileDao">
 
     <sql id="subQuerySql">
-        SELECT * FROM  (
+        SELECT * FROM (
             SELECT
                 SUBSTR(a.bill_date, 1, 10) AS billDate,
                 sum(a.check_amount)        AS checkAmount,
@@ -13,8 +13,9 @@
             FROM
                 rp_order a
             WHERE
-                a.bill_type = 'CW_SK_ORDER' and a.bill_date BETWEEN #{param.start} and #{param.end}
-                <if test="param.shopNo != null and param.shopNo.size() > 0"> and a.shop_no in
+                a.bill_date BETWEEN #{param.start} and #{param.end}
+                <if test="param.billType != null"> and a.bill_type = #{param.billType}</if>
+                <if test="param.shopNo != null and param.shopNo.size() > 0">and a.shop_no in
                     <foreach collection="param.shopNo" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
                 </if>
             GROUP BY
@@ -26,8 +27,12 @@
             FROM
                 cashier_record c
             WHERE
-                c.pay_direct = '收入' and c.trade_time BETWEEN #{param.start} and #{param.end}
-                <if test="param.shopNo != null and param.shopNo.size() > 0"> and c.shop_no in
+                c.trade_time BETWEEN #{param.start} and #{param.end}
+                <if test="param.payDirect != null">and c.pay_direct = #{param.payDirect}</if>
+                <if test="param.costType != null and param.costType.size() > 0">and c.cost_type in
+                    <foreach collection="param.costType" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+                </if>
+                <if test="param.shopNo != null and param.shopNo.size() > 0">and c.shop_no in
                     <foreach collection="param.shopNo" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
                 </if>
             GROUP BY

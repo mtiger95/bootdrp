@@ -13,10 +13,10 @@ import com.bootdo.modular.cashier.dao.ReconcileDao;
 import com.bootdo.modular.cashier.param.ReconcileParam;
 import com.bootdo.modular.cashier.result.ReconcileResult.ReconcileItem;
 import com.bootdo.modular.rp.domain.RPOrderDO;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -35,13 +35,14 @@ public class ReconcileService extends ServiceImpl<ReconcileDao, RPOrderDO> {
 
 
     public PageJQ page(ReconcileParam param) {
-        Page<ReconcileItem> page = reconcileDao.list(PageFactory.defaultPage(), BeanUtil.beanToMap(param));
-        Map<String, Object> map = reconcileDao.selectSum(BeanUtil.beanToMap(param));
+        Map<String, Object> params = BeanUtil.beanToMap(param.fillParam());
+        Page<ReconcileItem> page = reconcileDao.list(PageFactory.defaultPage(), params);
+        Map<String, Object> map = reconcileDao.selectSum(params);
         return new PageJQ(page, map);
     }
 
     public void export(ReconcileParam param) {
-        List<ReconcileItem> orderList = reconcileDao.list(BeanUtil.beanToMap(param));
+        List<ReconcileItem> orderList = reconcileDao.list(BeanUtil.beanToMap(param.fillParam()));
         String pureStart = DateUtil.format(param.getStart(), DatePattern.PURE_DATE_FORMAT);
         String pureEnd = DateUtil.format(param.getEnd(), DatePattern.PURE_DATE_FORMAT);
         String fileName = StrUtil.format("收款对账单_{}-{}.xlsx", pureStart, pureEnd);
