@@ -7456,8 +7456,9 @@ body.skin-3 {
     border-color: #e5e6e7 !important;
 }
 
+/* 设置noneSelectedText文本颜色 */
 .bootstrap-select .bs-placeholder {
-    color: #a6a5a5 !important; /* 设置noneSelectedText文本颜色 */
+    color: #a6a5a5 !important;
 }
 
 .bootstrap-select.form-control.input-group-btn {
@@ -7476,4 +7477,29 @@ body.skin-3 {
     color: #2f2f2f;
     text-decoration: none;
     font-weight: bold;
+}
+/* 调整bootstrap-select聚焦时的边框颜色，与普通文本框一致 */
+.bootstrap-select > select.mobile-device:focus + .dropdown-toggle,
+.bootstrap-select > .dropdown-toggle:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* 全局去除普通文本框focus时的边框 */
+.form-control:focus, .single-line:focus {
+    outline: none !important;
+    border-color: #e5e6e7 !important;
+}
+
+/* 全局去除所有按钮点击时的黑色边框 */
+.btn:focus,
+.btn:active,
+.btn.active,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
