@@ -179,25 +179,3 @@ th.ui-th-ltr {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .2);
     background: rgba(0, 0, 0, 0.5);
 }
-
-/* chrome滚动条美化二 */
-/*
-::-webkit-scrollbar {
-    width: 7px;
-    height: 9px;
-}
-::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: rgba(200, 200, 200, .5);
-}
-::-webkit-scrollbar-thumb {
-    border: 3px solid transparent ;
-    box-shadow: inset 0 0 0 10px rgba(245, 245, 245, 1);
-    border-radius: 6px;
-}
-::-webkit-scrollbar-thumb:hover {
-    box-shadow: inset 0 0 0 10px rgba(250, 250, 250, 1);
-}
-::-webkit-scrollbar-thumb:active {
-    box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 1);
-}*/

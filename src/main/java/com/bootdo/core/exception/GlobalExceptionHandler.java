@@ -5,7 +5,7 @@ import com.bootdo.core.exception.assertion.BizServiceException;
 import com.bootdo.core.pojo.response.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -37,10 +37,10 @@ public class GlobalExceptionHandler {
         return R.error("没找找到页面");
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public R handleAuthorizationException(AuthenticationException e) {
+    @ExceptionHandler(AccessDeniedException.class)
+    public R handleAuthorizationException(AccessDeniedException e) {
         log.error(e.getMessage(), e);
-        return R.error("登录失败：" + e.getMessage());
+        return R.error("操作权限不足");
     }
 
     @ExceptionHandler(BizServiceException.class)

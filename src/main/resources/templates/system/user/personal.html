@@ -51,8 +51,7 @@
                                     <span>出生年月:</span>
                                 </div>
                                 <div class="gg-formDetail">
-                                    <input type="text" class="laydate-icon layer-date form-control" id="birth" name="birth" th:value="${user.birth}==null?null:${#dates.format(user.birth,'yyyy-MM-dd')}" placeholder="请选择出生年月"
-                                           onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="background-color: #fff;" readonly="readonly"/>
+                                    <input type="text" class="form-control" id="birth" name="birth"  th:value="${user.birth == null ? null : #dates.format(user.birth, 'yyyy-MM-dd')}" placeholder="请选择出生年月" />
                                 </div>
                             </div>
                             <div class="gg-formGroup">
@@ -111,7 +110,7 @@
                                     <div class="checxbox i-checks" >
                                         <input type="hidden" name="hobby" id="hobby"/>
                                         <label th:each="hobby : ${hobbyList}">
-                                            <input type="checkbox" class="hobby"  th:value="${hobby.id}" th:text="${hobby.name}" th:checked="${hobby.remarks}=='true'"/>
+                                            <input type="checkbox" class="hobby" th:value="${hobby.id}" th:text="${hobby.name}" th:checked="${hobby.remarks}=='true'"/>
                                         </label>
                                     </div>
                                 </div>
