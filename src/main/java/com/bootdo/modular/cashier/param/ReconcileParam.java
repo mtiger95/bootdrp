@@ -41,7 +41,6 @@ public class ReconcileParam extends BaseParam {
         if (BillType.CW_SK_ORDER.equals(billType)) {
             setPayDirect("收入");
         } else {
-            setPayDirect("支出");
             setCostType(Arrays.asList("经销商", "调货"));
         }
         return this;

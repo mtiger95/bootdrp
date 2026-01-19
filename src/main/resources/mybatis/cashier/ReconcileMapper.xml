@@ -19,7 +19,7 @@
                     <foreach collection="param.shopNo" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
                 </if>
             GROUP BY
-                a.bill_date
+                SUBSTR(a.bill_date, 1, 10)
         ) aa LEFT JOIN (
             SELECT
                 SUBSTR(c.trade_time, 1, 10) AS tradeTime,
@@ -37,49 +37,66 @@
                 </if>
             GROUP BY
                 SUBSTR(c.trade_time, 1, 10)
-        ) bb ON aa.billDate = bb.tradeTime
+        ) bb ON aa.billDate = bb.tradeTime RIGHT JOIN (
+            SELECT
+                SUBSTR(c.trade_time, 1, 10) AS tradeTimeR,
+                sum(c.pay_amount)           AS payAmountR
+            FROM
+                cashier_record c
+            WHERE
+                c.trade_time BETWEEN #{param.start} and #{param.end}
+                <if test="param.payDirect != null">and c.pay_direct = #{param.payDirect}</if>
+                <if test="param.costType != null and param.costType.size() > 0">and c.cost_type in
+                    <foreach collection="param.costType" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+                </if>
+                <if test="param.shopNo != null and param.shopNo.size() > 0">and c.shop_no in
+                    <foreach collection="param.shopNo" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+                </if>
+            GROUP BY
+                SUBSTR(c.trade_time, 1, 10)
+        ) cc ON aa.billDate = cc.tradeTimeR
     </sql>
 
     <sql id="dateFormatAndGroup">
         <choose>
             <when test="param.dateType !=null and param.dateType.name() == 'YEAR'">
-                SUBSTR(${dateColumn}, 1, 4)
+                SUBSTR(IFNULL(kk.billDate, kk.tradeTimeR), 1, 4)
             </when>
             <when test="param.dateType !=null and param.dateType.name() == 'MONTH'">
-                SUBSTR(${dateColumn}, 1, 7)
+                SUBSTR(IFNULL(kk.billDate, kk.tradeTimeR), 1, 7)
             </when>
             <otherwise>
-                SUBSTR(${dateColumn}, 1, 10)
+                SUBSTR(IFNULL(kk.billDate, kk.tradeTimeR), 1, 10)
             </otherwise>
         </choose>
     </sql>
 
     <select id="list" resultType="com.bootdo.modular.cashier.result.ReconcileResult$ReconcileItem">
         SELECT
-            <include refid="dateFormatAndGroup"><property name="dateColumn" value="cc.billDate"/></include> as billDate,
-            sum(cc.checkAmount)          AS checkAmount,
-            sum(cc.paymentAmount)        AS paymentAmount,
-            sum(cc.payAmount)            AS payAmount,
-            GROUP_CONCAT(cc.billNo)      AS billNo,
-            sum(cc.billCount)            AS billCount
+            <include refid="dateFormatAndGroup"></include>  AS billDate,
+            sum(kk.checkAmount)                             AS checkAmount,
+            sum(kk.paymentAmount)                           AS paymentAmount,
+            sum(ifnull(kk.payAmount, kk.payAmountR))        AS payAmount,
+            group_concat(kk.billNo)                         AS billNo,
+            sum(kk.billCount)                               AS billCount
         FROM (
-            <include refid="subQuerySql" />
-        ) cc
-        group by
-            <include refid="dateFormatAndGroup"><property name="dateColumn" value="cc.billDate"/></include>
-        order by
-            cc.billDate desc
+            <include refid="subQuerySql"/>
+        ) kk
+        GROUP BY
+            <include refid="dateFormatAndGroup"/>
+        ORDER BY
+            kk.billDate desc
     </select>
 
     <select id="selectSum" resultType="java.util.Map">
         select
-            ifnull(sum(billCount), 0)       as billCountTotal,
-            ifnull(sum(checkAmount), 0)     as checkAmountTotal,
-            ifnull(sum(paymentAmount), 0)   as paymentAmountTotal,
-            ifnull(sum(payAmount), 0)       as payAmountTotal
+            ifnull(sum(billCount), 0)                               as billCountTotal,
+            ifnull(sum(checkAmount), 0)                             as checkAmountTotal,
+            ifnull(sum(paymentAmount), 0)                           as paymentAmountTotal,
+            ifnull(sum(ifnull(kk.payAmount, kk.payAmountR)), 0)     as payAmountTotal
         from (
             <include refid="subQuerySql" />
-        ) cc
+        ) kk
     </select>
 
 </mapper>

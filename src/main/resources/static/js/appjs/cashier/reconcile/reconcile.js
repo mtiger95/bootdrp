@@ -15,7 +15,7 @@ $(function() {
     utils.createDateRangePicker('datepicker', {}, utils.getYearFirstDay(), new Date());
     utils.loadTypes(["data_shop"], ["shopNo"], [{width: "120px", setValue: [loginShopNo]}]);
     utils.loadEnumTypes(["DATE_TYPE"], ["dateType"], [{width: "120px", setValue: ['DAY']}]);
-    utils.loadChosenStatic(["billType"], [{width: "100px", setValue:['CW_SK_ORDER'], noneSelectedText: '对账类型'}]);
+    utils.loadChosenStatic(["billType"], [{width: "120px", setValue:['CW_SK_ORDER'], noneSelectedText: '对账类型'}]);
 
     load();
 });
@@ -24,8 +24,8 @@ $(function() {
 function load() {
     $.jgrid.defaults.styleUI = 'Bootstrap';
     // 表头设置
-    const SK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '收款金额', '到账金额'];
-    const FK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '付款金额', '出账金额'];
+    const SK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '实收金额', '到账金额'];
+    const FK_COL_NAME_LIST = ['', '单据日期', '单据编号', '单据数量', '核销金额', '实付金额', '出账金额'];
     const colNameList = $billType.val() === 'CW_SK_ORDER' ? SK_COL_NAME_LIST : FK_COL_NAME_LIST;
 
     tableGrid = $tableList.jqGrid({
