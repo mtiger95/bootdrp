@@ -7464,3 +7464,16 @@ body.skin-3 {
     float: left !important;
     border-radius: 3px !important;
 }
+
+/* 统一 bootstrap-select 单选和多选模式下选中项的背景色：active单选、selected多选 */
+.bootstrap-select .dropdown-menu li.active > a,
+.bootstrap-select .dropdown-menu li.active > a:hover,
+.bootstrap-select .dropdown-menu li.active > a:focus,
+.bootstrap-select .dropdown-menu li.selected > a,
+.bootstrap-select .dropdown-menu li.selected > a:hover,
+.bootstrap-select .dropdown-menu li.selected > a:focus {
+    background-color: #f5f5f6;
+    color: #2f2f2f;
+    text-decoration: none;
+    font-weight: bold;
+}
