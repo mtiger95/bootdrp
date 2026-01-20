@@ -89,6 +89,16 @@
             border-radius: 50%;
             opacity: .5;
         }
+
+        /* 隐藏滚动条但保持功能 */
+        body::-webkit-scrollbar {
+            display: none; /* WebKit 浏览器 */
+        }
+        /* Firefox 浏览器 */
+        html {
+            scrollbar-width: none; /* Firefox 64+ */
+        }
+
     </style>
 </head>
 
@@ -149,7 +159,7 @@
         <ul>
             <li>
                 <div class="qqbdimg">
-                    <img src="../../../../static/img/blog/qqbootdo.png" title="学习交流"/>
+                    <img src="/img/blog/qqbootdo.png" title="学习交流" alt=""/>
                 </div>
                 <a class="sidetop" id="qqbd" href="javascript:scroll(0,0)" title="学习交流"><i class="fa fa-qq"></i></a>
             </li>
