@@ -5,13 +5,15 @@ $().ready(function() {
 	});
 	validateRule();
 });
+
 $.validator.setDefaults({
 	submitHandler : function() {
 		save();
 	}
 });
+
 function save() {
-	var content_sn = $("#content_sn").code();
+	let content_sn = $("#content_sn").code();
 	$("#content").val(content_sn);
 	$.ajax({
 		cache : true,
@@ -23,10 +25,10 @@ function save() {
 			parent.layer.alert("Connection error");
 		},
 		success : function(data) {
-			if (data.code == 0) {
+			if (data.code === 0) {
 				parent.layer.msg("操作成功");
 				parent.reLoad();
-				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 
 			} else {
@@ -38,7 +40,7 @@ function save() {
 
 }
 function validateRule() {
-	var icon = "<i class='fa fa-times-circle'></i> ";
+	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
 			title : {

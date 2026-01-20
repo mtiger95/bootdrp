@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Font Awesome Ico list</title>
-    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
     <script src="/js/jquery/jquery.min.js"></script>
     <style type="text/css">
         .fa {
@@ -927,7 +927,7 @@
 </div>
 
 <script type="text/javascript">
-    var index = parent.layer.getFrameIndex(window.name);
+    let index = parent.layer.getFrameIndex(window.name);
     //给父页面传值
     $('.ico-list i').on('click', function () {
         parent.$('#icon').val($(this).attr('class'));

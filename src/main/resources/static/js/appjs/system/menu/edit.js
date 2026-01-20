@@ -1,7 +1,7 @@
-var prefix = "/sys/menu"
+let prefix = "/sys/menu"
+
 $(function() {
 	validateRule();
-
 	//打开图标列表
     $("#ico-btn").click(function(){
         layer.open({
@@ -33,10 +33,10 @@ function update() {
 			laryer.alert("Connection error");
 		},
 		success : function(data) {
-			if (data.code == 0) {
+			if (data.code === 0) {
 				parent.layer.msg("保存成功");
 				parent.reLoad();
-				var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+				let index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
 				parent.layer.close(index);
 
 			} else {
@@ -48,7 +48,7 @@ function update() {
 
 }
 function validate() {
-	var icon = "<i class='fa fa-times-circle'></i> ";
+	let icon = "<i class='fa fa-times-circle'></i> ";
 	$("#signupForm").validate({
 		rules : {
 			name : {

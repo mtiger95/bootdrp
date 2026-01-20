@@ -1,7 +1,7 @@
 $().ready(function() {
 	//loadType();
 	validateRule();
-    utils.loadTypes(["oa_notify_type"], ["type"]);
+    utils.loadTypes(["oa_notify_type"], ["type"], [{width: "100%"}]);
 });
 
 $.validator.setDefaults({
