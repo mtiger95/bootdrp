@@ -275,10 +275,11 @@
     };
 
     Utils.prototype.formatSubstr = function formatSubstr(cellValue, showCount = 20) {
-        if (cellValue.length > showCount) {
-            return `<span title="${cellValue}">${cellValue.substring(0, showCount)}...</span>`;
+        let val = "";
+        if (cellValue && cellValue.length > showCount) {
+            val = `<span title="${cellValue}">${cellValue.substring(0, showCount)}...</span>`;
         }
-        return cellValue;
+        return val;
     };
 
     /* ========================================================================
